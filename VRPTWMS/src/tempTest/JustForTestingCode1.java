@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.AInstance;
-import data.mVRPTWMS.Vertice;
+import data.mVRPTWMS.Consumer;
 
 
 
@@ -44,15 +44,15 @@ public class JustForTestingCode1 {
 		
 		List<IPaintable> paintObjects = new ArrayList<IPaintable>();
 		
-		for(Vertice vertice : instance.getVertices()) {
-			paintObjects.add(new Node(vertice.getPosX(), vertice.getPosY(), Color.BLACK));
+		for(Consumer vertice : instance.getVertices()) {
+			paintObjects.add(new Node(vertice.getPosX(), vertice.getPosY(), Color.BLACK, vertice.getName()));
 		}
 		
 
 		dA.setPaintObjects(paintObjects);
 		
-		dA.addPaintObject(new Node(10, 10, Color.BLACK));
-		dA.addPaintObject(new Node(50, 50, Color.BLACK));
+		dA.addPaintObject(new Node(10, 10, Color.BLACK, "1"));
+		dA.addPaintObject(new Node(50, 50, Color.BLACK, "2"));
 		dA.addPaintObject(new Route(10, 10, 50, 50));
 
 		// after adding Paintables repaint the drawingArea

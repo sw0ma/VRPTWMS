@@ -12,18 +12,22 @@ import data.AVertice;
 
 public class VRPTWMSInstance extends AInstance{
 	
-	private Map<String, Vertice> vertices;
+	private Map<String, Consumer> vertices;
+	private Map<String, Depot> depots; 
 	private DuoHashMap<String, String, Arc> arcs;
 	
 	public VRPTWMSInstance() {
-		vertices = new HashMap<String, Vertice>();
+		vertices = new HashMap<String, Consumer>();
+		depots = new HashMap<String, Depot>();
 		arcs = new DuoHashMap<String, String, Arc>();
 	}
 	
 	@Override
 	public void addVertice(AVertice pVerticeToAdd) {
-		if(pVerticeToAdd instanceof Vertice) {
-			vertices.put(((Vertice) pVerticeToAdd).getName(), (Vertice)pVerticeToAdd);
+		if(pVerticeToAdd instanceof Consumer) {
+			this.vertices.put(pVerticeToAdd.getName(), (Consumer) pVerticeToAdd);
+		} else {
+			this.depots.put(pVerticeToAdd.getName(), (Depot) pVerticeToAdd);
 		}
 	}
 	
@@ -35,7 +39,7 @@ public class VRPTWMSInstance extends AInstance{
 	}
 
 	@Override
-	public Vertice getVertice() {
+	public Consumer getVertice() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,9 +56,25 @@ public class VRPTWMSInstance extends AInstance{
 	}
 
 	@Override
-	public List<Vertice> getVertices() {
-		return new ArrayList <Vertice>(vertices.values());
+	public List<Consumer> getVertices() {
+		return new ArrayList <Consumer>(vertices.values());
 	}
 	
+	@Override
+	public List<Depot> getDepots() {
+		return new ArrayList <Depot>(depots.values());
+	}
+
+	@Override
+	public void setVertices(List<AVertice> vertices) {
+		this.vertices = new HashMap<String, Consumer>();
+		for (AVertice vertice : vertices) {
+			if(vertice instanceof Consumer) {
+				this.vertices.put(vertice.getName(), (Consumer) vertice);
+			} else {
+				this.depots.put(vertice.getName(), (Depot) vertice);
+			}
+		}
+	}
 	
 }

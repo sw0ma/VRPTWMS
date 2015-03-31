@@ -13,7 +13,7 @@ import data.AInstance;
 import data.Config;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.VRPTWMSInstance;
-import data.mVRPTWMS.Vertice;
+import data.mVRPTWMS.Consumer;
 
 public class SimpleInstanceParser extends AInstanceParser {
 
@@ -46,7 +46,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 					if (strNextType.equals("") || strNextType.startsWith("//")) {
 						
 					}else if (strNextType.equals("Vertice")) {
-						instance.addVertice(new Vertice(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
+						instance.addVertice(new Consumer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 						
 					}else if (strNextType.equals("Arc")) {
 						instance.addArc(new Arc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));

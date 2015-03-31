@@ -16,11 +16,13 @@ public class Node implements IPaintable {
 	private int x;
 	private int y;
 	private Color color;
+	private String name;
 
-	public Node(int x, int y, Color color) {
+	public Node(int x, int y, Color color, String name) {
 		this.x = xOffset + (x-1) * size;
 		this.y = yOffset + (y-1) * size;
 		this.color = color;
+		this.name = name;
 	}
 
 	@Override
@@ -30,6 +32,8 @@ public class Node implements IPaintable {
 		g.setColor(color);
 		g.drawOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
 //		g.fillOval(x, y, size, size);
+		
+		g.drawString(name, x, y);
 	}
 
 }
