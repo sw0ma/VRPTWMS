@@ -1,0 +1,11 @@
+
+//Vertice	Name	X	Y	ServiceTime	Earliest	Latest	Demand
+Vertice	a	1	2	3	4	5	6
+Vertice	b	2	3	4	5	6	7
+
+//Arc	From	To	Distance	Time	Fuel
+Arc	a	b	10	5	3
+
+//Option	itemName	value
+Option	test1	1000
+Option	test2	2000
