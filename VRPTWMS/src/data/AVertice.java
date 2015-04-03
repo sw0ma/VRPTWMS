@@ -38,4 +38,8 @@ public abstract class AVertice extends AElement{
 		return y;
 	}
 	
+	public String toString() {
+		return name;
+	}
+	
 }

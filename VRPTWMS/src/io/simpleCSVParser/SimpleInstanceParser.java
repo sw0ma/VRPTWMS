@@ -6,18 +6,18 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import data.AInstance;
 import data.Config;
 import data.mVRPTWMS.Arc;
-import data.mVRPTWMS.VRPTWMSInstance;
 import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.VRPTWMSInstance;
 
 public class SimpleInstanceParser extends AInstanceParser {
-
-	final static String delimiter = "\t";
 
 	public SimpleInstanceParser() {	}
 	
@@ -35,6 +35,8 @@ public class SimpleInstanceParser extends AInstanceParser {
 			
 			br = new BufferedReader(new FileReader(pPath));
 			
+			List<TempArc> arcsToAdd = new ArrayList<TempArc>();
+			
 			while ((strLine = br.readLine()) != null) {
 				lineNumber++;
 				
@@ -49,7 +51,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 						instance.addVertice(new Consumer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 						
 					}else if (strNextType.equals("Arc")) {
-						instance.addArc(new Arc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
+						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 						
 					}else if (strNextType.equals("Option") && pPathToConfig == null) {
 						aConfig.parseSetting(st.nextToken(), st.nextToken());
@@ -62,6 +64,10 @@ public class SimpleInstanceParser extends AInstanceParser {
 			}
 			
 			br.close();
+			
+			for(TempArc tArc : arcsToAdd) {
+				instance.addArc(new Arc(instance.getVertice(tArc.name1), instance.getVertice(tArc.name2), tArc.distance, tArc.time, tArc.fuel));
+			}
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException while reading csv file: " + pPath);
@@ -76,10 +82,25 @@ public class SimpleInstanceParser extends AInstanceParser {
 		return instance;
 	}
 
-
 	@Override
 	public AInstance parseFile(String path) {
 		return this.parseFile(path, null);
+	}
+	
+	class TempArc {
+		public TempArc(String s1, String s2, String s3, String s4, String s5) {
+			this.name1= s1;
+			this.name2 = s2;
+			this.distance = s3;
+			this.time = s4;
+			this.fuel = s5;
+		}
+		
+		String name1;
+		String name2;
+		String distance;
+		String time;
+		String fuel;
 	}
 
 }

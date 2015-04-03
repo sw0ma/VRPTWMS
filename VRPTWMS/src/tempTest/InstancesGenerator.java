@@ -1,12 +1,15 @@
 package tempTest;
 
-import io.map.DrawingArea;
+import io.ui.DrawingArea;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//import util.ownDataStructure.DuoHashMap;
+import data.AArc;
 import data.AInstance;
 import data.AVertice;
+import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Consumer;
 import data.mVRPTWMS.Depot;
 import data.mVRPTWMS.VRPTWMSInstance;
@@ -36,9 +39,12 @@ public class InstancesGenerator {
 
 	public AInstance generateInstance() {
 		AInstance newInstance = new VRPTWMSInstance();
-
-		newInstance.setVertices(createVertices());
-
+		
+		List<AVertice> vertices = createVertices();
+		newInstance.setVertices(vertices);
+		if(withArcs) {
+			newInstance.setArcs(createArcs(vertices));
+		}
 		return newInstance;
 	}
 
@@ -54,7 +60,6 @@ public class InstancesGenerator {
 		return newVertices;
 	}
 
-	// TODO private!
 	private List<Integer> drawPositions(int numberOfPositions, int axisSize, AVertice depot) {
 
 		int curDrawPos = 0;
@@ -79,6 +84,18 @@ public class InstancesGenerator {
 		}
 
 		return newPositions;
+	}
+	
+	private List<AArc> createArcs(List<AVertice> vertices) {
+		List<AArc> newArcs = new ArrayList<AArc>();
+		
+		for(int i = 0; i < vertices.size() - 1; i++) {
+			for(int j = i + 1; j < vertices.size(); j++) {
+				newArcs.add((new Arc(vertices.get(i), vertices.get(j), "0", "1", "2")));
+			}
+		}
+		
+		return newArcs;
 	}
 
 }

@@ -1,7 +1,7 @@
-package io.map.objects;
+package io.ui.objects;
 
-import io.map.DrawingArea;
-import io.map.IPaintable;
+import io.ui.DrawingArea;
+import io.ui.IPaintable;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

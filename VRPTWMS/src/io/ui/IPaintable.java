@@ -1,4 +1,4 @@
-package io.map;
+package io.ui;
 
 import java.awt.Graphics2D;
 

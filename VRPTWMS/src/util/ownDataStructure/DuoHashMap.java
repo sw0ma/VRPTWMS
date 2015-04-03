@@ -1,5 +1,7 @@
 package util.ownDataStructure;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,16 @@ public class DuoHashMap<K1, K2, V> {
 
 	public void clear() {
 		aMap.clear();
+	}
+	
+	public Collection<V> values() {
+		Collection<V> collection = new ArrayList<V>();
+		
+		for(Map<K2,V> subMap : aMap.values()) {
+			collection.addAll(subMap.values());
+		}
+		
+		return collection;
 	}
 
 }

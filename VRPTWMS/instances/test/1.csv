@@ -1,7 +1,7 @@
 
 //Vertice	Name	X	Y	ServiceTime	Earliest	Latest	Demand
-Vertice	a	1	2	3	4	5	6
-Vertice	b	2	3	4	5	6	7
+Vertice	a	10	10	3	4	5	6
+Vertice	b	20	40	4	5	6	7
 
 //Arc	From	To	Distance	Time	Fuel
 Arc	a	b	10	5	3

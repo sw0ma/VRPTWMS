@@ -1,33 +1,31 @@
 package data.mVRPTWMS;
 
 import data.AArc;
+import data.AVertice;
 
 public class Arc extends AArc {
-	
-	private String startingNode;
-	private String targetNode;
 	
 	private int distance;
 	private int timeDuration;
 	private int fuelConsumption;
 	
-	public Arc(String pI, String pJ, String pDistance, String pTimeConsumption, String pFuelConsumption) {
-		this.startingNode = pI;
-		this.targetNode = pJ;
+	/**
+	 * 
+	 * @param pI starting Node
+	 * @param pJ target Node
+	 * @param pDistance the distance
+	 * @param pTimeConsumption the time consumption
+	 * @param pFuelConsumption the fuel consumption
+	 */
+	public Arc(AVertice pI, AVertice pJ, String pDistance, String pTimeConsumption, String pFuelConsumption) {
+		super.from = pI;
+		super.to = pJ;
 		this.distance = Integer.parseInt(pDistance);
 		this.timeDuration = Integer.parseInt(pTimeConsumption);
 		this.fuelConsumption = Integer.parseInt(pFuelConsumption);		
 		
 		this.i = -1;
 		this.j = -1;
-	}
-
-	public String getStartingNode() {
-		return startingNode;
-	}
-
-	public String getTargetNode() {
-		return targetNode;
 	}
 
 	public int getDistance() {
@@ -41,5 +39,5 @@ public class Arc extends AArc {
 	public int getConsumption() {
 		return fuelConsumption;
 	}
-	
+
 }

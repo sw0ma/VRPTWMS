@@ -1,4 +1,4 @@
-package tempTest;
+package util.tests;
 
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;

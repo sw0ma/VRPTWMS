@@ -1,6 +1,6 @@
 package data.mVRPTWMS;
 
-import io.map.DrawingArea;
+import io.ui.DrawingArea;
 import data.AVertice;
 
 public class Depot extends AVertice {

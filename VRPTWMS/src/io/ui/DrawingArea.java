@@ -1,6 +1,6 @@
-package io.map;
+package io.ui;
 
-import io.map.objects.Border;
+import io.ui.objects.Border;
 
 import java.awt.Color;
 import java.awt.Dimension;
