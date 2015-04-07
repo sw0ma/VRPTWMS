@@ -5,16 +5,29 @@ import java.io.IOException;
 
 import data.AInstance;
 
+/**
+ * 
+ * @author Michael Walter
+ */
 public abstract class AInstanceUnparser extends AParser {
 
-	protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	
 	protected boolean overwrite;
-	
+
 	protected AInstanceUnparser(boolean overwrite) {
 		this.overwrite = overwrite;
 	}
-	
+
+	/**
+	 * Writes an instance object to a given path to a file
+	 * 
+	 * @param path
+	 *            - path to file
+	 * @param filename
+	 *            - name of new file
+	 * @param instance
+	 *            - instance to write in file
+	 * @return
+	 */
 	public abstract boolean unparseInstance(String path, String filename, AInstance instance);
 
 	/**
@@ -26,7 +39,7 @@ public abstract class AInstanceUnparser extends AParser {
 	 *            - the file
 	 * @return true if and only if the directory and the file were created,
 	 *         along with all necessary parent directories; false otherwise
-	 *         
+	 * 
 	 * @throws IOException
 	 */
 	protected boolean createFile(File f) throws IOException {

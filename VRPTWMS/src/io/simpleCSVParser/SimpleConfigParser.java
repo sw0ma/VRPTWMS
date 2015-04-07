@@ -12,27 +12,29 @@ import java.util.StringTokenizer;
 import data.Config;
 
 public class SimpleConfigParser extends AConfigParser {
-	
-	final static String delimiter = "\t";
 
-	public void parseConfig(String pathToConfig) {
+	@Override
+	public boolean parseConfig(String path, Config config) {
+		if(path == null || config == null) {
+			return false;
+		}
 		String strLine = "", strNextToken = "";
 		StringTokenizer st = null;
 		int lineNumber = 0;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(getConfigPath(pathToConfig)));
+			BufferedReader br = new BufferedReader(new FileReader(getConfigPath(path)));
 			while ((strLine = br.readLine()) != null) {
 				lineNumber++;
 				
-				st = new StringTokenizer(strLine, delimiter);
+				st = new StringTokenizer(strLine, DELIMITER);
 		
 				if (st.hasMoreTokens()) {
 					strNextToken = st.nextToken();
 					if (strNextToken.equals("") || strNextToken.startsWith("//")) {
 						
 					} else {
-						Config.getInstance().parseSetting(strNextToken, st.nextToken());
+						config.parseSetting(strNextToken, st.nextToken());
 					}
 				}
 			}
@@ -40,7 +42,7 @@ public class SimpleConfigParser extends AConfigParser {
 			br.close();
 
 		} catch (FileNotFoundException e) {
-			System.out.println("FileNotFoundException while reading properties file: " + pathToConfig);
+			System.out.println("FileNotFoundException while reading properties file: " + path);
 		} catch (IOException e) {
 			System.out.println("IOException while reading properties file: " + e);
 		} catch (NoSuchElementException e) {
@@ -48,6 +50,7 @@ public class SimpleConfigParser extends AConfigParser {
 		} catch (Exception e) {
 			System.out.println("Exception while reading properties file: " + e);
 		}
+		return true;
 	}
 	
 }

@@ -9,15 +9,17 @@ import util.ownDataStructure.DuoHashMap;
 import data.AArc;
 import data.AInstance;
 import data.AVertice;
+import data.Config;
 
 public class VRPTWMSInstance extends AInstance {
 
-	private Map<String, Consumer> vertices;
+	private Map<String, Consumer> consumer;
 	private Map<String, Depot> depots;
 	private DuoHashMap<String, String, AArc> arcs;
+	private Config config;
 
 	public VRPTWMSInstance() {
-		vertices = new HashMap<String, Consumer>();
+		consumer = new HashMap<String, Consumer>();
 		depots = new HashMap<String, Depot>();
 		arcs = new DuoHashMap<String, String, AArc>();
 	}
@@ -25,7 +27,7 @@ public class VRPTWMSInstance extends AInstance {
 	@Override
 	public void addVertice(AVertice pVerticeToAdd) {
 		if (pVerticeToAdd instanceof Consumer) {
-			this.vertices.put(pVerticeToAdd.getName(), (Consumer) pVerticeToAdd);
+			this.consumer.put(pVerticeToAdd.getName(), (Consumer) pVerticeToAdd);
 		} else {
 			this.depots.put(pVerticeToAdd.getName(), (Depot) pVerticeToAdd);
 		}
@@ -33,7 +35,7 @@ public class VRPTWMSInstance extends AInstance {
 
 	@Override
 	public List<Consumer> getConsumer() {
-		return new ArrayList<Consumer>(vertices.values());
+		return new ArrayList<Consumer>(consumer.values());
 	}
 
 	@Override
@@ -43,10 +45,10 @@ public class VRPTWMSInstance extends AInstance {
 
 	@Override
 	public void setVertices(List<AVertice> vertices) {
-		this.vertices = new HashMap<String, Consumer>();
+		this.consumer = new HashMap<String, Consumer>();
 		for (AVertice vertice : vertices) {
 			if (vertice instanceof Consumer) {
-				this.vertices.put(vertice.getName(), (Consumer) vertice);
+				this.consumer.put(vertice.getName(), (Consumer) vertice);
 			} else {
 				this.depots.put(vertice.getName(), (Depot) vertice);
 			}
@@ -57,11 +59,11 @@ public class VRPTWMSInstance extends AInstance {
 	public boolean setArcs(List<AArc> arcs) {
 		this.arcs = new DuoHashMap<String, String, AArc>();
 		for (AArc arc : arcs) {
-			if ((vertices.get(arc.getFrom().getName()) == null && depots.get(arc.getFrom().getName()) == null)
-					|| (vertices.get(arc.getTo().getName()) == null && depots.get(arc.getTo().getName()) == null)) {
-				System.out.println(vertices.get(arc.getFrom().getName()));
+			if ((consumer.get(arc.getFrom().getName()) == null && depots.get(arc.getFrom().getName()) == null)
+					|| (consumer.get(arc.getTo().getName()) == null && depots.get(arc.getTo().getName()) == null)) {
+				System.out.println(consumer.get(arc.getFrom().getName()));
 				System.out.println(depots.get(arc.getFrom().getName()));
-				System.out.println(vertices.get(arc.getTo().getName()));
+				System.out.println(consumer.get(arc.getTo().getName()));
 				System.out.println(depots.get(arc.getTo().getName()));
 				this.arcs = new DuoHashMap<String, String, AArc>();
 				return false;
@@ -73,7 +75,7 @@ public class VRPTWMSInstance extends AInstance {
 
 	@Override
 	public boolean addArc(AArc arc) {
-		if (vertices.get(arc.getFrom().getName()) == null || vertices.get(arc.getTo().getName()) == null) {
+		if (getVertice(arc.getFrom().getName()) == null || getVertice(arc.getTo().getName()) == null) {
 			return false;
 		}
 		arcs.put(arc.getFrom().getName(), arc.getTo().getName(), arc);
@@ -94,20 +96,39 @@ public class VRPTWMSInstance extends AInstance {
 
 	@Override
 	public Consumer getConsumer(String name) {
-		return vertices.get(name);
+		return consumer.get(name);
 	}
 
 	@Override
 	public AVertice getVertice(String name) {
-		return vertices.get(name);
+		AVertice result = consumer.get(name);
+		if(result == null) {
+			return depots.get(name);
+		}
+		return result;
 	}
 
 	@Override
 	public List<AVertice> getVertices() {
 		List<AVertice> allVertices = new ArrayList<AVertice>();
-		allVertices.addAll(vertices.values());
+		allVertices.addAll(consumer.values());
 		allVertices.addAll(depots.values());
 		return allVertices;
+	}
+
+	@Override
+	public void setConfig(Config config) {
+		if(config != null) {
+			this.config = config;
+		}
+	}
+
+	@Override
+	public Config getConfig() {
+		if(this.config == null) {
+			this.config = Config.createNewConfig();
+		}
+		return this.config;
 	}
 
 }

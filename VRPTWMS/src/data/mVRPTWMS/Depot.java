@@ -8,6 +8,10 @@ public class Depot extends AVertice {
 	public Depot(String pName, int pX, int pY) {
 		super(pName, pX, pY);
 	}
+	
+	public Depot(String pName, String pX, String pY) {
+		super(pName, Integer.parseInt(pX), Integer.parseInt(pY));
+	}
 
 	/** creates in the middle of the area a depot and returns it as a depot object
 	 * 

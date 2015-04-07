@@ -41,7 +41,7 @@ public class GeneratorTest {
 		
 		List<IPaintable> pattern = new ArrayList<IPaintable> ();
 		
-		InstancesGenerator generator = new InstancesGenerator(1, 10, true);
+		InstancesGenerator generator = new InstancesGenerator(1, 2, true);
 		
 		AInstance instance = generator.generateInstance();
 		

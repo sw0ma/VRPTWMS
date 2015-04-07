@@ -15,68 +15,84 @@ import data.AInstance;
 import data.Config;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Depot;
 import data.mVRPTWMS.VRPTWMSInstance;
 
+/**
+ * 
+ * @author Michael Walter
+ */
 public class SimpleInstanceParser extends AInstanceParser {
 
-	public SimpleInstanceParser() {	}
-	
-	public AInstance parseFile(String pPath, String pPathToConfig) {
+	@Override
+	public AInstance parseFile(String path, String pathToConfig) {
 		String strLine = "";
 		String strNextType = "";
 		StringTokenizer st = null;
 		int lineNumber = 0;
-		
+
 		AInstance instance = new VRPTWMSInstance();
-		
+
 		try {
 			BufferedReader br;
-			Config aConfig = Config.getInstance(pPathToConfig);
-			
-			br = new BufferedReader(new FileReader(pPath));
-			
+			Config aConfig = Config.createNewConfig(pathToConfig);
+
+			br = new BufferedReader(new FileReader(path));
+
 			List<TempArc> arcsToAdd = new ArrayList<TempArc>();
-			
+
 			while ((strLine = br.readLine()) != null) {
 				lineNumber++;
-				
-				st = new StringTokenizer(strLine, delimiter);
-		
+
+				st = new StringTokenizer(strLine, DELIMITER);
+
 				if (st.hasMoreTokens()) {
 					strNextType = st.nextToken();
-					
+
 					if (strNextType.equals("") || strNextType.startsWith("//")) {
+						// System.out.println("Empty or comment line");
+					} else if (strNextType.equals("Vertice")) {
+						instance.addVertice(new Consumer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st
+								.nextToken(), st.nextToken()));
 						
-					}else if (strNextType.equals("Vertice")) {
-						instance.addVertice(new Consumer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
-						
-					}else if (strNextType.equals("Arc")) {
+					} else if (strNextType.equals("Depot")) {
+						instance.addVertice(new Depot(st.nextToken(), st.nextToken(), st.nextToken()));
+
+					} else if (strNextType.equals("Arc")) {
 						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
-						
-					}else if (strNextType.equals("Option") && pPathToConfig == null) {
+
+					} else if (strNextType.equals("Option") && pathToConfig == null) {
 						aConfig.parseSetting(st.nextToken(), st.nextToken());
-						
-					}else {
+
+					} else {
 						System.out.println("Unknonwn Token in Line: " + lineNumber);
 					}
 				}
-				
+
 			}
-			
+
 			br.close();
-			
-			for(TempArc tArc : arcsToAdd) {
-				instance.addArc(new Arc(instance.getVertice(tArc.name1), instance.getVertice(tArc.name2), tArc.distance, tArc.time, tArc.fuel));
+
+			for (TempArc tArc : arcsToAdd) {
+				Arc arc = new Arc(instance.getVertice(tArc.name1), instance.getVertice(tArc.name2), tArc.distance, tArc.time, tArc.fuel);
+				if(!instance.addArc(arc)) {
+					System.out.println("Undefined Arc in " + path + " - " + tArc);
+				}
+				;
 			}
-			
+
 		} catch (FileNotFoundException e) {
-			System.out.println("FileNotFoundException while reading csv file: " + pPath);
-		} catch (IOException e) {
-			System.out.println("IOException while reading csv file: " + e);
+			System.out.println("FileNotFoundException while reading csv file: " + path);
+			e.printStackTrace();
 		} catch (NoSuchElementException e) {
 			System.out.println("NoSuchElementException while reading csv file in line: " + lineNumber);
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("IOException while reading csv file: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("Exception while reading csv file: " + e);
+			e.printStackTrace();
 		}
 
 		return instance;
@@ -86,16 +102,19 @@ public class SimpleInstanceParser extends AInstanceParser {
 	public AInstance parseFile(String path) {
 		return this.parseFile(path, null);
 	}
-	
+
+	/**
+	 * Container to presafe arcs, because instance class will check whether node 1 and node 2 is available 
+	 */
 	class TempArc {
 		public TempArc(String s1, String s2, String s3, String s4, String s5) {
-			this.name1= s1;
+			this.name1 = s1;
 			this.name2 = s2;
 			this.distance = s3;
 			this.time = s4;
 			this.fuel = s5;
 		}
-		
+
 		String name1;
 		String name2;
 		String distance;

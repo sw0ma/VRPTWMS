@@ -29,5 +29,9 @@ public abstract class AInstance {
 	public abstract boolean setArcs(List<AArc> arcs);
 	
 	public abstract List<AVertice> getVertices();
+	
+	public abstract void setConfig(Config config);
+	
+	public abstract Config getConfig();
 
 }

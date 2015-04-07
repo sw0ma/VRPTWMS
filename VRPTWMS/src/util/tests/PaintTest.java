@@ -40,8 +40,8 @@ public class PaintTest {
 	
 	private static List<IPaintable> createNewPattern() {
 		AInstanceParser parser = new SimpleInstanceParser();
-		File paths[] = parser.getListOfFiles("test", ".csv");
-		AInstance instance = parser.parseFile(paths[0].toString(), "1");
+		File paths[] = parser.getListOfFiles("mip", ".csv");
+		AInstance instance = parser.parseFile(paths[0].toString());
 		
 		List<IPaintable> pattern = new ArrayList<IPaintable> ();
 		
