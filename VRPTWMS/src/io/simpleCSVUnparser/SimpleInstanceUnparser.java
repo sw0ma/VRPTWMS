@@ -22,11 +22,12 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 
 	@Override
 	public boolean unparseInstance(String path, String filename, AInstance instance) {
-		File file = new File(INSTANCE_FOLDER + path + File.separator + filename + ".csv");
+		String settingName = "_" + instance.getConsumer().size() + "_" + instance.getArcs().size();
+		File file = new File(INSTANCE_FOLDER + path + File.separator + filename + settingName + ".csv");
 		if (!overwrite) {
 			int i = 0;
 			do {
-				file = new File(INSTANCE_FOLDER + path + File.separator + filename + "_" + (++i) + ".csv");
+				file = new File(INSTANCE_FOLDER + path + File.separator + filename + settingName + "_no_" + (++i) + ".csv");
 			} while (file.exists());
 		}
 

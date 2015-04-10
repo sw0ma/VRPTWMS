@@ -23,7 +23,7 @@ public class Depot extends AVertice {
 		double centerOffset = (DrawingArea.NUMBER_OF_NODES_PER_AXIS - centerAreaSize) / 2;
 		double x = (Math.random() * centerAreaSize) + centerOffset;
 		double y = (Math.random() * centerAreaSize) + centerOffset;
-		
 		return new Depot(name, (int) Math.round(x), (int) Math.round(y));
 	}
+	
 }

@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import util.misc.scenariocreator.InstancesGenerator;
 import data.AArc;
 import data.AInstance;
 import data.Config;
@@ -31,6 +32,10 @@ public class UnparserTest {
 		List<AInstance> instances;
 		
 		//Generate
+		int numberOfInstances = 2;
+		int numberOfConsumersPerInstance = 4;
+		boolean withArcs = true;
+		
 		Config config = Config.createNewConfig();
 		config.setMaxTimeDV(100);
 		config.setMaxTimeSV(100);
@@ -39,7 +44,7 @@ public class UnparserTest {
 		config.setFuel(100);
 		config.setTransfertime(10);
 		
-		InstancesGenerator generator = new InstancesGenerator(2, 2, true, config);
+		InstancesGenerator generator = new InstancesGenerator(numberOfInstances, numberOfConsumersPerInstance, withArcs, config);
 		instances = generator.generateInstances();
 
 		//Save

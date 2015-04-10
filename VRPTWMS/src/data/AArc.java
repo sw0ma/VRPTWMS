@@ -5,8 +5,8 @@ public abstract class AArc extends AElement {
 	protected int i;
 	protected int j;
 
-	protected AVertice from;
-	protected AVertice to;
+	protected AVertice firstVertice;
+	protected AVertice secondVertice;
 
 	public int getI() {
 		return i;
@@ -17,14 +17,14 @@ public abstract class AArc extends AElement {
 	}
 
 	public AVertice getFrom() {
-		return from;
+		return firstVertice;
 	}
 
 	public AVertice getTo() {
-		return to;
+		return secondVertice;
 	}
 
 	public String toString() {
-		return from.getName() + " -> " + to.getName();
+		return firstVertice.getName() + " -> " + secondVertice.getName();
 	}
 }

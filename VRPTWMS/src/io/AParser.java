@@ -11,7 +11,7 @@ public abstract class AParser {
 
 	protected final static String DELIMITER = "\t";
 	protected final static String INSTANCE_FOLDER = System.getProperty("user.dir") + File.separator + "instances" + File.separator;
-
+	
 	/**
 	 * Search all files with a given file suffix.
 	 * 

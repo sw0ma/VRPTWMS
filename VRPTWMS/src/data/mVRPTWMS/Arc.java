@@ -3,40 +3,67 @@ package data.mVRPTWMS;
 import data.AArc;
 import data.AVertice;
 
+/**
+ * 
+ * @author Michael Walter
+ */
 public class Arc extends AArc {
 	
-	private int distance;
-	private int timeDuration;
-	private int fuelConsumption;
+	private double distance;
+	private double timeDuration;
+	private double fuelConsumption;
 	
-	/**
+	/** Constructor of an arc. Sets automatically i and j to -1.
 	 * 
-	 * @param pI starting Node
-	 * @param pJ target Node
-	 * @param pDistance the distance
-	 * @param pTimeConsumption the time consumption
-	 * @param pFuelConsumption the fuel consumption
+	 * @param pFirstVertice - 
+	 * @param pSecondVertice
+	 * @param pDistance
+	 * @param pTimeConsumption
+	 * @param pFuelConsumption
 	 */
-	public Arc(AVertice pI, AVertice pJ, String pDistance, String pTimeConsumption, String pFuelConsumption) {
-		super.from = pI;
-		super.to = pJ;
-		this.distance = Integer.parseInt(pDistance);
-		this.timeDuration = Integer.parseInt(pTimeConsumption);
-		this.fuelConsumption = Integer.parseInt(pFuelConsumption);		
+	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, String pDistance, String pTimeConsumption, String pFuelConsumption) {
+		super.firstVertice = pFirstVertice;
+		super.secondVertice = pSecondVertice;
+		this.distance = Double.parseDouble(pDistance);
+		this.timeDuration = Double.parseDouble(pTimeConsumption);
+		this.fuelConsumption = Double.parseDouble(pFuelConsumption);		
+		
+		this.i = -1;
+		this.j = -1;
+	}
+	
+	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, double pDistance, double pTimeConsumption, double pFuelConsumption) {
+		super.firstVertice = pFirstVertice;
+		super.secondVertice = pSecondVertice;
+		this.distance = pDistance;
+		this.timeDuration = pTimeConsumption;
+		this.fuelConsumption = pFuelConsumption;		
 		
 		this.i = -1;
 		this.j = -1;
 	}
 
-	public int getDistance() {
+	/** Returns Arc's distance
+	 * 
+	 * @return the distance
+	 */
+	public double getDistance() {
 		return distance;
 	}
 
-	public int getDuration() {
+	/** Returns Arc's time duration
+	 * 
+	 * @return the time duration
+	 */
+	public double getDuration() {
 		return timeDuration;
 	}
 
-	public int getConsumption() {
+	/** Returns Arc's fuel consumption
+	 * 
+	 * @return the fuel consumption
+	 */
+	public double getConsumption() {
 		return fuelConsumption;
 	}
 
