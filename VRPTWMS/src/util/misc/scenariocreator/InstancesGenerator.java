@@ -5,6 +5,7 @@ import io.ui.DrawingArea;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Distribution;
 import data.AArc;
 import data.AInstance;
 import data.AVertice;
@@ -20,8 +21,8 @@ import data.mVRPTWMS.VRPTWMSInstance;
  */
 public class InstancesGenerator {
 
-	private static final double FUEL_FACTOR = 0.05;	//=5l / 100km
-	private static final double TIME_FACTOR = 1.39;	//~43,2km / h
+	private static final double FUEL_FACTOR = 0.05; // =5l / 100km
+	private static final double TIME_FACTOR = 1.39; // ~43,2km / h
 	private int numberOfInstances;
 	private boolean withArcs;
 	private int numberOfNodes;
@@ -72,11 +73,18 @@ public class InstancesGenerator {
 		List<AVertice> newVertices = new ArrayList<AVertice>();
 		AVertice depot = Depot.createRandomDepot("d0");
 		newVertices.add(depot);
+		double e, l, stime;
+		double[] drawTimes;
+		int demand;
 
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
-			newVertices.add((new Customer("c" + i, positions.get(i) / 10000, positions.get(i) % 10000, (int) Math.random(), (int) Math.random(),
-					(int) Math.random(), (int) Math.random())));
+			stime = Math.round((Distribution.getPoisson(4) + 1.0) / 60.0 * 10000.0) / 10000.0;
+			drawTimes = drawServiceTimes();
+			e = drawTimes[0];
+			l = drawTimes[1];
+			demand = Distribution.getPoisson(2) + 1;
+			newVertices.add((new Customer("c" + i, positions.get(i) / 10000, positions.get(i) % 10000, stime, e, l, demand)));
 		}
 		return newVertices;
 	}
@@ -85,14 +93,14 @@ public class InstancesGenerator {
 		List<AArc> newArcs = new ArrayList<AArc>();
 		double distance, time, fuel;
 		AVertice v1, v2;
-		
+
 		for (int i = 0; i < vertices.size() - 1; i++) {
 			for (int j = i + 1; j < vertices.size(); j++) {
 				v1 = vertices.get(i);
 				v2 = vertices.get(j);
-				distance = Math.round(calcEuclideanDistance(v1.getPosX(), v1.getPosY(), v2.getPosX(), v2.getPosY())*100.0) / 100.0;
-				time = Math.round(distance * TIME_FACTOR * 100.0) / 100.0;
-				fuel = Math.round(distance * FUEL_FACTOR * 100.0) / 100.0;
+				distance = Math.round(calcEuclideanDistance(v1.getPosX(), v1.getPosY(), v2.getPosX(), v2.getPosY()) * 100.0) / 100.0;
+				time = Math.round(distance * TIME_FACTOR / 60.0 * 10000.0) / 10000.0; // Minutes
+				fuel = Math.round(distance * FUEL_FACTOR * 10000.0) / 10000.0;
 				newArcs.add((new Arc(v1, v2, distance, time, fuel)));
 			}
 		}
@@ -171,5 +179,41 @@ public class InstancesGenerator {
 		}
 
 		return newPositions;
+	}
+
+	/**
+	 * Source: Retail Logistics Task Force (2001): @Your Home - New Markets for
+	 * Consumer Service and Delivery. UK Government Foresight program
+	 */
+	private double[] drawServiceTimes() {
+		double random = Math.round(Math.random() * 10000.0) / 100;
+		double[] result = new double[2];
+		if (random < 4.26) {
+			result[0] = 7;
+			result[1] = 8;
+		} else if (random < 23.41) {
+			result[0] = 8;
+			result[1] = 12;
+		} else if (random < 29.79) {
+			result[0] = 12;
+			result[1] = 14;
+		} else if (random < 32.98) {
+			result[0] = 14;
+			result[1] = 16;
+		} else if (random < 42.55) {
+			result[0] = 16;
+			result[1] = 18;
+		} else if (random < 78.72) {
+			result[0] = 18;
+			result[1] = 20;
+		} else if (random < 82.98) {
+			result[0] = 20;
+			result[1] = 22;
+		} else {
+			result[0] = 6;
+			result[1] = 22;
+		}
+
+		return result;
 	}
 }
