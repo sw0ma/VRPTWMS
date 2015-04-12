@@ -13,7 +13,7 @@ public abstract class AParser {
 	protected final static String INSTANCE_FOLDER = System.getProperty("user.dir") + File.separator + "instances" + File.separator;
 	
 	/**
-	 * Search all files with a given file suffix.
+	 * Searches all files with a given file suffix.
 	 * 
 	 * @param pPath
 	 *            - relative path to folder instances
@@ -25,6 +25,15 @@ public abstract class AParser {
 		FilenameFilter pf = (f, s) -> s.toLowerCase().endsWith(pSuffix);
 
 		return basedir.listFiles(pf);
+	}
+	
+	/** Adds the instance folder path 
+	 * 
+	 * @param path - relative path to a file
+	 * @return a file
+	 */
+	public File getFile(String path) {
+		return new File(INSTANCE_FOLDER + path);
 	}
 
 }
