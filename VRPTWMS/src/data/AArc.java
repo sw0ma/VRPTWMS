@@ -7,6 +7,8 @@ public abstract class AArc extends AElement {
 
 	protected AVertice firstVertice;
 	protected AVertice secondVertice;
+	
+	protected double length;
 
 	public int getI() {
 		return i;
@@ -26,5 +28,13 @@ public abstract class AArc extends AElement {
 
 	public String toString() {
 		return firstVertice.getName() + " -> " + secondVertice.getName();
+	}
+	
+	/** Returns Arc's length
+	 * 
+	 * @return the length
+	 */
+	public double getLength() {
+		return length;
 	}
 }
