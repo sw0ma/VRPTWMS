@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import data.AArc;
 import data.AInstance;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
 
 public class PaintTest {
@@ -45,7 +45,7 @@ public class PaintTest {
 		
 		List<IPaintable> pattern = new ArrayList<IPaintable> ();
 		
-		for(Consumer consumer : instance.getConsumer()) {
+		for(Customer consumer : instance.getCustomers()) {
 			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), Color.BLACK, consumer.getName()));
 		}
 		

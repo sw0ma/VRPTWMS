@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AArc;
 import data.AInstance;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
 
 
@@ -49,7 +49,7 @@ public class GeneratorTest {
 			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
 		}
 		
-		for(Consumer consumer : instance.getConsumer()) {
+		for(Customer consumer : instance.getCustomers()) {
 			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), Color.BLACK, consumer.getName()));
 		}
 		
