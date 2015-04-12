@@ -2,17 +2,20 @@ package data;
 
 import java.util.List;
 
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
+import data.mVRPTWMS.VRPTWMSConfig;
 
 
 public abstract class AInstance {
+	
+	private String name;
 
 	public abstract void addVertice(AVertice vertice);
 	
 	public abstract AVertice getVertice(String name);
 	
-	public abstract Consumer getConsumer(String name);
+	public abstract Customer getCustomer(String name);
 	
 	public abstract boolean addArc(AArc arc);
 	
@@ -20,7 +23,7 @@ public abstract class AInstance {
 	
 	public abstract List<AArc> getArcs();
 	
-	public abstract List<Consumer> getConsumer();
+	public abstract List<Customer> getCustomers();
 	
 	public abstract List<Depot> getDepots();
 	
@@ -30,8 +33,16 @@ public abstract class AInstance {
 	
 	public abstract List<AVertice> getVertices();
 	
-	public abstract void setConfig(Config config);
+	public abstract void setConfig(VRPTWMSConfig config);
 	
-	public abstract Config getConfig();
+	public abstract VRPTWMSConfig getConfig();
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
