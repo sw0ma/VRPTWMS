@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import data.AArc;
 import data.AInstance;
 import data.mVRPTWMS.Arc;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
 
 public class SimpleInstanceUnparser extends AInstanceUnparser {
@@ -22,7 +22,7 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 
 	@Override
 	public boolean unparseInstance(String path, String filename, AInstance instance) {
-		String settingName = "_" + instance.getConsumer().size() + "_" + instance.getArcs().size();
+		String settingName = "_" + instance.getCustomers().size() + "_" + instance.getArcs().size();
 		File file = new File(INSTANCE_FOLDER + path + File.separator + filename + settingName + ".csv");
 		if (!overwrite) {
 			int i = 0;
@@ -46,7 +46,7 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 				bw.newLine();
 			}
 
-			for (Consumer consumer : instance.getConsumer()) {
+			for (Customer consumer : instance.getCustomers()) {
 				bw.write(String.join(DELIMITER, "Vertice", consumer.getName(), String.valueOf(consumer.getPosX()),
 						String.valueOf(consumer.getPosY()), String.valueOf(consumer.getServiceTime()), String.valueOf(consumer.getEarliestStart()),
 						String.valueOf(consumer.getLatestStart()), String.valueOf(consumer.getDemand())));
@@ -58,7 +58,7 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 			bw.newLine();
 			for (AArc aarc : instance.getArcs()) {
 				Arc arc = (Arc) aarc;
-				bw.write(String.join(DELIMITER, "Arc", arc.getFrom().getName(), arc.getTo().getName(), String.valueOf(arc.getDistance()),
+				bw.write(String.join(DELIMITER, "Arc", arc.getFrom().getName(), arc.getTo().getName(), String.valueOf(arc.getLength()),
 						String.valueOf(arc.getDuration()), String.valueOf(arc.getConsumption())));
 				bw.newLine();
 			}

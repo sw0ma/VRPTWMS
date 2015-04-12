@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import data.AInstance;
-import data.Config;
 import data.mVRPTWMS.Arc;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
+import data.mVRPTWMS.VRPTWMSConfig;
 import data.mVRPTWMS.VRPTWMSInstance;
 
 /**
@@ -35,7 +35,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 
 		try {
 			BufferedReader br;
-			Config aConfig = Config.createNewConfig(pathToConfig);
+			VRPTWMSConfig aConfig = VRPTWMSConfig.createNewConfig(pathToConfig);
 
 			br = new BufferedReader(new FileReader(path));
 
@@ -52,7 +52,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 					if (strNextType.equals("") || strNextType.startsWith("//")) {
 						// System.out.println("Empty or comment line");
 					} else if (strNextType.equals("Vertice")) {
-						instance.addVertice(new Consumer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st
+						instance.addVertice(new Customer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st
 								.nextToken(), st.nextToken()));
 						
 					} else if (strNextType.equals("Depot")) {
@@ -70,6 +70,8 @@ public class SimpleInstanceParser extends AInstanceParser {
 				}
 
 			}
+			
+			instance.setConfig(aConfig);
 
 			br.close();
 
