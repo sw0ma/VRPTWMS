@@ -8,10 +8,10 @@ import java.util.List;
 import data.AArc;
 import data.AInstance;
 import data.AVertice;
-import data.Config;
 import data.mVRPTWMS.Arc;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
+import data.mVRPTWMS.VRPTWMSConfig;
 import data.mVRPTWMS.VRPTWMSInstance;
 
 /**
@@ -26,7 +26,7 @@ public class InstancesGenerator {
 	private boolean withArcs;
 	private int numberOfNodes;
 	private int numberOfNodesPerAxis = DrawingArea.NUMBER_OF_NODES_PER_AXIS;
-	private Config config;
+	private VRPTWMSConfig config;
 
 	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs) {
 		this.numberOfInstances = numberOfInstances;
@@ -34,7 +34,7 @@ public class InstancesGenerator {
 		this.withArcs = withArcs;
 	}
 
-	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Config config) {
+	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, VRPTWMSConfig config) {
 		this.numberOfInstances = numberOfInstances;
 		this.numberOfNodes = numberOfNodes;
 		this.withArcs = withArcs;
@@ -75,7 +75,7 @@ public class InstancesGenerator {
 
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
-			newVertices.add((new Consumer("c" + i, positions.get(i) / 10000, positions.get(i) % 10000, (int) Math.random(), (int) Math.random(),
+			newVertices.add((new Customer("c" + i, positions.get(i) / 10000, positions.get(i) % 10000, (int) Math.random(), (int) Math.random(),
 					(int) Math.random(), (int) Math.random())));
 		}
 		return newVertices;
@@ -121,8 +121,8 @@ public class InstancesGenerator {
 	 * 
 	 * @return a configuration
 	 */
-	private Config createConfig() {
-		Config newConfig = Config.createNewConfig();
+	private VRPTWMSConfig createConfig() {
+		VRPTWMSConfig newConfig = VRPTWMSConfig.createNewConfig();
 		// newConfig.setMaxTimeDV(100);
 		// newConfig.setMaxTimeSV(100);
 		// newConfig.setTransportCapacityDV(100);
