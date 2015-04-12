@@ -36,13 +36,13 @@ public class VRPTWMSConfig extends AConfig {
 	 *            - time consumption if a mobile supply occus
 	 * @return a configuration object with the given parameters
 	 */
-	public static VRPTWMSConfig createNewConfig(double maxTimeDV, double maxTimeSV, double transportCapacityDV, double transportCapacitySV,
-			double fuel, double tranfertime) {
+	public static VRPTWMSConfig createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
+			double tranfertime) {
 		VRPTWMSConfig config = new VRPTWMSConfig();
 		config.setMaxTimeDV(maxTimeDV);
 		config.setMaxTimeSV(maxTimeSV);
-		config.setTransportCapacityDV((int)transportCapacityDV);
-		config.setTransportCapacitySV((int)transportCapacitySV);
+		config.setTransportCapacityDV(transportCapacityDV);
+		config.setTransportCapacitySV(transportCapacitySV);
 		config.setFuel(fuel);
 		config.setTransferTime(tranfertime);
 		return config;
@@ -118,7 +118,7 @@ public class VRPTWMSConfig extends AConfig {
 		}
 		data.put("F", fuel);
 	}
-	
+
 	public double getFuel() {
 		return data.get("F");
 	}
@@ -129,7 +129,7 @@ public class VRPTWMSConfig extends AConfig {
 		}
 		data.put("b", duration);
 	}
-	
+
 	public double getTransferTime() {
 		return data.get("b");
 	}
