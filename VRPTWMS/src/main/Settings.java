@@ -21,4 +21,9 @@ public class Settings {
 	 */
 	public static final boolean goodsCIsActive = false;
 	
+	/**
+	 * This boolean indicates whether debug mode is on or off
+	 */
+	public static final boolean debug = true;
+	
 }
