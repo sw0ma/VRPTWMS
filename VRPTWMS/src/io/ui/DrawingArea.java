@@ -1,6 +1,8 @@
 package io.ui;
 
 import io.ui.objects.Border;
+import io.ui.objects.Node;
+import io.ui.objects.Path;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import data.AArc;
+import data.AInstance;
+import data.mVRPTWMS.Customer;
+import data.mVRPTWMS.Depot;
 
 @SuppressWarnings("serial")
 public class DrawingArea extends JPanel {
@@ -53,6 +60,26 @@ public class DrawingArea extends JPanel {
 		paintObjects.add(new Border());
 		this.paintObjects = paintObjects;
 		repaint();
+	}
+	
+	public static List<IPaintable> createNewPattern(AInstance instance) {
+		
+		List<IPaintable> pattern = new ArrayList<IPaintable> ();
+		
+		for(AArc arc : instance.getArcs()) {
+			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
+		}
+		
+		for(Customer consumer : instance.getCustomers()) {
+			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), Color.BLACK, consumer.getName()));
+		}
+		
+		for(Depot depot : instance.getDepots()) {
+			pattern.add(new Node(depot.getPosX(), depot.getPosY(), Color.RED, depot.getName()));
+		}
+		
+		return pattern;
+		
 	}
 
 }
