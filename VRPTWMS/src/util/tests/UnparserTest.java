@@ -1,4 +1,4 @@
-package tempTest;
+package util.tests;
 
 import io.AInstanceParser;
 import io.AInstanceUnparser;
@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AArc;
 import data.AInstance;
-import data.Config;
-import data.mVRPTWMS.Consumer;
+import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
+import data.mVRPTWMS.VRPTWMSConfig;
 
 public class UnparserTest {
 
@@ -36,13 +36,13 @@ public class UnparserTest {
 		int numberOfConsumersPerInstance = 4;
 		boolean withArcs = true;
 		
-		Config config = Config.createNewConfig();
+		VRPTWMSConfig config = VRPTWMSConfig.createNewConfig();
 		config.setMaxTimeDV(100);
 		config.setMaxTimeSV(100);
 		config.setTransportCapacityDV(100);
 		config.setTransportCapacitySV(100);
 		config.setFuel(100);
-		config.setTransfertime(10);
+		config.setTransferTime(10);
 		
 		InstancesGenerator generator = new InstancesGenerator(numberOfInstances, numberOfConsumersPerInstance, withArcs, config);
 		instances = generator.generateInstances();
@@ -90,7 +90,7 @@ public class UnparserTest {
 			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
 		}
 
-		for (Consumer consumer : instance.getConsumer()) {
+		for (Customer consumer : instance.getCustomers()) {
 			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), Color.BLACK, consumer.getName()));
 		}
 
