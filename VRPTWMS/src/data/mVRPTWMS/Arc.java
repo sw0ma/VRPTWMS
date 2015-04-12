@@ -9,7 +9,6 @@ import data.AVertice;
  */
 public class Arc extends AArc {
 	
-	private double distance;
 	private double timeDuration;
 	private double fuelConsumption;
 	
@@ -24,7 +23,7 @@ public class Arc extends AArc {
 	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, String pDistance, String pTimeConsumption, String pFuelConsumption) {
 		super.firstVertice = pFirstVertice;
 		super.secondVertice = pSecondVertice;
-		this.distance = Double.parseDouble(pDistance);
+		this.length = Double.parseDouble(pDistance);
 		this.timeDuration = Double.parseDouble(pTimeConsumption);
 		this.fuelConsumption = Double.parseDouble(pFuelConsumption);		
 		
@@ -35,20 +34,12 @@ public class Arc extends AArc {
 	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, double pDistance, double pTimeConsumption, double pFuelConsumption) {
 		super.firstVertice = pFirstVertice;
 		super.secondVertice = pSecondVertice;
-		this.distance = pDistance;
+		super.length = pDistance;
 		this.timeDuration = pTimeConsumption;
 		this.fuelConsumption = pFuelConsumption;		
 		
 		this.i = -1;
 		this.j = -1;
-	}
-
-	/** Returns Arc's distance
-	 * 
-	 * @return the distance
-	 */
-	public double getDistance() {
-		return distance;
 	}
 
 	/** Returns Arc's time duration
