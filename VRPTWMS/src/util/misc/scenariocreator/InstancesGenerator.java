@@ -7,7 +7,6 @@ import java.util.List;
 
 import util.Distribution;
 import data.AArc;
-import data.AInstance;
 import data.AVertice;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
@@ -42,8 +41,8 @@ public class InstancesGenerator {
 		this.config = config;
 	}
 
-	public List<AInstance> generateInstances() {
-		List<AInstance> newInstances = new ArrayList<AInstance>();
+	public List<VRPTWMSInstance> generateInstances() {
+		List<VRPTWMSInstance> newInstances = new ArrayList<VRPTWMSInstance>();
 
 		for (int i = 0; i < numberOfInstances; i++) {
 			newInstances.add(generateInstance());
@@ -52,8 +51,8 @@ public class InstancesGenerator {
 		return newInstances;
 	}
 
-	public AInstance generateInstance() {
-		AInstance newInstance = new VRPTWMSInstance();
+	public VRPTWMSInstance generateInstance() {
+		VRPTWMSInstance newInstance = new VRPTWMSInstance();
 
 		List<AVertice> vertices = createVertices();
 		newInstance.setVertices(vertices);

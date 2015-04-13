@@ -25,13 +25,13 @@ import data.mVRPTWMS.VRPTWMSInstance;
 public class SimpleInstanceParser extends AInstanceParser {
 
 	@Override
-	public AInstance parseFile(String path, String pathToConfig) {
+	public VRPTWMSInstance parseFile(String path, String pathToConfig) {
 		String strLine = "";
 		String strNextType = "";
 		StringTokenizer st = null;
 		int lineNumber = 0;
 
-		AInstance instance = new VRPTWMSInstance();
+		VRPTWMSInstance instance = new VRPTWMSInstance();
 
 		try {
 			BufferedReader br;

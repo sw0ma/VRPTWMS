@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AInstance;
 import data.mVRPTWMS.VRPTWMSConfig;
+import data.mVRPTWMS.VRPTWMSInstance;
 
 public class Start_Generator {
 
@@ -42,11 +43,11 @@ public class Start_Generator {
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 		
 		// 2. Generate instances
-		List<AInstance> instances = generator.generateInstances();
+		List<VRPTWMSInstance> instances = generator.generateInstances();
 		
 		// 3. Save instances
 		AInstanceUnparser unparser = new SimpleInstanceUnparser(OVERWRITE);
-		for (AInstance instance : instances) {
+		for (VRPTWMSInstance instance : instances) {
 			unparser.unparseInstance(FOLDER, NAME, instance);
 		}
 		
