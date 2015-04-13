@@ -6,11 +6,11 @@ import data.AVertice;
 public class Depot extends AVertice {
 
 	public Depot(String pName, int pX, int pY) {
-		super(pName, pX, pY);
+		super(pName, pX, pY, 0, 22);
 	}
 	
 	public Depot(String pName, String pX, String pY) {
-		super(pName, Integer.parseInt(pX), Integer.parseInt(pY));
+		super(pName, Integer.parseInt(pX), Integer.parseInt(pY), 0, 22);
 	}
 
 	/** creates in the middle of the area a depot and returns it as a depot object

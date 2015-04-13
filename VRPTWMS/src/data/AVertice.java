@@ -1,27 +1,33 @@
 package data;
 
-public abstract class AVertice extends AElement{
-	
+public abstract class AVertice extends AElement {
+
 	private static int numberOfVertices = 0;
-	
+
 	protected String name;
 	protected int id;
-	
+
 	protected int x;
 	protected int y;
-	
-	protected AVertice(String pName, int pX, int pY) {
+
+	private double earliestStart;
+	private double latestStart;
+
+	protected AVertice(String pName, int pX, int pY, double pEarliestStart, double pLatestStart) {
 		this.name = pName;
 		this.x = pX;
 		this.y = pY;
-		
+
+		this.earliestStart = pEarliestStart;
+		this.latestStart = pLatestStart;
+
 		this.id = numberOfVertices++;
 	}
-	
+
 	public static int getNumberOfVertices() {
 		return numberOfVertices;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -38,8 +44,16 @@ public abstract class AVertice extends AElement{
 		return y;
 	}
 	
+	public double getEarliestStart() {
+		return earliestStart;
+	}
+
+	public double getLatestStart() {
+		return latestStart;
+	}
+
 	public String toString() {
 		return name;
 	}
-	
+
 }
