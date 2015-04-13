@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,7 +17,7 @@ import data.mVRPTWMS.VRPTWMSInstanceArray;
  */
 public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator {
 
-	private List<String> binaryVars;
+	private Set<String> binaryVars;
 	private Set<String> generalVars;
 	private FileWriter writer;
 	BufferedWriter bw;
@@ -28,20 +26,22 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 
 	public InstanceToLPVRPTWMSTransformator(boolean overwrite) {
 		super(overwrite);
-		binaryVars = new ArrayList<String>();
-		generalVars = new TreeSet<String>();
 	}
-
-	@Override
-	public boolean transform(String name, AInstance instance) {
+	
+	public boolean transform(String name, AInstance instance, String subFolder){
 		VRPTWMSInstance instanceObj;
 		if (instance instanceof VRPTWMSInstance) {
 			instanceObj = (VRPTWMSInstance) instance;
 		} else {
+			System.out.println("InstanceToLPVRPTWMSTransformator: Wrong instance");
 			return false;
 		}
-
-		String folder = INSTANCE_FOLDER + "mip" + File.separator;
+		String folder;
+		if(subFolder == null){
+			folder = INSTANCE_FOLDER + "mip" + File.separator;
+		} else {
+			folder = INSTANCE_FOLDER + subFolder + File.separator;
+		}
 		File file = new File(folder + name + ".lp");
 		if (!overwrite) {
 			int i = 0;
@@ -52,8 +52,11 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 
 		try {
 			if (!createFile(file)) {
+				System.out.println("InstanceToLPVRPTWMSTransformator: File creation failed");
 				return false;
 			}
+			binaryVars = new TreeSet<String>();
+			generalVars = new TreeSet<String>();
 
 			// Load data and temp tables
 			VRPTWMSInstanceArray in = new VRPTWMSInstanceArray(instanceObj);
@@ -137,7 +140,11 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		}
 
 		return true;
+	}
 
+	@Override
+	public boolean transform(String name, AInstance instance) {
+		return transform(name,instance,null);
 	}
 
 	/**
