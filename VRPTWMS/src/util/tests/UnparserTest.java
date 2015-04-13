@@ -5,31 +5,24 @@ import io.AInstanceUnparser;
 import io.simpleCSVParser.SimpleInstanceParser;
 import io.simpleCSVUnparser.SimpleInstanceUnparser;
 import io.ui.DrawingArea;
-import io.ui.IPaintable;
 import io.ui.SimpleFrame;
-import io.ui.objects.Node;
-import io.ui.objects.Path;
 
-import java.awt.Color;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
-import data.AArc;
 import data.AInstance;
-import data.mVRPTWMS.Customer;
-import data.mVRPTWMS.Depot;
 import data.mVRPTWMS.VRPTWMSConfig;
+import data.mVRPTWMS.VRPTWMSInstance;
 
 public class UnparserTest {
 
 	public static void main(String[] args) {
 		
-		List<AInstance> instances;
+		List<VRPTWMSInstance> instances;
 		
 		//Generate
 		int numberOfInstances = 2;
@@ -58,7 +51,7 @@ public class UnparserTest {
 		AInstanceParser parser = new SimpleInstanceParser();
 		File paths[] = parser.getListOfFiles("test2", ".csv");
 		for(int i = 0; i < paths.length; i++){
-			instances.add(parser.parseFile(paths[i].toString()));
+			instances.add((VRPTWMSInstance) parser.parseFile(paths[i].toString()));
 		}
 		
 		//Paint
@@ -72,7 +65,7 @@ public class UnparserTest {
 
 			public void run() {
 				AInstance instance = instances.get((++i) - 1);
-				drawingArea.setPaintObjects(createNewPattern(instance));
+				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {
 					i = 0;
@@ -80,26 +73,6 @@ public class UnparserTest {
 			}
 		};
 		scheduler.scheduleAtFixedRate(toRun, 0, 1000, TimeUnit.MILLISECONDS);
-	}
-
-	private static List<IPaintable> createNewPattern(AInstance instance) {
-
-		List<IPaintable> pattern = new ArrayList<IPaintable>();
-
-		for (AArc arc : instance.getArcs()) {
-			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
-		}
-
-		for (Customer consumer : instance.getCustomers()) {
-			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), Color.BLACK, consumer.getName()));
-		}
-
-		for (Depot depot : instance.getDepots()) {
-			pattern.add(new Node(depot.getPosX(), depot.getPosY(), Color.RED, depot.getName()));
-		}
-
-		return pattern;
-
 	}
 
 }
