@@ -99,7 +99,22 @@ public class VRPTWMSInstance extends AInstance {
 	
 	@Override
 	public AArc getArc(AVertice v1, AVertice v2) {
-		return arcs.get(v1.getName(), v2.getName());
+		AArc arc = arcs.get(v1.getName(), v2.getName());
+		if(arc == null){
+			arc = arcs.get(v2.getName(), v1.getName());
+		}
+		return arc;
+	}
+	
+	public AArc getCorrectedArc(AVertice v1, AVertice v2) {
+		AArc arc = arcs.get(v1.getName(), v2.getName());
+		if(arc == null){
+			arc = arcs.get(v2.getName(), v1.getName());
+			if(arc !=null ) {
+				arc = new Arc((Arc) arc, true);
+			}
+		}
+		return arc;
 	}
 	
 	@Override
