@@ -27,7 +27,10 @@ public abstract class AUnparser extends AParser {
 		if (f.getParentFile().mkdirs()) {
 			return false;
 		}
-		if (!f.createNewFile() && !overwrite) {
+		if(overwrite) {
+			f.delete();
+		}
+		if (!f.createNewFile()) {
 			return false;
 		}
 		return true;
