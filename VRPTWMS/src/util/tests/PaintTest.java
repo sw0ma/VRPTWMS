@@ -54,7 +54,7 @@ public class PaintTest {
 		}
 		
 		for(AArc arc : instance.getArcs()) {
-			pattern.add(new Route(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
+			pattern.add(new Route(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY(), Color.BLACK));
 		}
 		
 		return pattern; 
