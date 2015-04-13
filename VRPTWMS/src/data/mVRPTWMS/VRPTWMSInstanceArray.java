@@ -72,7 +72,7 @@ public class VRPTWMSInstanceArray {
 
 		Customer customer;
 		for (int i = numberOfDepots; i < size - numberOfDepots; i++) {
-			customer = instance.getCustomers().get(i-numberOfDepots);
+			customer = instance.getCustomers().get(i - numberOfDepots);
 			mapping[i] = customer.getName();
 			demand[i] = customer.getDemand();
 			readyTime[i] = customer.getEarliestStart();
@@ -86,29 +86,25 @@ public class VRPTWMSInstanceArray {
 			for (int j = i + 1; j < size; j++) {
 				v1 = instance.getVertice(mapping[i]);
 				v2 = instance.getVertice(mapping[j]);
-				
+
 				arc = (Arc) instance.getArc(v1, v2);
-				if(arc == null) {
-					arc = (Arc) instance.getArc(v2, v1);
-				}
-				if(arc == null) {
+				if (arc == null) {
 					break;
 				}
 				this.dist[i][j] = arc.getLength();
 				this.time[i][j] = arc.getDuration();
 				this.fuel[i][j] = arc.getConsumption();
-				
+
 				this.dist[j][i] = arc.getLength();
 				this.time[j][i] = arc.getDuration();
 				this.fuel[j][i] = arc.getConsumption();
 			}
-			
+
 			this.dist[i][i] = 0.0;
 			this.time[i][i] = 0.0;
 			this.fuel[i][i] = 0.0;
 		}
-		
+
 	}
 
 }
-
