@@ -4,6 +4,7 @@ import io.ui.objects.Border;
 import io.ui.objects.Node;
 import io.ui.objects.Path;
 import io.ui.objects.Route;
+import io.ui.objects.Text;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -90,6 +91,8 @@ public class DrawingArea extends JPanel {
 	public static List<IPaintable> createNewPattern(AInstance instance) {
 
 		List<IPaintable> pattern = new ArrayList<IPaintable>();
+		
+		pattern.add(new Text(DrawingArea.BORDER_LEFT, DrawingArea.BORDER_TOP, instance.getName(), Color.DARK_GRAY));
 
 		for (AArc arc : instance.getArcs()) {
 			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));

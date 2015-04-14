@@ -2,12 +2,6 @@ package tempTest;
 
 import io.ui.DrawingArea;
 import io.ui.SimpleFrame;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.misc.scenariocreator.InstancesGenerator;
@@ -48,18 +42,6 @@ public class SolutionPaintTest {
 		SimpleFrame frame = new SimpleFrame();
 		DrawingArea drawingArea = frame.getDrawingArea();
 
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Runnable toRun = new Runnable() {
-
-			public void run() {
-				Instance instance = generator.generateInstance();
-				trafo.transform(NAME, instance, FOLDER);
-				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
-				model.run();
-				drawingArea.setSolution(DrawingArea.createSolutionPattern(model.getSolution(instance)));
-				drawingArea.repaint();
-			}
-		};
 		while(true) {
 			Instance instance = generator.generateInstance();
 			trafo.transform(NAME, instance, FOLDER);

@@ -1,5 +1,7 @@
 package io;
 
+import java.io.File;
+
 import data.AInstance;
 
 /**
@@ -15,7 +17,7 @@ public abstract class AInstanceParser extends AParser {
 	 *            - path to instance file
 	 * @return the parsed instance
 	 */
-	public abstract AInstance parseFile(String path);
+	public abstract AInstance parseFile(File file);
 
 	/**
 	 * Parses an instance and ignores included configuration. Configuration will be parsed from the give separate configuration file
@@ -24,6 +26,6 @@ public abstract class AInstanceParser extends AParser {
 	 * @param pathToConfig - path to separate configuration file
 	 * @return the parsed instance
 	 */
-	public abstract AInstance parseFile(String path, String pathToConfig);
+	public abstract AInstance parseFile(File file, String pathToConfig);
 
 }

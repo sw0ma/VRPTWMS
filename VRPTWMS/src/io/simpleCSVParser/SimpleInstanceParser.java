@@ -3,6 +3,7 @@ package io.simpleCSVParser;
 import io.AInstanceParser;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,7 +26,7 @@ import data.mVRPTWMS.Instance;
 public class SimpleInstanceParser extends AInstanceParser {
 
 	@Override
-	public Instance parseFile(String path, String pathToConfig) {
+	public Instance parseFile(File file, String pathToConfig) {
 		String strLine = "";
 		String strNextType = "";
 		StringTokenizer st = null;
@@ -36,8 +37,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 		try {
 			BufferedReader br;
 			Config aConfig = Config.createNewConfig(pathToConfig);
-
-			br = new BufferedReader(new FileReader(path));
+			br = new BufferedReader(new FileReader(file));
 
 			List<TempArc> arcsToAdd = new ArrayList<TempArc>();
 
@@ -61,9 +61,12 @@ public class SimpleInstanceParser extends AInstanceParser {
 					} else if (strNextType.equals("Arc")) {
 						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 
-					} else if (strNextType.equals("Option") && pathToConfig == null) {
-						aConfig.parseSetting(st.nextToken(), st.nextToken());
-
+					} else if (strNextType.equals("Option")) {
+						if (pathToConfig == null){
+							aConfig.parseSetting(st.nextToken(), st.nextToken());
+						} else {
+							System.out.println("SimpleInstanceParser: Config available, ignore option: " + st.nextToken() + " = " + st.nextToken());
+						}
 					} else {
 						System.out.println("Unknonwn Token in Line: " + lineNumber);
 					}
@@ -72,19 +75,21 @@ public class SimpleInstanceParser extends AInstanceParser {
 			}
 			
 			instance.setConfig(aConfig);
+			String name = file.getName();
+			instance.setName(name.substring(0, name.lastIndexOf(".")));
 
 			br.close();
 
 			for (TempArc tArc : arcsToAdd) {
 				Arc arc = new Arc(instance.getVertice(tArc.name1), instance.getVertice(tArc.name2), tArc.distance, tArc.time, tArc.fuel);
 				if(!instance.addArc(arc)) {
-					System.out.println("Undefined Arc in " + path + " - " + tArc);
+					System.out.println("Undefined Arc in " + file + " - " + tArc);
 				}
 				;
 			}
 
 		} catch (FileNotFoundException e) {
-			System.out.println("FileNotFoundException while reading csv file: " + path);
+			System.out.println("FileNotFoundException while reading csv file: " + file);
 			e.printStackTrace();
 		} catch (NoSuchElementException e) {
 			System.out.println("NoSuchElementException while reading csv file in line: " + lineNumber);
@@ -101,8 +106,8 @@ public class SimpleInstanceParser extends AInstanceParser {
 	}
 
 	@Override
-	public AInstance parseFile(String path) {
-		return this.parseFile(path, null);
+	public AInstance parseFile(File file) {
+		return this.parseFile(file, null);
 	}
 
 	/**

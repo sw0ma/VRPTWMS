@@ -66,7 +66,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			bw = new BufferedWriter(writer);
 			String s1, s2, curVar1, curVar2, curVar3;
 
-			bw.write("\\ name");
+			bw.write("\\ " + instanceObj.getName());
 			bw.newLine();
 			bw.newLine();
 
@@ -80,32 +80,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			createSubjectRoutingSuccesorDV(in);
 			createSubjectFlowDV(in);
 			createSubjectTravelTimeDV(in);
-			//Delivery time windows constraint earliest
-			for(int i = 0; i < in.numberOfCustomer + in.numberOfDepots; i++) {
-				if(i < in.numberOfDepots) {
-					s1 = "  time_window_d" + i + "_e:";
-					s2 = "  time_window_d" + i + "_l:";
-					curVar1 = "tau_d" + i;
-				} else {
-					s1 = "  time_window_c" + i + "_e:";
-					s2 = "  time_window_c" + i + "_l:";
-					curVar1 = "tau_c" + i ;
-				}
-				bw.write(String.join(" ", s1, curVar1, ">=", Double.toString(in.readyTime[i])));
-				bw.newLine();
-				bw.write(String.join(" ", s2, curVar1, "<=", Double.toString(in.dueDate[i])));
-				bw.newLine();
-			}
-			//Delivery time windows constraint latest
-			for(int i = 0; i < in.numberOfCustomer + in.numberOfDepots; i++) {
-				if(i < in.numberOfDepots) {
-					s1 = "  time_window_l_d" + i + ":";
-					curVar1 = "tau_d" + i;
-				} else {
-					s1 = "  time_window_l_c" + i + ":";
-					curVar1 = "tau_c" + i ;
-				}
-			}
+			createSubjectTimeWindowsDV(in);
 
 			// TODO 3,5,7+
 
@@ -140,6 +115,42 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param in
+	 * @throws IOException
+	 */
+	private void createSubjectTimeWindowsDV(InstanceArray in) throws IOException {
+		String s1;
+		String s2;
+		String curVar1;
+		//Delivery time windows constraint earliest
+		for(int i = 0; i < in.numberOfCustomer + in.numberOfDepots; i++) {
+			if(i < in.numberOfDepots) {
+				s1 = "  time_window_d" + i + "_e:";
+				s2 = "  time_window_d" + i + "_l:";
+				curVar1 = "tau_d" + i;
+			} else {
+				s1 = "  time_window_c" + i + "_e:";
+				s2 = "  time_window_c" + i + "_l:";
+				curVar1 = "tau_c" + i ;
+			}
+			bw.write(String.join(" ", s1, curVar1, ">=", Double.toString(in.readyTime[i])));
+			bw.newLine();
+			bw.write(String.join(" ", s2, curVar1, "<=", Double.toString(in.dueDate[i])));
+			bw.newLine();
+		}
+		//Delivery time windows constraint latest
+		for(int i = 0; i < in.numberOfCustomer + in.numberOfDepots; i++) {
+			if(i < in.numberOfDepots) {
+				s1 = "  time_window_l_d" + i + ":";
+				curVar1 = "tau_d" + i;
+			} else {
+				s1 = "  time_window_l_c" + i + ":";
+				curVar1 = "tau_c" + i ;
+			}
+		}
 	}
 
 	@Override

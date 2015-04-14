@@ -18,7 +18,7 @@ import data.AInstance;
 import data.mVRPTWMS.Config;
 import data.mVRPTWMS.Instance;
 
-public class UnparserTest {
+public class T00_Unparser {
 
 	public static void main(String[] args) {
 		
@@ -38,12 +38,12 @@ public class UnparserTest {
 		config.setTransferTime(10);
 		
 		InstancesGenerator generator = new InstancesGenerator(numberOfInstances, numberOfConsumersPerInstance, withArcs, config);
-		instances = generator.generateInstances();
+		instances = generator.generateInstances("test");
 
 		//Save
 		AInstanceUnparser unparser = new SimpleInstanceUnparser(false);
 		for (AInstance instance : instances) {
-			unparser.unparseInstance("test2", "s", instance);
+			unparser.unparseInstance("test2", instance);
 		}
 		
 		//Load
@@ -51,7 +51,7 @@ public class UnparserTest {
 		AInstanceParser parser = new SimpleInstanceParser();
 		File paths[] = parser.getListOfFiles("test2", ".csv");
 		for(int i = 0; i < paths.length; i++){
-			instances.add((Instance) parser.parseFile(paths[i].toString()));
+			instances.add((Instance) parser.parseFile(paths[i]));
 		}
 		
 		//Paint
@@ -72,7 +72,7 @@ public class UnparserTest {
 				}
 			}
 		};
-		scheduler.scheduleAtFixedRate(toRun, 0, 1000, TimeUnit.MILLISECONDS);
+		scheduler.scheduleAtFixedRate(toRun, 0, 2000, TimeUnit.MILLISECONDS);
 	}
 
 }

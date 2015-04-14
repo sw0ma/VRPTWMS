@@ -43,12 +43,16 @@ public class SimpleConfigParser extends AConfigParser {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException while reading properties file: " + path);
+			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("IOException while reading properties file: " + e);
+			e.printStackTrace();
 		} catch (NoSuchElementException e) {
 			System.out.println("NoSuchElementException while reading properties file in line: " + lineNumber);
+			e.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("Exception while reading properties file: " + e);
+			e.printStackTrace();
 		}
 		return true;
 	}

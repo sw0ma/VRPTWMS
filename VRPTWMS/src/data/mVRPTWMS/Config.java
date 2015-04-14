@@ -33,7 +33,7 @@ public class Config extends AConfig {
 	 * @param fuel
 	 *            - maximal fuel of all vehicles
 	 * @param tranfertime
-	 *            - time consumption if a mobile supply occus
+	 *            - time consumption if a mobile supply occurs
 	 * @return a configuration object with the given parameters
 	 */
 	public static Config createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
@@ -76,7 +76,12 @@ public class Config extends AConfig {
 	}
 
 	public double getMaxTimeDV() {
-		return data.get("T_DV");
+		Double d = data.get("T_DV");
+		if (d == null) {
+			return -1;
+		} else {
+			return d;
+		}
 	}
 
 	public void setMaxTimeSV(double time) {
@@ -87,7 +92,12 @@ public class Config extends AConfig {
 	}
 
 	public double getMaxTimeSV() {
-		return data.get("T_SV");
+		Double d = data.get("T_SV");
+		if (d == null) {
+			return -1;
+		} else {
+			return d;
+		}
 	}
 
 	public void setTransportCapacityDV(int capacity) {
@@ -98,7 +108,12 @@ public class Config extends AConfig {
 	}
 
 	public int getTransportCapacityDV() {
-		return data.get("C_DV").intValue();
+		Double d = data.get("C_DV");
+		if (d == null) {
+			return -1;
+		} else {
+			return d.intValue();
+		}
 	}
 
 	public void setTransportCapacitySV(int capacity) {
@@ -109,7 +124,12 @@ public class Config extends AConfig {
 	}
 
 	public int getTransportCapacitySV() {
-		return data.get("C_SV").intValue();
+		Double d = data.get("C_SV");
+		if (d == null) {
+			return -1;
+		} else {
+			return d.intValue();
+		}
 	}
 
 	public void setFuel(double fuel) {
@@ -120,7 +140,12 @@ public class Config extends AConfig {
 	}
 
 	public double getFuel() {
-		return data.get("F");
+		Double d = data.get("F");
+		if (d == null) {
+			return -1;
+		} else {
+			return d;
+		}
 	}
 
 	public void setTransferTime(double duration) {
@@ -131,7 +156,41 @@ public class Config extends AConfig {
 	}
 
 	public double getTransferTime() {
-		return data.get("b");
+		Double d = data.get("b");
+		if (d == null) {
+			return -1;
+		} else {
+			return d;
+		}
+	}
+
+	public String getBriefDescription() {
+		String desc = "";
+		String val = Double.toString(getMaxTimeDV());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_Td" + val;
+		}
+		val = Double.toString(getMaxTimeSV());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_Ts" + val;
+		}
+		val = Integer.toString(getTransportCapacityDV());
+		if (!val.equals("-1")) {
+			desc = desc + "_Cd" + val;
+		}
+		val = Integer.toString(getTransportCapacitySV());
+		if (!val.equals("-1")) {
+			desc = desc + "_Cs" + val;
+		}
+		val = Double.toString(getFuel());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_F" + val;
+		}
+		val = Double.toString(getTransferTime());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_b" + val;
+		}
+		return desc;
 	}
 
 }

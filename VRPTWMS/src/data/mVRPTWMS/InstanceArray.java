@@ -47,10 +47,11 @@ public class InstanceArray {
 		this.fuel = new double[size][size];
 		// node_type = new char[size];
 
-		this.transportCapacityDV = instance.getConfig().getTransportCapacityDV();
-		this.transportCapacitySV = instance.getConfig().getTransportCapacitySV();
-		this.vehicleDurationDV = instance.getConfig().getMaxTimeDV();
-		this.vehicleDurationSV = instance.getConfig().getMaxTimeSV();
+		Config c = (Config) instance.getConfig();
+		this.transportCapacityDV = c.getTransportCapacityDV();
+		this.transportCapacitySV = c.getTransportCapacitySV();
+		this.vehicleDurationDV = c.getMaxTimeDV();
+		this.vehicleDurationSV = c.getMaxTimeSV();
 
 		Depot depot;
 		for (int i = 0; i < numberOfDepots; i++) {

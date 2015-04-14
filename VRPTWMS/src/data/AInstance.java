@@ -9,7 +9,9 @@ import data.mVRPTWMS.Config;
 
 public abstract class AInstance {
 	
-	private String name;
+	protected int instanceCounter = 0;
+	private Config config;
+	protected String name;
 
 	public abstract void addVertice(AVertice vertice);
 	
@@ -33,11 +35,23 @@ public abstract class AInstance {
 	
 	public abstract List<AVertice> getVertices();
 	
-	public abstract void setConfig(Config config);
+	public AConfig getConfig() {
+		if(this.config == null) {
+			this.config = Config.createNewConfig();
+		}
+		return this.config;
+	}
 	
-	public abstract Config getConfig();
+	public void setConfig(Config config) {
+		if(config != null) {
+			this.config = config;
+		}
+	}
 
 	public String getName() {
+		if(this.name == null) {
+			this.name = "i" + ((Config) this.getConfig()).getBriefDescription() + instanceCounter;
+		}
 		return name;
 	}
 

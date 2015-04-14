@@ -8,9 +8,14 @@ import data.AVertice;
 
 public class Solution {
 
+	// Variables
 	private List<List<AVertice>> routes = new ArrayList<List<AVertice>>();
+	private List<List<AVertice>> routesSV = new ArrayList<List<AVertice>>();
+
+
+	/** The instance */
 	private Instance instance;
-	
+
 	public Solution(Instance instance) {
 		this.instance = instance;
 	}
@@ -29,24 +34,33 @@ public class Solution {
 	public List<AArc> getRoute(int routeID) {
 		List<AArc> arcs = new ArrayList<AArc>();
 		List<AVertice> route = routes.get(routeID);
-		if(!route.isEmpty()) {
+		if (!route.isEmpty()) {
 			for (int i = 0; i < route.size() - 1; i++) {
 				arcs.add(instance.getCorrectedArc(route.get(i), route.get(i + 1)));
 			}
 		}
 		return arcs;
 	}
-	
+
 	public List<List<AArc>> getRoutes() {
 		List<List<AArc>> routesAsArcs = new ArrayList<List<AArc>>();
 		List<AArc> curRoute;
-		for(int i = 0; i < routes.size(); i++) {
+		for (int i = 0; i < routes.size(); i++) {
 			curRoute = getRoute(i);
-			if(!curRoute.isEmpty()) {
+			if (!curRoute.isEmpty()) {
 				routesAsArcs.add(curRoute);
 			}
 		}
 		return routesAsArcs;
+	}
+
+	public void checkSolution() {
+		// Time Windows DV
+		for (List<AVertice> listVertices : routes) {
+			for(AVertice v : listVertices) {
+				
+			}
+		}
 	}
 
 }

@@ -48,7 +48,7 @@ public class Start_Generator {
 		// 3. Save instances
 		AInstanceUnparser unparser = new SimpleInstanceUnparser(OVERWRITE);
 		for (Instance instance : instances) {
-			unparser.unparseInstance(FOLDER, NAME, instance);
+			unparser.unparseInstance(FOLDER, instance);
 		}
 		
 		// 4. Display

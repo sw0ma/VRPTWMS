@@ -22,6 +22,7 @@ public class InstancesGenerator {
 
 	private static final double FUEL_FACTOR = 0.05; // =5l / 100km
 	private static final double TIME_FACTOR = 1.39; // ~43,2km / h
+	private static int instanceCounter = 0;
 	private int numberOfInstances;
 	private boolean withArcs;
 	private int numberOfNodes;
@@ -42,17 +43,39 @@ public class InstancesGenerator {
 	}
 
 	public List<Instance> generateInstances() {
+		return generateInstances(null);
+	}
+	
+	public List<Instance> generateInstances(String name) {
+
 		List<Instance> newInstances = new ArrayList<Instance>();
 
 		for (int i = 0; i < numberOfInstances; i++) {
-			newInstances.add(generateInstance());
+			String s;
+			if (name == null || name.isEmpty()) {
+				s = "i"+ config.getBriefDescription() + "_" + i;
+			} else {
+				s = name + "_" + i;
+			}
+			newInstances.add(generateInstance(s));
 		}
 
 		return newInstances;
 	}
-
+	
 	public Instance generateInstance() {
+		return generateInstance(null);
+	}
+
+	public Instance generateInstance(String name) {
 		Instance newInstance = new Instance();
+		if (config != null) {
+			newInstance.setConfig(config);
+		}
+		if(name == null || name.isEmpty()) {
+			name = "i"+ newInstance.getConfig().getBriefDescription() + "_" + ++instanceCounter;
+		}
+		newInstance.setName(name);
 
 		List<AVertice> vertices = createVertices();
 		newInstance.setVertices(vertices);

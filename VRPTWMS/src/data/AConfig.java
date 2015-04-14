@@ -91,13 +91,17 @@ public class AConfig {
 	public Set<Entry<String, Double>> entrySet() {
 		return data.entrySet();
 	}
+	
+	public String getBriefDescription() {
+		return "_nc";
+	}
 
 	@Override
 	public String toString() {
 		String result = "";
 		for (Entry<String, Double> e : data.entrySet()) {
 			result = result + e.getKey();
-			result = result + " = " + e.getValue().toString() + "\n";
+			result = result + " = " + e.getValue().toString() + "\t";
 		}
 		return result;
 	}

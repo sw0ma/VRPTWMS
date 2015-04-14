@@ -23,6 +23,6 @@ public abstract class AInstanceUnparser extends AUnparser {
 	 *            - instance to write in file
 	 * @return
 	 */
-	public abstract boolean unparseInstance(String path, String filename, AInstance instance);
+	public abstract boolean unparseInstance(String path, AInstance instance);
 
 }

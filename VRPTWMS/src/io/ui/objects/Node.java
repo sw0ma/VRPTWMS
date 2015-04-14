@@ -30,8 +30,8 @@ public class Node implements IPaintable {
 		int drawingSize = size - 2 * relativSpaceBetweenNodes;
 		
 		g.setColor(color);
-		g.drawOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
-//		g.fillOval(x, y, size, size);
+//		g.drawOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
+		g.fillOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
 		
 		g.drawString(name, x, y);
 	}

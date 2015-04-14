@@ -12,7 +12,6 @@ import data.AVertice;
 
 public class Instance extends AInstance {
 
-	private Config config;
 	private Map<String, Customer> customer;
 	private Map<String, Depot> depots;
 	private DuoHashMap<String, String, AArc> arcs;
@@ -22,24 +21,9 @@ public class Instance extends AInstance {
 		customer = new HashMap<String, Customer>();
 		depots = new HashMap<String, Depot>();
 		arcs = new DuoHashMap<String, String, AArc>();
+		
+		super.instanceCounter++;
 	}
-	
-	
-	@Override
-	public Config getConfig() {
-		if(this.config == null) {
-			this.config = (Config) Config.createNewConfig();
-		}
-		return this.config;
-	}
-	
-	@Override
-	public void setConfig(Config config) {
-		if(config != null) {
-			this.config = config;
-		}
-	}
-	
 
 	@Override
 	public AVertice getVertice(String name) {

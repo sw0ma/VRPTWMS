@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import util.misc.scenariocreator.InstancesGenerator;
 
 
-public class GeneratorTest {
+public class T00_Generator {
 
 	public static void main(String[] args) {
 		SimpleFrame frame = new SimpleFrame();

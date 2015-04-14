@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;
 import solver.exactSolver.MIPVRPTW;
@@ -16,7 +18,7 @@ public class Start_Exact {
 
 		// 1. Load Instance
 		AInstanceParser parser = new SimpleInstanceParser();
-		String file = parser.getFile(FOLDER + "\\" + INSTANCE_NAME + ".csv").toString();
+		File file = parser.getFile(FOLDER + "\\" + INSTANCE_NAME + ".csv");
 		AInstance instance = parser.parseFile(file);
 
 		// 2. Transform into MIP		
