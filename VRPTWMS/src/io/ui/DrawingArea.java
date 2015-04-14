@@ -20,7 +20,7 @@ import data.AInstance;
 import data.AVertice;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.VRPTWMSSolution;
+import data.mVRPTWMS.Solution;
 
 @SuppressWarnings("serial")
 public class DrawingArea extends JPanel {
@@ -116,7 +116,7 @@ public class DrawingArea extends JPanel {
 		return pattern;
 	}
 
-	public static List<IPaintable> createSolutionPattern(VRPTWMSSolution solution) {
+	public static List<IPaintable> createSolutionPattern(Solution solution) {
 		List<IPaintable> pattern = new ArrayList<IPaintable>();
 		
 		for(List<AArc> route : solution.getRoutes()){

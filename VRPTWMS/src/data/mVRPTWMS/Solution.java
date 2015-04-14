@@ -6,24 +6,24 @@ import java.util.List;
 import data.AArc;
 import data.AVertice;
 
-public class VRPTWMSSolution {
+public class Solution {
 
 	private List<List<AVertice>> routes = new ArrayList<List<AVertice>>();
-	private VRPTWMSInstance instance;
+	private Instance instance;
 	
-	public VRPTWMSSolution(VRPTWMSInstance instance) {
+	public Solution(Instance instance) {
 		this.instance = instance;
 	}
 
-	public void addNode(int routeId, AVertice v) {
+	public void addNodeToRoute(int routeId, AVertice v) {
 		while (routeId >= routes.size()) {
 			routes.add(new ArrayList<AVertice>());
 		}
 		routes.get(routeId).add(v);
 	}
 
-	public void addNode(int routeId, String vName) {
-		addNode(routeId, instance.getVertice(vName));
+	public void addNodeToRoute(int routeId, String vName) {
+		addNodeToRoute(routeId, instance.getVertice(vName));
 	}
 
 	public List<AArc> getRoute(int routeID) {
@@ -47,12 +47,6 @@ public class VRPTWMSSolution {
 			}
 		}
 		return routesAsArcs;
-	}
-
-	public void clearRoute(int routeId) {
-		if (routeId < routes.size()) {
-			routes.get(routeId).clear();
-		}
 	}
 
 }

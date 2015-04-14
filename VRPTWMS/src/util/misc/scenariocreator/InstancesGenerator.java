@@ -11,8 +11,8 @@ import data.AVertice;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.VRPTWMSConfig;
-import data.mVRPTWMS.VRPTWMSInstance;
+import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Instance;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class InstancesGenerator {
 	private boolean withArcs;
 	private int numberOfNodes;
 	private int numberOfNodesPerAxis = DrawingArea.NUMBER_OF_NODES_PER_AXIS;
-	private VRPTWMSConfig config;
+	private Config config;
 
 	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs) {
 		this.numberOfInstances = numberOfInstances;
@@ -34,15 +34,15 @@ public class InstancesGenerator {
 		this.withArcs = withArcs;
 	}
 
-	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, VRPTWMSConfig config) {
+	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Config config) {
 		this.numberOfInstances = numberOfInstances;
 		this.numberOfNodes = numberOfNodes;
 		this.withArcs = withArcs;
 		this.config = config;
 	}
 
-	public List<VRPTWMSInstance> generateInstances() {
-		List<VRPTWMSInstance> newInstances = new ArrayList<VRPTWMSInstance>();
+	public List<Instance> generateInstances() {
+		List<Instance> newInstances = new ArrayList<Instance>();
 
 		for (int i = 0; i < numberOfInstances; i++) {
 			newInstances.add(generateInstance());
@@ -51,8 +51,8 @@ public class InstancesGenerator {
 		return newInstances;
 	}
 
-	public VRPTWMSInstance generateInstance() {
-		VRPTWMSInstance newInstance = new VRPTWMSInstance();
+	public Instance generateInstance() {
+		Instance newInstance = new Instance();
 
 		List<AVertice> vertices = createVertices();
 		newInstance.setVertices(vertices);
@@ -128,8 +128,8 @@ public class InstancesGenerator {
 	 * 
 	 * @return a configuration
 	 */
-	private VRPTWMSConfig createConfig() {
-		VRPTWMSConfig newConfig = VRPTWMSConfig.createNewConfig();
+	private Config createConfig() {
+		Config newConfig = Config.createNewConfig();
 		// newConfig.setMaxTimeDV(100);
 		// newConfig.setMaxTimeSV(100);
 		// newConfig.setTransportCapacityDV(100);

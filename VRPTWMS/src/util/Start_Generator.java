@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AInstance;
-import data.mVRPTWMS.VRPTWMSConfig;
-import data.mVRPTWMS.VRPTWMSInstance;
+import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Instance;
 
 public class Start_Generator {
 
@@ -39,15 +39,15 @@ public class Start_Generator {
 		
 		
 		// 1. Init Generator
-		VRPTWMSConfig config = VRPTWMSConfig.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
+		Config config = Config.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 		
 		// 2. Generate instances
-		List<VRPTWMSInstance> instances = generator.generateInstances();
+		List<Instance> instances = generator.generateInstances();
 		
 		// 3. Save instances
 		AInstanceUnparser unparser = new SimpleInstanceUnparser(OVERWRITE);
-		for (VRPTWMSInstance instance : instances) {
+		for (Instance instance : instances) {
 			unparser.unparseInstance(FOLDER, NAME, instance);
 		}
 		

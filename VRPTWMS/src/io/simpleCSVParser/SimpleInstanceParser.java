@@ -15,8 +15,8 @@ import data.AInstance;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.VRPTWMSConfig;
-import data.mVRPTWMS.VRPTWMSInstance;
+import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Instance;
 
 /**
  * 
@@ -25,17 +25,17 @@ import data.mVRPTWMS.VRPTWMSInstance;
 public class SimpleInstanceParser extends AInstanceParser {
 
 	@Override
-	public VRPTWMSInstance parseFile(String path, String pathToConfig) {
+	public Instance parseFile(String path, String pathToConfig) {
 		String strLine = "";
 		String strNextType = "";
 		StringTokenizer st = null;
 		int lineNumber = 0;
 
-		VRPTWMSInstance instance = new VRPTWMSInstance();
+		Instance instance = new Instance();
 
 		try {
 			BufferedReader br;
-			VRPTWMSConfig aConfig = VRPTWMSConfig.createNewConfig(pathToConfig);
+			Config aConfig = Config.createNewConfig(pathToConfig);
 
 			br = new BufferedReader(new FileReader(path));
 

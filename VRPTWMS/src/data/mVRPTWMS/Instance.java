@@ -10,15 +10,15 @@ import data.AArc;
 import data.AInstance;
 import data.AVertice;
 
-public class VRPTWMSInstance extends AInstance {
+public class Instance extends AInstance {
 
-	private VRPTWMSConfig config;
+	private Config config;
 	private Map<String, Customer> customer;
 	private Map<String, Depot> depots;
 	private DuoHashMap<String, String, AArc> arcs;
 
 	
-	public VRPTWMSInstance() {
+	public Instance() {
 		customer = new HashMap<String, Customer>();
 		depots = new HashMap<String, Depot>();
 		arcs = new DuoHashMap<String, String, AArc>();
@@ -26,15 +26,15 @@ public class VRPTWMSInstance extends AInstance {
 	
 	
 	@Override
-	public VRPTWMSConfig getConfig() {
+	public Config getConfig() {
 		if(this.config == null) {
-			this.config = (VRPTWMSConfig) VRPTWMSConfig.createNewConfig();
+			this.config = (Config) Config.createNewConfig();
 		}
 		return this.config;
 	}
 	
 	@Override
-	public void setConfig(VRPTWMSConfig config) {
+	public void setConfig(Config config) {
 		if(config != null) {
 			this.config = config;
 		}

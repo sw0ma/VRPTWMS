@@ -2,7 +2,7 @@ package io;
 
 import java.io.File;
 
-import data.mVRPTWMS.VRPTWMSConfig;
+import data.mVRPTWMS.Config;
 
 public abstract class AConfigParser extends AParser {
 
@@ -30,5 +30,5 @@ public abstract class AConfigParser extends AParser {
 	 *         false - otherwise
 	 * @author Michael Walter
 	 */
-	public abstract boolean parseConfig(String path, VRPTWMSConfig config);
+	public abstract boolean parseConfig(String path, Config config);
 }

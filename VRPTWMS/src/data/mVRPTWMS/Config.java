@@ -7,15 +7,15 @@ import io.simpleCSVParser.SimpleConfigParser;
  * 
  * @author Michael Walter
  */
-public class VRPTWMSConfig extends AConfig {
+public class Config extends AConfig {
 
 	/**
 	 * This method creates a new empty configuration object
 	 * 
 	 * @return an empty configuration object
 	 */
-	public static VRPTWMSConfig createNewConfig() {
-		return new VRPTWMSConfig();
+	public static Config createNewConfig() {
+		return new Config();
 	}
 
 	/**
@@ -36,9 +36,9 @@ public class VRPTWMSConfig extends AConfig {
 	 *            - time consumption if a mobile supply occus
 	 * @return a configuration object with the given parameters
 	 */
-	public static VRPTWMSConfig createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
+	public static Config createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
 			double tranfertime) {
-		VRPTWMSConfig config = new VRPTWMSConfig();
+		Config config = new Config();
 		config.setMaxTimeDV(maxTimeDV);
 		config.setMaxTimeSV(maxTimeSV);
 		config.setTransportCapacityDV(transportCapacityDV);
@@ -57,14 +57,14 @@ public class VRPTWMSConfig extends AConfig {
 	 *            - path to the configuration file;
 	 * @return a configuration object
 	 */
-	public static VRPTWMSConfig createNewConfig(String pathToConfig) {
-		VRPTWMSConfig newConfig = new VRPTWMSConfig();
+	public static Config createNewConfig(String pathToConfig) {
+		Config newConfig = new Config();
 		SimpleConfigParser configParser = new SimpleConfigParser();
 
 		if (configParser.parseConfig(pathToConfig, newConfig)) {
 			return newConfig;
 		} else {
-			return new VRPTWMSConfig();
+			return new Config();
 		}
 	}
 

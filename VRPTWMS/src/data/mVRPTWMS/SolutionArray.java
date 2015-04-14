@@ -2,14 +2,14 @@ package data.mVRPTWMS;
 
 import java.util.Arrays;
 
-public class VRPTWMSSolutionArray {
+public class SolutionArray {
 	
 	private static final int UNASSIGNED = -1;
-	private final VRPTWMSInstanceArray instance;
+	private final InstanceArray instance;
 	
 	public final int next[], prev[], route[], pos[], nodes[];
 	
-	public VRPTWMSSolutionArray(VRPTWMSInstanceArray instance) {
+	public SolutionArray(InstanceArray instance) {
 		this.instance = instance;
 		next = new int[instance.size];
 		prev = new int[instance.size];

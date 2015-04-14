@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import data.mVRPTWMS.VRPTWMSInstance;
-import data.mVRPTWMS.VRPTWMSInstanceArray;
-import data.mVRPTWMS.VRPTWMSSolution;
+import data.mVRPTWMS.Instance;
+import data.mVRPTWMS.InstanceArray;
+import data.mVRPTWMS.Solution;
 
 public class MIPVRPTW implements Runnable {
 
 	private String path;
-	private VRPTWMSSolution solution;
+	private Solution solution;
 	Map<String, Double> variables = new HashMap<String, Double>();
 
 	public MIPVRPTW(String folder, String name) {
@@ -69,9 +69,9 @@ public class MIPVRPTW implements Runnable {
 	 * @return
 	 * @deprecated
 	 */
-	public VRPTWMSSolution getSolution(VRPTWMSInstance instance) {
-		solution = new VRPTWMSSolution(instance);
-		VRPTWMSInstanceArray in = new VRPTWMSInstanceArray(instance);
+	public Solution getSolution(Instance instance) {
+		solution = new Solution(instance);
+		InstanceArray in = new InstanceArray(instance);
 		int[] next = new int[in.size];
 		List<Integer> routes = new ArrayList<Integer>();
 		Arrays.fill(next, -1);
@@ -94,11 +94,11 @@ public class MIPVRPTW implements Runnable {
 		}
 		int routeNumber = 0;
 		for (int routeId : routes) {
-			solution.addNode(routeNumber, in.mapping[0]);
+			solution.addNodeToRoute(routeNumber, in.mapping[0]);
 			for (int i = routeId; next[i] != -1; i = next[i]) {
-				solution.addNode(routeNumber, in.mapping[i]);
+				solution.addNodeToRoute(routeNumber, in.mapping[i]);
 			}
-			solution.addNode(routeNumber, in.mapping[in.numberOfCustomer + in.numberOfDepots]);
+			solution.addNodeToRoute(routeNumber, in.mapping[in.numberOfCustomer + in.numberOfDepots]);
 			routeNumber++;
 		}
 		// TODO Add other variables to Solution

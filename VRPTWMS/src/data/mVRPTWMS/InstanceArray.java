@@ -12,7 +12,7 @@ import data.AVertice;
  *
  * @author Michael Walter based on Fabian Schwahn VRPTW Instance Class @
  */
-public class VRPTWMSInstanceArray {
+public class InstanceArray {
 
 	public String name;
 	public int size;
@@ -30,7 +30,7 @@ public class VRPTWMSInstanceArray {
 	// public char[] node_type;
 	// public int vehicleNumber, minimumVehicles,
 
-	public VRPTWMSInstanceArray(VRPTWMSInstance instance) {
+	public InstanceArray(Instance instance) {
 		this.name = instance.getName();
 
 		this.numberOfCustomer = instance.getCustomers().size();

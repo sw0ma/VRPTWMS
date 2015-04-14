@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import data.AInstance;
-import data.mVRPTWMS.VRPTWMSInstance;
-import data.mVRPTWMS.VRPTWMSInstanceArray;
+import data.mVRPTWMS.Instance;
+import data.mVRPTWMS.InstanceArray;
 
 /**
  * 
@@ -29,9 +29,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	}
 	
 	public boolean transform(String name, AInstance instance, String subFolder){
-		VRPTWMSInstance instanceObj;
-		if (instance instanceof VRPTWMSInstance) {
-			instanceObj = (VRPTWMSInstance) instance;
+		Instance instanceObj;
+		if (instance instanceof Instance) {
+			instanceObj = (Instance) instance;
 		} else {
 			System.out.println("InstanceToLPVRPTWMSTransformator: Wrong instance");
 			return false;
@@ -59,7 +59,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			generalVars = new TreeSet<String>();
 
 			// Load data and temp tables
-			VRPTWMSInstanceArray in = new VRPTWMSInstanceArray(instanceObj);
+			InstanceArray in = new InstanceArray(instanceObj);
 
 			// Write LP File
 			writer = new FileWriter(file, false);
@@ -155,7 +155,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param curVar3
 	 * @throws IOException
 	 */
-	private void createSubjectTravelTimeDV(VRPTWMSInstanceArray in) throws IOException {
+	private void createSubjectTravelTimeDV(InstanceArray in) throws IOException {
 		String s1, curVar1, curVar2, curVar3;
 		//
 		double travelNServiceTime;
@@ -206,7 +206,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createSubjectFlowDV(VRPTWMSInstanceArray in) throws IOException {
+	private void createSubjectFlowDV(InstanceArray in) throws IOException {
 		String s1;
 		String curVar;
 		// Flow x_i
@@ -244,7 +244,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createSubjectRoutingSuccesorDV(VRPTWMSInstanceArray in) throws IOException {
+	private void createSubjectRoutingSuccesorDV(InstanceArray in) throws IOException {
 		String curString;
 		String curVar;
 		// Routing x_i
@@ -269,7 +269,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createObjectiveFunction(VRPTWMSInstanceArray in) throws IOException {
+	private void createObjectiveFunction(InstanceArray in) throws IOException {
 		String curString = " ";
 		String curVar;
 		// x d0->c#

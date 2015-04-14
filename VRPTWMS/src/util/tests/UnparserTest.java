@@ -15,21 +15,21 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AInstance;
-import data.mVRPTWMS.VRPTWMSConfig;
-import data.mVRPTWMS.VRPTWMSInstance;
+import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Instance;
 
 public class UnparserTest {
 
 	public static void main(String[] args) {
 		
-		List<VRPTWMSInstance> instances;
+		List<Instance> instances;
 		
 		//Generate
 		int numberOfInstances = 2;
 		int numberOfConsumersPerInstance = 4;
 		boolean withArcs = true;
 		
-		VRPTWMSConfig config = VRPTWMSConfig.createNewConfig();
+		Config config = Config.createNewConfig();
 		config.setMaxTimeDV(100);
 		config.setMaxTimeSV(100);
 		config.setTransportCapacityDV(100);
@@ -51,7 +51,7 @@ public class UnparserTest {
 		AInstanceParser parser = new SimpleInstanceParser();
 		File paths[] = parser.getListOfFiles("test2", ".csv");
 		for(int i = 0; i < paths.length; i++){
-			instances.add((VRPTWMSInstance) parser.parseFile(paths[i].toString()));
+			instances.add((Instance) parser.parseFile(paths[i].toString()));
 		}
 		
 		//Paint

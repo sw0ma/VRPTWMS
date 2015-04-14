@@ -4,7 +4,7 @@ import java.util.List;
 
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.VRPTWMSConfig;
+import data.mVRPTWMS.Config;
 
 
 public abstract class AInstance {
@@ -33,9 +33,9 @@ public abstract class AInstance {
 	
 	public abstract List<AVertice> getVertices();
 	
-	public abstract void setConfig(VRPTWMSConfig config);
+	public abstract void setConfig(Config config);
 	
-	public abstract VRPTWMSConfig getConfig();
+	public abstract Config getConfig();
 
 	public String getName() {
 		return name;

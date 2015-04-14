@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.misc.scenariocreator.InstancesGenerator;
-import data.mVRPTWMS.VRPTWMSConfig;
-import data.mVRPTWMS.VRPTWMSInstance;
+import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Instance;
 
 public class SolutionPaintTest {
 
@@ -34,7 +34,7 @@ public class SolutionPaintTest {
 		double TRANSFERTIME = 0.01;			// hours
 		
 		
-		VRPTWMSConfig config = VRPTWMSConfig.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
+		Config config = Config.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 
 		InstanceToLPVRPTWMSTransformator trafo = new InstanceToLPVRPTWMSTransformator(true);
@@ -52,7 +52,7 @@ public class SolutionPaintTest {
 		Runnable toRun = new Runnable() {
 
 			public void run() {
-				VRPTWMSInstance instance = generator.generateInstance();
+				Instance instance = generator.generateInstance();
 				trafo.transform(NAME, instance, FOLDER);
 				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
 				model.run();
@@ -61,7 +61,7 @@ public class SolutionPaintTest {
 			}
 		};
 		while(true) {
-			VRPTWMSInstance instance = generator.generateInstance();
+			Instance instance = generator.generateInstance();
 			trafo.transform(NAME, instance, FOLDER);
 			drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
 			model.run();
