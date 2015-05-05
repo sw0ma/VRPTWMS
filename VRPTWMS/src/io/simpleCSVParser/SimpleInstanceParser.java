@@ -56,7 +56,12 @@ public class SimpleInstanceParser extends AInstanceParser {
 								.nextToken(), st.nextToken()));
 						
 					} else if (strNextType.equals("Depot")) {
-						instance.addVertice(new Depot(st.nextToken(), st.nextToken(), st.nextToken()));
+						String name = st.nextToken();
+						String x = st.nextToken();
+						String y = st.nextToken(); st.nextToken();
+						String e = st.nextToken();
+						String l = st.nextToken();
+						instance.addVertice(new Depot(name, x, y, e, l));
 
 					} else if (strNextType.equals("Arc")) {
 						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));

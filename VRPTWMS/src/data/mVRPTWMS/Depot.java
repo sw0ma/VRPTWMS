@@ -5,12 +5,12 @@ import data.AVertice;
 
 public class Depot extends AVertice {
 
-	public Depot(String pName, int pX, int pY) {
-		super(pName, pX, pY, 0, 22);
+	public Depot(String pName, int pX, int pY, double pE, double pL) {
+		super(pName, pX, pY, pE, pL);
 	}
 	
-	public Depot(String pName, String pX, String pY) {
-		super(pName, Integer.parseInt(pX), Integer.parseInt(pY), 0, 22);
+	public Depot(String pName, String pX, String pY, String pE, String pL) {
+		super(pName, Integer.parseInt(pX), Integer.parseInt(pY), Double.parseDouble(pE), Double.parseDouble(pL));
 	}
 
 	/** creates in the middle of the area a depot and returns it as a depot object
@@ -23,7 +23,7 @@ public class Depot extends AVertice {
 		double centerOffset = (DrawingArea.NUMBER_OF_NODES_PER_AXIS - centerAreaSize) / 2;
 		double x = (Math.random() * centerAreaSize) + centerOffset;
 		double y = (Math.random() * centerAreaSize) + centerOffset;
-		return new Depot(name, (int) Math.round(x), (int) Math.round(y));
+		return new Depot(name, (int) Math.round(x), (int) Math.round(y), 0, 24);
 	}
 	
 }

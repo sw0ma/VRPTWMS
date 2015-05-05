@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import data.mVRPTWMS.Instance;
-import data.mVRPTWMS.InstanceArray;
+import data.mVRPTWMS.InstanceArrayMIP;
 import data.mVRPTWMS.Solution;
 
 public class MIPVRPTW implements Runnable {
@@ -71,7 +71,7 @@ public class MIPVRPTW implements Runnable {
 	 */
 	public Solution getSolution(Instance instance) {
 		solution = new Solution(instance);
-		InstanceArray in = new InstanceArray(instance);
+		InstanceArrayMIP in = new InstanceArrayMIP(instance);
 		int[] next = new int[in.size];
 		List<Integer> routes = new ArrayList<Integer>();
 		Arrays.fill(next, -1);

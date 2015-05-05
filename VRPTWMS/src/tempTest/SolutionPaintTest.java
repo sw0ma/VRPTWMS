@@ -17,7 +17,7 @@ public class SolutionPaintTest {
 		String NAME = "SolutionPaintTest";
 		
 		int NUMBER_OF_INSTANCES = 1;
-		int NUMBER_OF_NODES = 5;
+		int NUMBER_OF_NODES = 15;
 		boolean WITH_ARCS = true;
 		
 		double MAX_TIME_DV = 24.0;			// hours

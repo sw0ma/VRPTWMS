@@ -1,4 +1,4 @@
-package util.tests;
+package util.tests.other;
 
 import io.ui.DrawingArea;
 import io.ui.SimpleFrame;

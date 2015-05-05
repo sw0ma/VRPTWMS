@@ -12,7 +12,6 @@ public class Solution {
 	private List<List<AVertice>> routes = new ArrayList<List<AVertice>>();
 	private List<List<AVertice>> routesSV = new ArrayList<List<AVertice>>();
 
-
 	/** The instance */
 	private Instance instance;
 
@@ -57,8 +56,8 @@ public class Solution {
 	public void checkSolution() {
 		// Time Windows DV
 		for (List<AVertice> listVertices : routes) {
-			for(AVertice v : listVertices) {
-				
+			for (AVertice v : listVertices) {
+
 			}
 		}
 	}

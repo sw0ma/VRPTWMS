@@ -1,4 +1,4 @@
-package main;
+package Runners;
 
 /**
  * 
@@ -22,8 +22,14 @@ public class Settings {
 	public static final boolean goodsCIsActive = false;
 	
 	/**
-	 * This boolean indicates whether debug mode is on or off
+	 * This integer indicates the logger threshold <br>
+	 * TRACE = 0<br>
+	 * DEBUG = 1<br>
+	 * INFO = 2<br>
+	 * WARN = 3<br>
+	 * ERROR = 4<br>
+	 * FATAL = 5
 	 */
-	public static final boolean debug = true;
+	public static final int log = 3;
 	
 }

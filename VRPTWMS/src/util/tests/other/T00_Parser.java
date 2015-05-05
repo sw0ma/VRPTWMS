@@ -1,4 +1,4 @@
-package util.tests;
+package util.tests.other;
 
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;

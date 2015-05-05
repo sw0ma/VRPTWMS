@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 import data.AInstance;
 import data.mVRPTWMS.Instance;
-import data.mVRPTWMS.InstanceArray;
+import data.mVRPTWMS.InstanceArrayMIP;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			generalVars = new TreeSet<String>();
 
 			// Load data and temp tables
-			InstanceArray in = new InstanceArray(instanceObj);
+			InstanceArrayMIP in = new InstanceArrayMIP(instanceObj);
 
 			// Write LP File
 			writer = new FileWriter(file, false);
@@ -121,7 +121,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createSubjectTimeWindowsDV(InstanceArray in) throws IOException {
+	private void createSubjectTimeWindowsDV(InstanceArrayMIP in) throws IOException {
 		String s1;
 		String s2;
 		String curVar1;
@@ -166,7 +166,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param curVar3
 	 * @throws IOException
 	 */
-	private void createSubjectTravelTimeDV(InstanceArray in) throws IOException {
+	private void createSubjectTravelTimeDV(InstanceArrayMIP in) throws IOException {
 		String s1, curVar1, curVar2, curVar3;
 		//
 		double travelNServiceTime;
@@ -217,7 +217,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createSubjectFlowDV(InstanceArray in) throws IOException {
+	private void createSubjectFlowDV(InstanceArrayMIP in) throws IOException {
 		String s1;
 		String curVar;
 		// Flow x_i
@@ -255,7 +255,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createSubjectRoutingSuccesorDV(InstanceArray in) throws IOException {
+	private void createSubjectRoutingSuccesorDV(InstanceArrayMIP in) throws IOException {
 		String curString;
 		String curVar;
 		// Routing x_i
@@ -280,7 +280,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 	 * @param in
 	 * @throws IOException
 	 */
-	private void createObjectiveFunction(InstanceArray in) throws IOException {
+	private void createObjectiveFunction(InstanceArrayMIP in) throws IOException {
 		String curString = " ";
 		String curVar;
 		// x d0->c#
