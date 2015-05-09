@@ -5,7 +5,7 @@ import io.ui.SimpleFrame;
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.misc.scenariocreator.InstancesGenerator;
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
 public class SolutionPaintTest {
@@ -28,7 +28,7 @@ public class SolutionPaintTest {
 		double TRANSFERTIME = 0.01;			// hours
 		
 		
-		Config config = Config.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
+		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 
 		InstanceToLPVRPTWMSTransformator trafo = new InstanceToLPVRPTWMSTransformator(true);

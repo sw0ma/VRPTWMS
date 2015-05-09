@@ -2,22 +2,22 @@
 
 //V	Name	X	Y	stime	e	l	Demand
 Depot	d0	32	22	0	0	100	0
-Vertice	c1	30	29	10	0	10	0
-Vertice	c2	6	27	10	35	40	0
-Vertice	c3	18	21	10	35	45	0
-Vertice	c4	44	44	10	10	15	0
+Vertice	c1	30	29	10	0	10	30
+Vertice	c2	6	27	10	35	40	30
+Vertice	c3	18	21	10	35	45	30
+Vertice	c4	44	44	10	10	15	30
 
 //Arc	From	To	Dist	t	f
-Arc	d0	c1	1	10	1
-Arc	d0	c2	1	10	1
-Arc	d0	c3	1	10	1
-Arc	d0	c4	1	10	1
-Arc	c1	c2	1	10	1
-Arc	c1	c3	1	10	1
-Arc	c1	c4	1	10	1
-Arc	c2	c3	1	10	1
-Arc	c2	c4	1	10	1
-Arc	c3	c4	1	10	1
+Arc	d0	c1	1	10	25
+Arc	d0	c2	1	10	25
+Arc	d0	c3	1	10	25
+Arc	d0	c4	1	10	25
+Arc	c1	c2	1	10	25
+Arc	c1	c3	1	10	25
+Arc	c1	c4	1	10	25
+Arc	c2	c3	1	10	25
+Arc	c2	c4	1	10	25
+Arc	c3	c4	1	10	25
 
 //Opt	Name	Value
 Option	C_SV	100.0

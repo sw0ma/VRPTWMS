@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Runners.Settings;
+import Runners.Config;
 import util.ownDataStructure.DuoHashMap;
-import data.AArc;
 import data.AInstance;
 import data.AVertice;
 
@@ -15,13 +14,13 @@ public class Instance extends AInstance {
 
 	private List<Customer> customers;
 	private Map<String, Depot> depots;
-	private DuoHashMap<String, String, AArc> arcs;
+	private DuoHashMap<String, String, Arc> arcs;
 
 	
 	public Instance() {
 		customers = new ArrayList<Customer>();
 		depots = new HashMap<String, Depot>();
-		arcs = new DuoHashMap<String, String, AArc>();
+		arcs = new DuoHashMap<String, String, Arc>();
 		super.instanceCounter++;
 	}
 
@@ -40,7 +39,7 @@ public class Instance extends AInstance {
 			if(getCustomer(pVerticeToAdd.getName()) == null){
 				customers.add((Customer) pVerticeToAdd);
 			} else {
-				if(Settings.log >= 3) System.out.println(Instance.class.getName() + " Double Vertex found!");
+				if(Config.log >= 3) System.out.println(Instance.class.getName() + " Double Vertex found!");
 			}
 		} else {
 			this.depots.put(pVerticeToAdd.getName(), (Depot) pVerticeToAdd);
@@ -92,16 +91,16 @@ public class Instance extends AInstance {
 
 	
 	@Override
-	public AArc getArc(AVertice v1, AVertice v2) {
-		AArc arc = arcs.get(v1.getName(), v2.getName());
+	public Arc getArc(AVertice v1, AVertice v2) {
+		Arc arc = arcs.get(v1.getName(), v2.getName());
 		if(arc == null){
 			arc = arcs.get(v2.getName(), v1.getName());
 		}
 		return arc;
 	}
 	
-	public AArc getCorrectedArc(AVertice v1, AVertice v2) {
-		AArc arc = arcs.get(v1.getName(), v2.getName());
+	public Arc getCorrectedArc(AVertice v1, AVertice v2) {
+		Arc arc = arcs.get(v1.getName(), v2.getName());
 		if(arc == null){
 			arc = arcs.get(v2.getName(), v1.getName());
 			if(arc !=null ) {
@@ -111,8 +110,17 @@ public class Instance extends AInstance {
 		return arc;
 	}
 	
+	public Arc getArc(String v1, String v2) {
+		Arc arc = arcs.get(v1, v2);
+		if(arc == null){
+			arc = arcs.get(v2, v1);
+		}
+		return arc;
+	}
+	
+	
 	@Override
-	public boolean addArc(AArc arc) {
+	public boolean addArc(Arc arc) {
 		if (getVertice(arc.getFrom().getName()) == null || getVertice(arc.getTo().getName()) == null) {
 			return false;
 		}
@@ -121,28 +129,33 @@ public class Instance extends AInstance {
 	}
 	
 	@Override
-	public List<AArc> getArcs() {
-		List<AArc> arcList = new ArrayList<AArc>();
+	public List<Arc> getArcs() {
+		List<Arc> arcList = new ArrayList<Arc>();
 		arcList.addAll(arcs.values());
 		return arcList;
 	}
 	
 	@Override
-	public boolean setArcs(List<AArc> arcs) {
-		this.arcs = new DuoHashMap<String, String, AArc>();
-		for (AArc arc : arcs) {
+	public boolean setArcs(List<Arc> arcs) {
+		this.arcs = new DuoHashMap<String, String, Arc>();
+		for (Arc arc : arcs) {
 			if ((getCustomer(arc.getFrom().getName()) == null && getCustomer(arc.getFrom().getName()) == null)
 					|| (getCustomer(arc.getTo().getName()) == null && getCustomer(arc.getTo().getName()) == null)) {
 				System.out.println(getCustomer(arc.getFrom().getName()));
 				System.out.println(depots.get(arc.getFrom().getName()));
 				System.out.println(getCustomer(arc.getTo().getName()));
 				System.out.println(depots.get(arc.getTo().getName()));
-				this.arcs = new DuoHashMap<String, String, AArc>();
+				this.arcs = new DuoHashMap<String, String, Arc>();
 				return false;
 			}
 			this.arcs.put(arc.getFrom().getName(), arc.getTo().getName(), arc);
 		}
 		return true;
+	}
+
+	@Override
+	public boolean isDepot(String name) {
+		return depots.containsKey(name);
 	}
 
 }

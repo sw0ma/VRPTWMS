@@ -58,7 +58,7 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 			for (AArc aarc : instance.getArcs()) {
 				Arc arc = (Arc) aarc;
 				bw.write(String.join(DELIMITER, "Arc", arc.getFrom().getName(), arc.getTo().getName(), String.valueOf(arc.getLength()),
-						String.valueOf(arc.getDuration()), String.valueOf(arc.getConsumption())));
+						String.valueOf(arc.getDuration()), String.valueOf(arc.getFuelConsumption())));
 				bw.newLine();
 			}
 			

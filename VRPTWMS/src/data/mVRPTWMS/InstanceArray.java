@@ -14,6 +14,7 @@ import data.AVertice;
  */
 public class InstanceArray {
 	
+	public final Instance instanceObj;
 	public final String name;
 	/**	size = #depots + #customers */
 	public final int size;
@@ -29,6 +30,7 @@ public class InstanceArray {
 	public final double[][] dist, time, fuel;	
 	
 	public InstanceArray(Instance instance) {
+		this.instanceObj = instance;
 		this.name = instance.getName();
 
 		this.numberOfDepots = instance.getDepots().size();		//always = 1
@@ -47,7 +49,7 @@ public class InstanceArray {
 		this.fuel = new double[size][size];
 		// node_type = new char[size];
 
-		Config c = (Config) instance.getConfig();
+		Properties c = (Properties) instance.getConfig();
 		this.transportCapacityDV = c.getTransportCapacityDV();
 		this.transportCapacitySV = c.getTransportCapacitySV();
 		this.vehicleDurationDV = c.getMaxTimeDV();
@@ -86,11 +88,11 @@ public class InstanceArray {
 				}
 				this.dist[i][j] = arc.getLength();
 				this.time[i][j] = arc.getDuration();
-				this.fuel[i][j] = arc.getConsumption();
+				this.fuel[i][j] = arc.getFuelConsumption();
 
 				this.dist[j][i] = arc.getLength();
 				this.time[j][i] = arc.getDuration();
-				this.fuel[j][i] = arc.getConsumption();
+				this.fuel[j][i] = arc.getFuelConsumption();
 			}
 
 			this.dist[i][i] = 0.0;
@@ -103,5 +105,11 @@ public class InstanceArray {
 	public boolean isDepot(int nodeID) {
 		return nodeID < numberOfDepots;
 	}
+	
+	public String getVerticeName(int id) {
+		return mapping[id];
+	}
+	
+	
 
 }

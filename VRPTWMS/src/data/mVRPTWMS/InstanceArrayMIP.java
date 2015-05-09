@@ -47,7 +47,7 @@ public class InstanceArrayMIP {
 		this.fuel = new double[size][size];
 		// node_type = new char[size];
 
-		Config c = (Config) instance.getConfig();
+		Properties c = (Properties) instance.getConfig();
 		this.transportCapacityDV = c.getTransportCapacityDV();
 		this.transportCapacitySV = c.getTransportCapacitySV();
 		this.vehicleDurationDV = c.getMaxTimeDV();
@@ -94,11 +94,11 @@ public class InstanceArrayMIP {
 				}
 				this.dist[i][j] = arc.getLength();
 				this.time[i][j] = arc.getDuration();
-				this.fuel[i][j] = arc.getConsumption();
+				this.fuel[i][j] = arc.getFuelConsumption();
 
 				this.dist[j][i] = arc.getLength();
 				this.time[j][i] = arc.getDuration();
-				this.fuel[j][i] = arc.getConsumption();
+				this.fuel[j][i] = arc.getFuelConsumption();
 			}
 
 			this.dist[i][i] = 0.0;

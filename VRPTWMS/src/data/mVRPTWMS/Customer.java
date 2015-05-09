@@ -21,7 +21,6 @@ public class Customer extends AVertice {
 		this.demand = pDemand;
 	}
 	
-
 	public double getServiceTime() {
 		return serviceTime;
 	}

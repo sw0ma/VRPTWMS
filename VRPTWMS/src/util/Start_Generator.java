@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AInstance;
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
 public class Start_Generator {
@@ -39,7 +39,7 @@ public class Start_Generator {
 		
 		
 		// 1. Init Generator
-		Config config = Config.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
+		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 		
 		// 2. Generate instances

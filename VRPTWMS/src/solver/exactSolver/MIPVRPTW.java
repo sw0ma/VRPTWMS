@@ -94,11 +94,12 @@ public class MIPVRPTW implements Runnable {
 		}
 		int routeNumber = 0;
 		for (int routeId : routes) {
-			solution.addNodeToRoute(routeNumber, in.mapping[0]);
-			for (int i = routeId; next[i] != -1; i = next[i]) {
-				solution.addNodeToRoute(routeNumber, in.mapping[i]);
-			}
-			solution.addNodeToRoute(routeNumber, in.mapping[in.numberOfCustomer + in.numberOfDepots]);
+			//TODO
+//			solution.addNodeToRoute(routeNumber, in.mapping[0]);
+//			for (int i = routeId; next[i] != -1; i = next[i]) {
+//				solution.addNodeToRoute(routeNumber, in.mapping[i]);
+//			}
+//			solution.addNodeToRoute(routeNumber, in.mapping[in.numberOfCustomer + in.numberOfDepots]);
 			routeNumber++;
 		}
 		// TODO Add other variables to Solution

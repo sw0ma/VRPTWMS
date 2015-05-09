@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 
 public class SimpleConfigParser extends AConfigParser {
 
 	@Override
-	public boolean parseConfig(String path, Config config) {
+	public boolean parseConfig(String path, Properties config) {
 		if(path == null || config == null) {
 			return false;
 		}

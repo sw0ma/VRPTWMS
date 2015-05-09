@@ -16,7 +16,7 @@ import data.AInstance;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
 /**
@@ -36,7 +36,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 
 		try {
 			BufferedReader br;
-			Config aConfig = Config.createNewConfig(pathToConfig);
+			Properties aConfig = Properties.createNewConfig(pathToConfig);
 			br = new BufferedReader(new FileReader(file));
 
 			List<TempArc> arcsToAdd = new ArrayList<TempArc>();

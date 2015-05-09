@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import data.AInstance;
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
 public class T00_Unparser {
@@ -29,7 +29,7 @@ public class T00_Unparser {
 		int numberOfConsumersPerInstance = 4;
 		boolean withArcs = true;
 		
-		Config config = Config.createNewConfig();
+		Properties config = Properties.createNewConfig();
 		config.setMaxTimeDV(100);
 		config.setMaxTimeSV(100);
 		config.setTransportCapacityDV(100);

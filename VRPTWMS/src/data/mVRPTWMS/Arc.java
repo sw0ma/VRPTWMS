@@ -74,7 +74,7 @@ public class Arc extends AArc {
 	 * 
 	 * @return the fuel consumption
 	 */
-	public double getConsumption() {
+	public double getFuelConsumption() {
 		return fuelConsumption;
 	}
 

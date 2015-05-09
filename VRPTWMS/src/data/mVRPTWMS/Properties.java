@@ -7,15 +7,15 @@ import io.simpleCSVParser.SimpleConfigParser;
  * 
  * @author Michael Walter
  */
-public class Config extends AConfig {
+public class Properties extends AConfig {
 
 	/**
 	 * This method creates a new empty configuration object
 	 * 
 	 * @return an empty configuration object
 	 */
-	public static Config createNewConfig() {
-		return new Config();
+	public static Properties createNewConfig() {
+		return new Properties();
 	}
 
 	/**
@@ -36,9 +36,9 @@ public class Config extends AConfig {
 	 *            - time consumption if a mobile supply occurs
 	 * @return a configuration object with the given parameters
 	 */
-	public static Config createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
+	public static Properties createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
 			double tranfertime) {
-		Config config = new Config();
+		Properties config = new Properties();
 		config.setMaxTimeDV(maxTimeDV);
 		config.setMaxTimeSV(maxTimeSV);
 		config.setTransportCapacityDV(transportCapacityDV);
@@ -57,14 +57,14 @@ public class Config extends AConfig {
 	 *            - path to the configuration file;
 	 * @return a configuration object
 	 */
-	public static Config createNewConfig(String pathToConfig) {
-		Config newConfig = new Config();
+	public static Properties createNewConfig(String pathToConfig) {
+		Properties newConfig = new Properties();
 		SimpleConfigParser configParser = new SimpleConfigParser();
 
 		if (configParser.parseConfig(pathToConfig, newConfig)) {
 			return newConfig;
 		} else {
-			return new Config();
+			return new Properties();
 		}
 	}
 
@@ -139,7 +139,7 @@ public class Config extends AConfig {
 		data.put("F", fuel);
 	}
 
-	public double getFuel() {
+	public double getFuelCapacity() {
 		Double d = data.get("F");
 		if (d == null) {
 			return -1;
@@ -182,7 +182,7 @@ public class Config extends AConfig {
 		if (!val.equals("-1")) {
 			desc = desc + "_Cs" + val;
 		}
-		val = Double.toString(getFuel());
+		val = Double.toString(getFuelCapacity());
 		if (!val.equals("-1.0")) {
 			desc = desc + "_F" + val;
 		}

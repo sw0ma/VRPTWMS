@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.Distribution;
-import data.AArc;
 import data.AVertice;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.Config;
+import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
 /**
@@ -27,7 +26,7 @@ public class InstancesGenerator {
 	private boolean withArcs;
 	private int numberOfNodes;
 	private int numberOfNodesPerAxis = DrawingArea.NUMBER_OF_NODES_PER_AXIS;
-	private Config config;
+	private Properties config;
 
 	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs) {
 		this.numberOfInstances = numberOfInstances;
@@ -35,7 +34,7 @@ public class InstancesGenerator {
 		this.withArcs = withArcs;
 	}
 
-	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Config config) {
+	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Properties config) {
 		this.numberOfInstances = numberOfInstances;
 		this.numberOfNodes = numberOfNodes;
 		this.withArcs = withArcs;
@@ -111,8 +110,8 @@ public class InstancesGenerator {
 		return newVertices;
 	}
 
-	private List<AArc> createArcs(List<AVertice> vertices) {
-		List<AArc> newArcs = new ArrayList<AArc>();
+	private List<Arc> createArcs(List<AVertice> vertices) {
+		List<Arc> newArcs = new ArrayList<Arc>();
 		double distance, time, fuel;
 		AVertice v1, v2;
 
@@ -151,8 +150,8 @@ public class InstancesGenerator {
 	 * 
 	 * @return a configuration
 	 */
-	private Config createConfig() {
-		Config newConfig = Config.createNewConfig();
+	private Properties createConfig() {
+		Properties newConfig = Properties.createNewConfig();
 		// newConfig.setMaxTimeDV(100);
 		// newConfig.setMaxTimeSV(100);
 		// newConfig.setTransportCapacityDV(100);
