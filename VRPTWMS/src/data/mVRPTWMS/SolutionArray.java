@@ -1,21 +1,22 @@
 package data.mVRPTWMS;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import Runners.Config;
 
 public class SolutionArray {
 
-	private final InstanceArray instance;
+	protected final InstanceArray instance;
 
-	private final int DV = Config.DV;
-	private final int SV = Config.SV;
-	private final int UNASSIGNED = Config.UNASSIGNED;
+	protected final int DV = Config.DV;
+	protected final int SV = Config.SV;
+	protected final int UNASSIGNED = Config.UNASSIGNED;
 
 	/** Preceding vertex for every vertex <br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: the routes with [0..instance.maxSize]*/
-	private final int[][] prev;
+	protected final int[][] prev;
 	/** Next vertex for every vertex <br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: the routes with [0..instance.maxSize]*/
@@ -28,101 +29,106 @@ public class SolutionArray {
 	/** Positions of customers in their route <br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: the routes with [0..instance.maxSize]*/
-	private final int[][] pos;
+	protected final int[][] pos;
 
 	/** Mapping of solution nodes to instance nodes */
-	private final int[] nodes;
+	protected final int[] nodes;
 
 	/** Contains all start nodes of routes <br>
 	 * 	Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVehiclesTypes[{0,1}]] */
-	private int routes[][];
+	protected int routes[][];
 
 	/** Maximal Number of possible Vehicles/Routes<br>
 	 *  set to number of Customer, each customer one vehicle */
-	private final int maxNumberOfRoutes;
+	protected final int maxNumberOfRoutes;
 
 	/** numbers of vehicles by type, 0 = DV, 1 = SV */
-	private final int[] numberOfVehiclesByTypes;
+	protected final int[] numberOfVehiclesByTypes;
 	/** Absolute number of vehicles<br>
 	 *  numberOfVehicles = Sum(numberOfVehiclesTypes); */
 
 	/** Type of every route. If SV-Route, variable is set to 1 */
-	private final boolean[] routeIsSV;
+	protected final boolean[] routeIsSV;
 
 	/** Swap node configuration */
-	private final boolean[] isSwapNode;
+	protected final boolean[] isSwapNode;
+	
+	/** Swap order */
+	protected final boolean[] isSwapFirst;
 
 	/** First/last node of every route */
-	private final int[] routeStart, routeEnd;
+	protected final int[] routeStart, routeEnd;
 	/** Depot of every route <br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: the routes with [0..numberOfVertices]*/
-	private final int[][] startDepot, endDepot;
+	protected final int[][] startDepot;
+
+	protected final int[][] endDepot;
 
 	/** Travel distance of each route */
-	private final double[] travelDistance;
+	protected final double[] travelDistance;
 
 	/** Load on each route */
-	private final double[] load;
+	protected final double[] load;
 
 	/** Extended earliest/latest <b>starting times of service</b><br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices] */
 	// für SV nötig?
-	private final double[][] a, z;
+	protected final double[][] a, z;
 	/** Extended earliest/latest <b>arrival times</b><br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
-	private final double[][] aDash, zDash;
+	protected final double[][] aDash, zDash;
 	/** Time window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
-	private final double[][] forwardTwSlack, backwardTwSlack;
+	protected final double[][] forwardTwSlack, backwardTwSlack;
 
 	/** Extended earliest/latest <b>starting times of swap service</b><br>
 	 *  Dimension: [0..numberOfVertices] */
-	private final double[] c, w;
+	protected final double[] c, w;
 	/** Extended earliest/latest <b>arrival times of swap service</b><br>
 	 *  Dimension: [0..numberOfVertices] */
-	private final double[] cDash, wDash;
+	protected final double[] cDash, wDash;
 
 	/** Extended earliest/latest starting/arrival times of service at depots<br>
 	 *  Dimension 1: [0..maxVehicleNumber]<br>
 	 *  Dimension 2: DV = [0], SV = [1] */
-	private final double[][] aDepot, aDashDepot, zDepot, zDashDepot;
+	protected final double[][] aDepot, aDashDepot, zDepot, zDashDepot;
 	/** Extended earliest/latest starting/arrival times of swap service at depots</b><br>
 	 *  Dimension 1: [0..maxVehicleNumber]<br>
 	 *  Dimension 2: DV = [0], SV = [1] */
-	private final double[][] cDepot, cDashDepot, wDepot, wDashDepot; // two dimensions?
+	protected final double[][] cDepot, cDashDepot, wDepot, wDashDepot; // two dimensions?
 
 	/** Time window penalty slacks at depots<br>
 	 *  Dimension 1: [0..maxVehicleNumber]<br>
 	 *  Dimension 2: DV = [0], SV = [1] */
-	private final double[][] forwardTwSlackDepot, backwardTwSlackDepot; // TODO: Check Implementation!
+	protected final double[][] forwardTwSlackDepot, backwardTwSlackDepot; // TODO: Check Implementation!
 
 	/** Synchronization penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
-	private final double[][] forwardSyncSlack, backwardSyncSlack; // TODO: Check Implementation!
+	protected final double[][] forwardSyncSlack, backwardSyncSlack; // TODO: Check Implementation!
 	/** Synchronization penalty slacks at depots<br>
 	 *  Dimension 1: [0..maxVehicleNumber]<br>
 	 *  Dimension 2: DV = [0], SV = [1] */
-	private final double[][] forwardSyncSlackDepot, backwardSyncSlackDepot; // TODO: Check Implementation!
+	protected final double[][] forwardSyncSlackDepot, backwardSyncSlackDepot; // TODO: Check Implementation!
 	/** Synchronization Time Window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
-	private final double[][] forwardTwSyncSlack, backwardTwSyncSlack; // TODO: Check Implementation!
+	protected final double[][] forwardTwSyncSlack, backwardTwSyncSlack; // TODO: Check Implementation!
 	/** Synchronization Time Window penalty slacks at depots<br>
 	 *  Dimension 1: [0..maxVehicleNumber]<br>
 	 *  Dimension 2: DV = [0], SV = [1] */
-	private final double[][] forwardTwSyncSlackDepot, backwardTwSyncSlackDepot; // TODO: Check Implementation!
+	protected final double[][] forwardTwSyncSlackDepot, backwardTwSyncSlackDepot; // TODO: Check Implementation!
 
 	/** Buffered goods capacity for each vertex */
-	private final double[] forwardCapacity, backwardCapacity; // TODO: Add SVs, Add Violation
+	protected final double[] forwardCapacity, backwardCapacity; // TODO: Add SVs, Add Violation
 
 	/** Buffered fuel capacity for each vertex */
-	private final double[] forwardFuelCapacity, backwardFuelCapacity;
+	protected final double[] forwardFuelCapacity, backwardFuelCapacity;
 
 	/** Total fuel capacity violation */
 	private final double[] routeFuelCapacityViolation;
@@ -169,7 +175,8 @@ public class SolutionArray {
 
 		routeIsSV = new boolean[maxNumberOfRoutes];
 
-		isSwapNode = new boolean[instance.numberOfCustomer];
+		isSwapNode = new boolean[instance.numberOfCustomer + 1];
+		isSwapFirst = new boolean[instance.numberOfCustomer + 1];
 
 		routeStart = new int[maxNumberOfRoutes];
 		Arrays.fill(routeStart, UNASSIGNED);
@@ -349,6 +356,10 @@ public class SolutionArray {
 		return instance.demand[nodes[i]];
 	}
 
+	final public double fuel(final int i, final int j) {
+		return instance.fuel[nodes[i]][nodes[j]];
+	}
+	
 	final public double dist(final int i, final int j) {
 		return instance.dist[nodes[i]][nodes[j]];
 	}
@@ -534,7 +545,6 @@ public class SolutionArray {
 				// workingTimeViolation += getWorkingTimeViolation(r);
 			}
 		}
-
 	}
 
 	/**
@@ -764,23 +774,90 @@ public class SolutionArray {
 		}
 	}
 	
-	public Solution getSolution() {
-		Solution solutionO = new Solution(instance);
-		
-		for(int iV = 0; iV < 2; iV++) {
-			for(int i : routes[iV]) {
-				if(iV == DV) System.out.print("DV " + i + ": ");
-				else System.out.print("SV " + i + ": ");
-				for (int j = startDepot[iV][i]; j != UNASSIGNED; j = next[iV][j]) {
-					solutionO.addNodeToRoute(iV, i, nodes[j]);
-					System.out.print(nodes[j] + " ");
-				}
-				System.out.println();
-			}
-		}
-
-		return solutionO;
+//	public Solution getSolution() {
+//		Solution solutionO = new Solution(instance);
+//		
+//		for(int iV = 0; iV < 2; iV++) {
+//			for(int i : routes[iV]) {
+//				if(iV == DV) System.out.print("DV " + i + ": ");
+//				else System.out.print("SV " + i + ": ");
+//				for (int j = startDepot[iV][i]; j != UNASSIGNED; j = next[iV][j]) {
+//					solutionO.addNodeToRoute(iV, i, nodes[j]);
+//					System.out.print(nodes[j] + " ");
+//				}
+//				System.out.println();
+//			}
+//		}
+//
+//		return solutionO;
+//	}
+	
+	/**
+	 * Print the route nicely formatted.
+	 */
+	public void print() {
+		System.out.println("ObjectiveFunction=" + getObjectiveValue());
+		System.out.println("TotalTravelDistance=" + totalTravelDistance);
+//		System.out.println("CapacityViolation=" + capacityViolation);
+		System.out.println("TimeWindowViolation=" + timeWindowViolation);
+//		System.out.println("DurationViolation=" + durationViolation);
+//		System.out.println("Customers=" + getNumberOfCustomers());
+//		System.out.println("Vehicles=" + numberOfVehicles);
+		System.out.println(asString());
 	}
 	
+	/**
+	 * Prints all routes as a string.
+	 *
+	 * @return string with all routes
+	 */
+	public String asString() {
+		StringBuilder result = new StringBuilder();
+		int routeCounter = 0;
+		for(int r : routes[DV]) {
+			result.append("R");
+			result.append(routeCounter++);
+			result.append(" ");
+			result.append(routeString(DV, r, " ", false));
+			result.append('\n');
+		}
+		routeCounter = 0;
+		for(int r : routes[SV]) {
+			result.append("S");
+			result.append(routeCounter++);
+			result.append(" ");
+			result.append(routeString(SV, r, " ", false));
+			result.append('\n');
+		}
+		return result.toString();
+	}
 	
+	/**
+	 * Returns a string representing the passed route.
+	 *
+	 * @param routeId route
+	 * @return string representation of route
+	 */
+	public String routeString(int iV, int routeId) {
+		return routeString(iV, routeId, "-", false);
+	}
+
+	public String routeString(int iV, int routeId, String delimiter, boolean includeNumber) {
+		StringBuilder routeString = new StringBuilder();
+		if(includeNumber) {
+			routeString.append(routeId);
+			routeString.append(": ");
+		}
+
+		int i;
+		for(i = startDepot[iV][routeId]; next[iV][i] != UNASSIGNED; i = next[iV][i]) {
+			routeString.append(nodes[i]);
+//			routeString.append("(" + forwardDuration[i] + ")");
+			routeString.append(delimiter);
+		}
+		routeString.append(nodes[i]);
+//		routeString.append(String.format(Locale.ENGLISH, " (%.2f,%.2f)", getTravelTime(routeId), getDurationViolation(routeId)));
+
+		return routeString.toString();
+	}
 }

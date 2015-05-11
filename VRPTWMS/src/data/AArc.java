@@ -5,8 +5,8 @@ public abstract class AArc extends AElement {
 	protected int i;
 	protected int j;
 
-	protected AVertice firstVertice;
-	protected AVertice secondVertice;
+	protected AVertex firstVertice;
+	protected AVertex secondVertice;
 	
 	protected double length;
 
@@ -18,11 +18,11 @@ public abstract class AArc extends AElement {
 		return j;
 	}
 
-	public AVertice getFrom() {
+	public AVertex getFrom() {
 		return firstVertice;
 	}
 
-	public AVertice getTo() {
+	public AVertex getTo() {
 		return secondVertice;
 	}
 

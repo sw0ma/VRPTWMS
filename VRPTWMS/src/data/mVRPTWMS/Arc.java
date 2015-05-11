@@ -1,7 +1,7 @@
 package data.mVRPTWMS;
 
 import data.AArc;
-import data.AVertice;
+import data.AVertex;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class Arc extends AArc {
 	 * @param pTimeDuration
 	 * @param pFuelConsumption
 	 */
-	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, String pDistance, String pTimeDuration, String pFuelConsumption) {
+	public Arc(AVertex pFirstVertice, AVertex pSecondVertice, String pDistance, String pTimeDuration, String pFuelConsumption) {
 		super.firstVertice = pFirstVertice;
 		super.secondVertice = pSecondVertice;
 		this.length = Double.parseDouble(pDistance);
@@ -33,7 +33,7 @@ public class Arc extends AArc {
 		this.j = -1;
 	}
 
-	public Arc(AVertice pFirstVertice, AVertice pSecondVertice, double pDistance, double pTimeDuration, double pFuelConsumption) {
+	public Arc(AVertex pFirstVertice, AVertex pSecondVertice, double pDistance, double pTimeDuration, double pFuelConsumption) {
 		super.firstVertice = pFirstVertice;
 		super.secondVertice = pSecondVertice;
 		super.length = pDistance;

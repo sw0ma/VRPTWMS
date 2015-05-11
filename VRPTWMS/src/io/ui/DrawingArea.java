@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import data.AArc;
 import data.AInstance;
-import data.AVertice;
+import data.AVertex;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
 import data.mVRPTWMS.Solution;
@@ -125,7 +125,7 @@ public class DrawingArea extends JPanel {
 		for(List<AArc> route : solution.getRoutes()){
 			for(AArc arc : route) {
 				Color color;
-				AVertice v = (AVertice) arc.getFrom();
+				AVertex v = (AVertex) arc.getFrom();
 				if(v.getEarliestStart() == 0.0 && v.getLatestStart() == 22.0) {
 					color = Color.black;
 				} else {

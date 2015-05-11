@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.Distribution;
-import data.AVertice;
+import data.AVertex;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
@@ -76,7 +76,7 @@ public class InstancesGenerator {
 		}
 		newInstance.setName(name);
 
-		List<AVertice> vertices = createVertices();
+		List<AVertex> vertices = createVertices();
 		newInstance.setVertices(vertices);
 		if (withArcs) {
 			newInstance.setArcs(createArcs(vertices));
@@ -90,9 +90,9 @@ public class InstancesGenerator {
 		return newInstance;
 	}
 
-	private List<AVertice> createVertices() {
-		List<AVertice> newVertices = new ArrayList<AVertice>();
-		AVertice depot = Depot.createRandomDepot("d0");
+	private List<AVertex> createVertices() {
+		List<AVertex> newVertices = new ArrayList<AVertex>();
+		AVertex depot = Depot.createRandomDepot("d0");
 		newVertices.add(depot);
 		double e, l, stime;
 		double[] drawTimes;
@@ -110,10 +110,10 @@ public class InstancesGenerator {
 		return newVertices;
 	}
 
-	private List<Arc> createArcs(List<AVertice> vertices) {
+	private List<Arc> createArcs(List<AVertex> vertices) {
 		List<Arc> newArcs = new ArrayList<Arc>();
 		double distance, time, fuel;
-		AVertice v1, v2;
+		AVertex v1, v2;
 
 		for (int i = 0; i < vertices.size() - 1; i++) {
 			for (int j = i + 1; j < vertices.size(); j++) {
@@ -174,7 +174,7 @@ public class InstancesGenerator {
 	 *            (Optional) - a depot to pass it's position
 	 * @return
 	 */
-	private List<Integer> drawPositions(int numberOfPositions, int axisSize, AVertice depot) {
+	private List<Integer> drawPositions(int numberOfPositions, int axisSize, AVertex depot) {
 
 		int curDrawPos = 0;
 		int range = axisSize * axisSize;

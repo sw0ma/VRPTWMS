@@ -1,6 +1,6 @@
 package data.mVRPTWMS;
 
-import data.AVertice;
+import data.AVertex;
 
 /**
  * This class holds all information of the currently loaded instance .
@@ -21,8 +21,10 @@ public class InstanceArray {
 	public final int maxSize;
 
 	public final int numberOfCustomer, numberOfDepots;
-	public final double transportCapacityDV, transportCapacitySV;
-	public final double vehicleDurationDV, vehicleDurationSV;
+	public final double freightCapacityDV, transportCapacitySV;
+	public final double maxWorkingTimeDV, maxWorkingTimeSV;
+	public final double fuelCapacity;
+	public final double transferTime;
 
 	public final String[] mapping;
 	public final int[] demand;
@@ -50,10 +52,13 @@ public class InstanceArray {
 		// node_type = new char[size];
 
 		Properties c = (Properties) instance.getConfig();
-		this.transportCapacityDV = c.getTransportCapacityDV();
+		this.freightCapacityDV = c.getTransportCapacityDV();
 		this.transportCapacitySV = c.getTransportCapacitySV();
-		this.vehicleDurationDV = c.getMaxTimeDV();
-		this.vehicleDurationSV = c.getMaxTimeSV();
+		this.maxWorkingTimeDV = c.getMaxTimeDV();
+		this.maxWorkingTimeSV = c.getMaxTimeSV();
+		this.fuelCapacity = c.getFuelCapacity();
+		this.transferTime = c.getTransferTime();
+		
 
 		Depot depot;
 		for (int i = 0; i < numberOfDepots; i++) {
@@ -76,7 +81,7 @@ public class InstanceArray {
 		}
 
 		Arc arc;
-		AVertice v1, v2;
+		AVertex v1, v2;
 		for (int i = 0; i < size; i++) {
 			for (int j = i + 1; j < size; j++) {
 				v1 = instance.getVertice(mapping[i]);

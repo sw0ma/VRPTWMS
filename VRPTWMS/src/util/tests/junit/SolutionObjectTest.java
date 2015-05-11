@@ -1,6 +1,7 @@
 package util.tests.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;
 
@@ -15,8 +16,8 @@ import org.junit.Test;
 import Runners.Config;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
-import data.mVRPTWMS.Solution;
 import data.mVRPTWMS.SolutionArray;
+import data.mVRPTWMS.SolutionValidator;
 
 
 public class SolutionObjectTest {
@@ -25,7 +26,7 @@ public class SolutionObjectTest {
 	
 	static SolutionArray clearSolution;
 	static InstanceArray instance;
-	SolutionArray solution;
+	SolutionValidator solution;
 	
 	@BeforeClass
 	public static void init() {
@@ -47,7 +48,7 @@ public class SolutionObjectTest {
 	
 	@Before
 	public void setUp() {
-		solution = new SolutionArray(clearSolution);
+		solution = new SolutionValidator(clearSolution);
 	}
 	
 	@After
@@ -64,31 +65,53 @@ public class SolutionObjectTest {
 	@Test
 	public void checkSolution() {
 		
+		//Instance 0,1,2,3,4
+		
 		// Create DV Route <0,1,2,0>
 		solution.createRoute(DV, 1, 0);
 		solution.insertAfter(DV, 1, 2);
-		solution.update();
-		Solution solutionO = solution.getSolution();	//START/END, SV SERVING, FREIGHT, FUEL
-		assertFalse("Valid 0,1,2,0 Route", solutionO.checkSolution());
+		solution.update();			//START/END, SV SERVING, FREIGHT, FUEL
+		System.out.println("\n\n" + solution.asString());
+		assertTrue(solution.checkEachRouteStartsEndsAtDepot());
+		assertFalse(solution.checkEachCustomerServerdExacltyOnceDV());
+		assertTrue(solution.checkEachCustomerServerdMaxOnceSV());
+		assertTrue(solution.checkEachRouteSatisfyFreight());
+		assertTrue(solution.checkEachRouteSatisfyFuel());
+		assertTrue(solution.checkTimeWindowsSatisfied());
 		
 		// DV Route <0,1,3,2,0>
 		solution.insertAfter(DV, 1, 3);
-		solution.update();
-		solutionO = solution.getSolution();				//START/END, SERVING, SV SERVING, FREIGHT, FUEL
-		assertFalse("Valid 0,1,2,3,0 Route", solutionO.checkSolution());
+		solution.update();			//START/END, SERVING, SV SERVING, FREIGHT, FUEL
+		System.out.println("\n\n" + solution.asString());
+		assertTrue(solution.checkEachRouteStartsEndsAtDepot());
+		assertFalse(solution.checkEachCustomerServerdExacltyOnceDV());
+		assertTrue(solution.checkEachCustomerServerdMaxOnceSV());
+		assertTrue(solution.checkEachRouteSatisfyFreight());
+		assertTrue(solution.checkEachRouteSatisfyFuel());
+		assertFalse(solution.checkTimeWindowsSatisfied());
 		
 		// DV Route <0,1,3,4,2,0>
 		solution.insertAfter(DV, 3, 4);
-		solution.update();
-		solutionO = solution.getSolution();				//START/END, DV SERVING, SV SERVING
-		assertTrue("Valid 0,1,3,4,2,0 Route", solutionO.checkSolution());
+		solution.update();			//START/END, DV SERVING, SV SERVING
+		System.out.println("\n\n" + solution.asString());
+		assertTrue(solution.checkEachRouteStartsEndsAtDepot());
+		assertTrue(solution.checkEachCustomerServerdExacltyOnceDV());
+		assertTrue(solution.checkEachCustomerServerdMaxOnceSV());
+		assertFalse(solution.checkEachRouteSatisfyFreight());
+		assertFalse(solution.checkEachRouteSatisfyFuel());
+		assertFalse(solution.checkTimeWindowsSatisfied());
 		
 		// Create SV Route <0,4,0>
 		solution.createRoute(SV, 4, 0);
-		solution.update();
-		solutionO = solution.getSolution();				//START/END, DV SERVING, SV SERVING, FUEL
-		assertTrue("Valid 0,1,3,4,2,0 Route", solutionO.checkSolution());
-
+		solution.update();			//START/END, DV SERVING, SV SERVING, FUEL
+		System.out.println("\n\n" + solution.asString());
+		assertFalse("Valid 0,1,3,4,2,0 Route", solution.checkSolution());
+		assertTrue(solution.checkEachRouteStartsEndsAtDepot());
+		assertTrue(solution.checkEachCustomerServerdExacltyOnceDV());
+		assertTrue(solution.checkEachCustomerServerdMaxOnceSV());
+		assertFalse(solution.checkEachRouteSatisfyFreight());
+		assertTrue(solution.checkEachRouteSatisfyFuel());
+		assertFalse(solution.checkTimeWindowsSatisfied());
 	}
 
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 import Runners.Config;
 import util.ownDataStructure.DuoHashMap;
 import data.AInstance;
-import data.AVertice;
+import data.AVertex;
 
 public class Instance extends AInstance {
 
@@ -25,8 +25,8 @@ public class Instance extends AInstance {
 	}
 
 	@Override
-	public AVertice getVertice(String name) {
-		AVertice result = getCustomer(name);
+	public AVertex getVertice(String name) {
+		AVertex result = getCustomer(name);
 		if(result == null) {
 			return depots.get(name);
 		}
@@ -34,7 +34,7 @@ public class Instance extends AInstance {
 	}
 	
 	@Override
-	public void addVertice(AVertice pVerticeToAdd) {
+	public void addVertice(AVertex pVerticeToAdd) {
 		if (pVerticeToAdd instanceof Customer) {
 			if(getCustomer(pVerticeToAdd.getName()) == null){
 				customers.add((Customer) pVerticeToAdd);
@@ -47,18 +47,18 @@ public class Instance extends AInstance {
 	}
 	
 	@Override
-	public List<AVertice> getVertices() {
-		List<AVertice> allVertices = new ArrayList<AVertice>();
+	public List<AVertex> getVertices() {
+		List<AVertex> allVertices = new ArrayList<AVertex>();
 		allVertices.addAll(depots.values());
 		allVertices.addAll(customers);
 		return allVertices;
 	}
 	
 	@Override
-	public void setVertices(List<AVertice> vertices) {
+	public void setVertices(List<AVertex> vertices) {
 		customers = new ArrayList<Customer>();
 		depots = new HashMap<String, Depot>();
-		for (AVertice vertice : vertices) {
+		for (AVertex vertice : vertices) {
 			if (vertice instanceof Customer) {
 				this.addVertice(vertice);
 			} else {
@@ -91,7 +91,7 @@ public class Instance extends AInstance {
 
 	
 	@Override
-	public Arc getArc(AVertice v1, AVertice v2) {
+	public Arc getArc(AVertex v1, AVertex v2) {
 		Arc arc = arcs.get(v1.getName(), v2.getName());
 		if(arc == null){
 			arc = arcs.get(v2.getName(), v1.getName());
@@ -99,7 +99,7 @@ public class Instance extends AInstance {
 		return arc;
 	}
 	
-	public Arc getCorrectedArc(AVertice v1, AVertice v2) {
+	public Arc getCorrectedArc(AVertex v1, AVertex v2) {
 		Arc arc = arcs.get(v1.getName(), v2.getName());
 		if(arc == null){
 			arc = arcs.get(v2.getName(), v1.getName());

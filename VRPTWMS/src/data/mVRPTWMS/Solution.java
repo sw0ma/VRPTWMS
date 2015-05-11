@@ -1,25 +1,23 @@
 package data.mVRPTWMS;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import Runners.Config;
 import data.AArc;
-import data.AVertice;
+import data.AVertex;
 
 public class Solution {
-	
+
 	final static int UNASSIGNED = Config.UNASSIGNED;
 	final static int DV = Config.DV;
 	final static int SV = Config.SV;
 
 	// Variables
-	private List<List<AVertice>> routesDV = new ArrayList<List<AVertice>>();
-	private List<List<AVertice>> routesSV = new ArrayList<List<AVertice>>();
+	private List<List<AVertex>> routesDV = new ArrayList<List<AVertex>>();
+	private List<List<AVertex>> routesSV = new ArrayList<List<AVertex>>();
 
 	/** The instance */
 	private Instance instanceO;
@@ -34,18 +32,19 @@ public class Solution {
 		this.instanceO = instanceA.instanceObj;
 	}
 
-	public void addNodeToRoute(int iV, int routeId, int nodeID) {
-		addNodeToRoute(iV, routeId, instanceA.getVerticeName(nodeID));
+	public void addNodeToRoute(int iV, int routeId, int nodeID, boolean isSwap) {
+		addNodeToRoute(iV, routeId, instanceA.getVerticeName(nodeID), isSwap);
 	}
 
-	public void addNodeToRoute(int iV, int routeId, String vName) {
+	public void addNodeToRoute(int iV, int routeId, String vName, boolean isSwap) {
+		AVertex toAdd = instanceO.getVertice(vName);
 		switch (iV) {
 		case Config.DV:
-			addNodeToDVRoute(routeId, instanceO.getVertice(vName));
+			addNodeToDVRoute(routeId, toAdd);
 			break;
 
 		case Config.SV:
-			addNodeToSVRoute(routeId, instanceO.getVertice(vName));
+			addNodeToSVRoute(routeId, toAdd);
 			break;
 
 		default:
@@ -55,23 +54,23 @@ public class Solution {
 		}
 	}
 
-	public void addNodeToDVRoute(int routeId, AVertice v) {
+	public void addNodeToDVRoute(int routeId, AVertex v) {
 		while (routeId >= routesDV.size()) {
-			routesDV.add(new ArrayList<AVertice>());
+			routesDV.add(new ArrayList<AVertex>());
 		}
 		routesDV.get(routeId).add(v);
 	}
 
-	public void addNodeToSVRoute(int routeId, AVertice v) {
+	public void addNodeToSVRoute(int routeId, AVertex v) {
 		while (routeId >= routesSV.size()) {
-			routesSV.add(new ArrayList<AVertice>());
+			routesSV.add(new ArrayList<AVertex>());
 		}
 		routesSV.get(routeId).add(v);
 	}
 
 	public List<AArc> getRoute(int routeID) {
 		List<AArc> arcs = new ArrayList<AArc>();
-		List<AVertice> route = routesDV.get(routeID);
+		List<AVertex> route = routesDV.get(routeID);
 		if (!route.isEmpty()) {
 			for (int i = 0; i < route.size() - 1; i++) {
 				arcs.add(instanceO.getCorrectedArc(route.get(i), route.get(i + 1)));
@@ -92,26 +91,16 @@ public class Solution {
 		return routesAsArcs;
 	}
 
+	@Deprecated
 	public boolean checkSolution() {
 
 		boolean eachRouteStartsEndAtDepot = checkEachRouteStartsEndsAtDepot();
-
 		boolean eachCustomerServerdOnceDV = checkEachCustomerServerdOnceDV();
-
 		boolean eachCustomerServerdOnceSV = checkEachCustomerServerdOnceSV();
-
 		boolean eachRouteSatisfyFreight = checkEachRouteSatisfyFreight();
-
 		boolean eachRouteSatisfyFuel = checkEachRouteSatisfyFuel();
 
-		boolean timeWindowsSatisfied = checkTimeWindowsSatisfied();
-
-		// Time Windows DV
-		for (List<AVertice> listVertices : routesDV) {
-		}
-
-		return eachRouteStartsEndAtDepot && eachCustomerServerdOnceDV && eachCustomerServerdOnceSV && eachRouteSatisfyFreight && eachRouteSatisfyFuel
-				&& timeWindowsSatisfied;
+		return eachRouteStartsEndAtDepot && eachCustomerServerdOnceDV && eachCustomerServerdOnceSV && eachRouteSatisfyFreight && eachRouteSatisfyFuel;
 	}
 
 	/**
@@ -119,9 +108,10 @@ public class Solution {
 	 * 
 	 * @return true if solution passed
 	 */
+	@Deprecated
 	public boolean checkEachRouteStartsEndsAtDepot() {
 		boolean eachRouteStartsEndAtDepot = true;
-		for (List<AVertice> route : routesDV) {
+		for (List<AVertex> route : routesDV) {
 			if (!(route.get(0) instanceof Depot)) {
 				eachRouteStartsEndAtDepot = false;
 			}
@@ -129,13 +119,13 @@ public class Solution {
 				eachRouteStartsEndAtDepot = false;
 			}
 			for (int i = 1; i < route.size() - 1; i++) {
-				AVertice c = route.get(i);
+				AVertex c = route.get(i);
 				if (c instanceof Depot) {
 					eachRouteStartsEndAtDepot = false;
 				}
 			}
 		}
-		for (List<AVertice> route : routesSV) {
+		for (List<AVertex> route : routesSV) {
 			if (!(route.get(0) instanceof Depot)) {
 				eachRouteStartsEndAtDepot = false;
 			}
@@ -143,7 +133,7 @@ public class Solution {
 				eachRouteStartsEndAtDepot = false;
 			}
 			for (int i = 1; i < route.size() - 1; i++) {
-				AVertice c = route.get(i);
+				AVertex c = route.get(i);
 				if (c instanceof Depot) {
 					eachRouteStartsEndAtDepot = false;
 				}
@@ -160,12 +150,13 @@ public class Solution {
 	 * 
 	 * @return true if solution passed
 	 */
+	@Deprecated
 	public boolean checkEachCustomerServerdOnceDV() {
 		// Check whether each customer were served exactly once by a DV
 		boolean eachCustomerServerdOnceDV = true;
-		Set<AVertice> allCustomers = new HashSet<AVertice>(instanceO.getCustomers());
-		for (List<AVertice> aDVRoute : routesDV) {
-			for (AVertice aVertice : aDVRoute) {
+		Set<AVertex> allCustomers = new HashSet<AVertex>(instanceO.getCustomers());
+		for (List<AVertex> aDVRoute : routesDV) {
+			for (AVertex aVertice : aDVRoute) {
 				if ((aVertice instanceof Customer) && !allCustomers.remove(aVertice)) {
 					eachCustomerServerdOnceDV = false;
 				}
@@ -184,12 +175,13 @@ public class Solution {
 	 * 
 	 * @return true if solution passed
 	 */
+	@Deprecated
 	public boolean checkEachCustomerServerdOnceSV() {
-		Set<AVertice> allCustomers;
+		Set<AVertex> allCustomers;
 		boolean eachCustomerServerdOnceSV = true;
-		allCustomers = new HashSet<AVertice>();
-		for (List<AVertice> aSVRoute : routesSV) {
-			for (AVertice aVertice : aSVRoute) {
+		allCustomers = new HashSet<AVertex>();
+		for (List<AVertex> aSVRoute : routesSV) {
+			for (AVertex aVertice : aSVRoute) {
 				if ((aVertice instanceof Customer) && !allCustomers.add(aVertice)) {
 					eachCustomerServerdOnceSV = false;
 				}
@@ -205,11 +197,12 @@ public class Solution {
 	 * 
 	 * @return true if solution passed
 	 */
+	@Deprecated
 	private boolean checkEachRouteSatisfyFreight() {
 		boolean eachRouteSatisfyFreight = true;
-		for (List<AVertice> route : routesDV) {
+		for (List<AVertex> route : routesDV) {
 			int remainingFreight = instanceO.getConfig().getTransportCapacityDV();
-			for (AVertice c : route) {
+			for (AVertex c : route) {
 				if (c instanceof Customer) {
 					remainingFreight -= ((Customer) c).getDemand();
 				}
@@ -228,14 +221,15 @@ public class Solution {
 	 * 
 	 * @return true if solution passed
 	 */
+	@Deprecated
 	private boolean checkEachRouteSatisfyFuel() {
 		//
 		boolean eachRouteSatisfyFuel = true;
-		for (List<AVertice> route : routesDV) {
+		for (List<AVertex> route : routesDV) {
 			double remainingFuel = instanceO.getConfig().getFuelCapacity();
 			for (int i = 0; i < route.size() - 1;) {
-				AVertice v_i = route.get(i);
-				AVertice v_j = route.get(++i);
+				AVertex v_i = route.get(i);
+				AVertex v_j = route.get(++i);
 				remainingFuel -= instanceO.getArc(v_i, v_j).getFuelConsumption();
 				if (isSwap(v_j)) {
 					if (remainingFuel < 0) {
@@ -254,59 +248,9 @@ public class Solution {
 		return eachRouteSatisfyFuel;
 	}
 
-	public boolean checkTimeWindowsSatisfied() {
-		boolean timeWindowsSatisfied = true;
-		int numberOfTimeWindows = instanceO.getVertices().size() + routesDV.size() + routesSV.size();
-		
-		
-		double[][] arrivalTimes = new double[2][numberOfTimeWindows];
-		double[][] l = new double[2][numberOfTimeWindows];
-
-		int[][] next = new int[2][instanceO.getVertices().size()];
-		arrivalTimes[DV][0] = 0;
-		arrivalTimes[SV][0] = 0;
-		l[DV][0] = 0;
-		l[SV][0] = 0;
-
-		for (List<AVertice> r : routesDV) {
-			int j = 1;
-			AVertice v_i = r.get(0);
-			AVertice v_j = r.get(j);
-			do { // solange bis Depot erreicht wird
-				while (!isSwap(v_i)) { // berechne DV bis
-
-				}
-				v_i = v_j;
-				v_j = r.get(++j);
-			} while (v_j instanceof Customer);
-		}
-
-		double[] s = new double[instanceO.getCustomers().size()];
-
-		return false;
-	}
-	
-	private void calcDV(int routeID, double[][] a) {
-		List<AVertice> route = routesDV.get(routeID);
-		int k;
-		for(int i = 1; i < route.size(); i++) {
-			k = i - 1;
-			AVertice v_1 =  route.get(k);	//Vorgänger Vertex k
-			AVertice v_2 =  route.get(i);	//Aktueller Vertex i
-			if (isSwap(v_1)) {
-				//TODO
-			} else {
-				double serviceTime = v_1 instanceof Depot ? 0. : ((Customer) v_1).getServiceTime();
-				a[DV][i] = Math.max(a[DV][k] + instanceO.getArc(v_1, v_2).getDuration() + serviceTime, v_1.getEarliestStart());
-			} 
-		}
-	}
-	
-	private void calcSV() {
-	}
-
-	private boolean isSwap(AVertice v_j) {
-		for (List<AVertice> svRoute : routesSV) {
+	@Deprecated
+	private boolean isSwap(AVertex v_j) {
+		for (List<AVertex> svRoute : routesSV) {
 			if (svRoute.contains(v_j)) {
 				return true;
 			}

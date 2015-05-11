@@ -1,6 +1,6 @@
 package data;
 
-public abstract class AVertice extends AElement {
+public abstract class AVertex extends AElement {
 
 	private static int numberOfVertices = 0;
 
@@ -13,7 +13,7 @@ public abstract class AVertice extends AElement {
 	private double earliestStart;
 	private double latestStart;
 
-	protected AVertice(String pName, int pX, int pY, double pEarliestStart, double pLatestStart) {
+	protected AVertex(String pName, int pX, int pY, double pEarliestStart, double pLatestStart) {
 		this.name = pName;
 		this.x = pX;
 		this.y = pY;

@@ -1,9 +1,9 @@
 package data.mVRPTWMS;
 
 import io.ui.DrawingArea;
-import data.AVertice;
+import data.AVertex;
 
-public class Depot extends AVertice {
+public class Depot extends AVertex {
 
 	public Depot(String pName, int pX, int pY, double pE, double pL) {
 		super(pName, pX, pY, pE, pL);

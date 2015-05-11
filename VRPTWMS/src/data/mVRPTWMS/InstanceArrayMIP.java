@@ -1,6 +1,6 @@
 package data.mVRPTWMS;
 
-import data.AVertice;
+import data.AVertex;
 
 /**
  * This class holds all information of the currently loaded instance for the MIP equations generator.
@@ -82,7 +82,7 @@ public class InstanceArrayMIP {
 		}
 
 		Arc arc;
-		AVertice v1, v2;
+		AVertex v1, v2;
 		for (int i = 0; i < size; i++) {
 			for (int j = i + 1; j < size; j++) {
 				v1 = instance.getVertice(mapping[i]);

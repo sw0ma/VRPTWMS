@@ -1,11 +1,12 @@
 package data.mVRPTWMS;
 
-import data.AVertice;
+import data.AVertex;
 
-public class Customer extends AVertice {
+public class Customer extends AVertex {
 
 	private double serviceTime;
 	private int demand;
+	private boolean isSwap = false;
 
 	public Customer(String pName, String pX, String pY, String pServiceTime, String pEarliestStart, String pLatestStart, String pDemand) {
 		super(pName, Integer.parseInt(pX), Integer.parseInt(pY), Double.parseDouble(pEarliestStart), Double.parseDouble(pLatestStart));
@@ -27,6 +28,14 @@ public class Customer extends AVertice {
 
 	public int getDemand() {
 		return demand;
+	}
+	
+	public boolean isSwapNode() {
+		return isSwap;
+	}
+	
+	public void setSwap(boolean isSwap) {
+		this.isSwap = isSwap;
 	}
 
 }
