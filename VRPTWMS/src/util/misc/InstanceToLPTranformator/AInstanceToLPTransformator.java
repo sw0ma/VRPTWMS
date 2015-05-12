@@ -1,7 +1,7 @@
 package util.misc.InstanceToLPTranformator;
 
 import io.AUnparser;
-import data.AInstance;
+import data.mVRPTWMS.SolutionArray;
 
 /**
  * 
@@ -19,6 +19,6 @@ public abstract class AInstanceToLPTransformator extends AUnparser {
 	 * @param instance - an instance
 	 * @return true, only if no error occurs
 	 */
-	public abstract boolean transform(String name, AInstance instance);
+	public abstract boolean transform(String name, SolutionArray instance);
 
 }

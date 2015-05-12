@@ -1,0 +1,1042 @@
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 17:50:58
+
+Error reading LP format file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp at line 4
+Malformed term in expression
+Neighboring tokens: " + 100.0 [ x_d_c1 + z_d_c1 + x_d_c2 + z_d_c2 "
+
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 17:51:35
+
+Error reading LP format file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp at line 4
+Malformed term in expression
+Neighboring tokens: " + 100.0 * [ x_d_c1 + z_d_c1 + x_d_c2 + "
+
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 17:54:07
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 0 rows, 18 columns, 0 nonzeros
+Optimize a model with 0 rows, 18 columns and 0 nonzeros
+Coefficient statistics:
+  Matrix range    [0e+00, 0e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [0e+00, 0e+00]
+Found heuristic solution: objective 0
+Presolve removed 0 rows and 18 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:04:42
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 4 rows, 28 columns, 16 nonzeros
+Optimize a model with 4 rows, 28 columns and 16 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 3
+Presolve removed 4 rows and 28 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:05:13
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 4 rows, 24 columns, 16 nonzeros
+Optimize a model with 4 rows, 24 columns and 16 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 4
+Presolve removed 4 rows and 24 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:06:00
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 4 rows, 24 columns, 16 nonzeros
+Optimize a model with 4 rows, 24 columns and 16 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 4
+Presolve removed 4 rows and 24 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:06:12
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 4 rows, 24 columns, 16 nonzeros
+Optimize a model with 4 rows, 24 columns and 16 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 4
+Presolve removed 4 rows and 24 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:06:28
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 8 rows, 40 columns, 32 nonzeros
+Optimize a model with 8 rows, 40 columns and 32 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 4
+Presolve removed 8 rows and 40 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:09:51
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:09:53
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:11:03
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:12:06
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:14:19
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 52 columns, 80 nonzeros
+Optimize a model with 12 rows, 52 columns and 80 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 52 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:14:43
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 2e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:14:56
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:15:47
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 12 rows, 48 columns, 64 nonzeros
+Optimize a model with 12 rows, 48 columns and 64 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 12 rows and 48 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:16:17
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 16 rows, 56 columns, 96 nonzeros
+Optimize a model with 16 rows, 56 columns and 96 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 16 rows and 56 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:27:05
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 16 rows, 56 columns, 96 nonzeros
+Optimize a model with 16 rows, 56 columns and 96 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 16 rows and 56 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:31:27
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 16 rows, 56 columns, 96 nonzeros
+Optimize a model with 16 rows, 56 columns and 96 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 16 rows and 56 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:32:44
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 16 rows, 48 columns, 96 nonzeros
+Optimize a model with 16 rows, 48 columns and 96 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 5
+Presolve removed 8 rows and 28 columns
+Presolve time: 0.00s
+Presolved: 8 rows, 20 columns, 48 nonzeros
+Variable types: 0 continuous, 20 integer (20 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 18:33:03
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 16 rows, 40 columns, 96 nonzeros
+Optimize a model with 16 rows, 40 columns and 96 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 1e+00]
+Found heuristic solution: objective 107
+Presolve removed 0 rows and 8 columns
+Presolve time: 0.00s
+Presolved: 16 rows, 32 columns, 72 nonzeros
+Variable types: 0 continuous, 32 integer (32 binary)
+
+Root relaxation: objective 6.000000e+00, 7 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0       6.0000000    6.00000  0.00%     -    0s
+
+Explored 0 nodes (7 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.000000000000e+00, best bound 6.000000000000e+00, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 19:10:19
+
+Error reading LP format file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp at line 23
+Malformed term in expression
+Neighboring tokens: " + <= 24.0 travel_d0_c2: tau_d0 - tau_c2 + 44.0 "
+
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 19:12:22
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 4e+01]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+01]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 32 rows, 40 columns, 120 nonzeros
+Variable types: 0 continuous, 40 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 11 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    8  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   14  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   16  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   14  208.00000    6.00000  97.1%     -    0s
+     0     2    6.00000    0   10  208.00000    6.00000  97.1%     -    0s
+
+Cutting planes:
+  MIR: 1
+
+Explored 33 nodes (283 simplex iterations) in 0.02 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.080000000000e+02, best bound 2.080000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 19:18:56
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 4e+01]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+01]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 32 rows, 40 columns, 120 nonzeros
+Variable types: 0 continuous, 40 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 11 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    8  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   14  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   16  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   14  208.00000    6.00000  97.1%     -    0s
+     0     2    6.00000    0   10  208.00000    6.00000  97.1%     -    0s
+
+Cutting planes:
+  MIR: 1
+
+Explored 33 nodes (283 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.080000000000e+02, best bound 2.080000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 19:20:36
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 4e+01]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 2e+01]
+  RHS range       [1e+00, 2e+01]
+Found heuristic solution: objective 410
+Presolve removed 24 rows and 29 columns
+Presolve time: 0.00s
+Presolved: 8 rows, 20 columns, 48 nonzeros
+Variable types: 0 continuous, 20 integer (20 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.100000000000e+02, best bound 4.100000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:08:28
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 4e+01]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+01]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 32 rows, 40 columns, 132 nonzeros
+Variable types: 0 continuous, 40 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    8  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   10  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0   13  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     0    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+     0     2    6.00000    0    8  208.00000    6.00000  97.1%     -    0s
+
+Cutting planes:
+  Learned: 2
+  Implied bound: 5
+  MIR: 1
+  Mod-K: 1
+
+Explored 34 nodes (348 simplex iterations) in 0.02 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.080000000000e+02, best bound 2.080000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:10:01
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 32 rows, 40 columns, 170 nonzeros
+Variable types: 0 continuous, 40 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 14 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  309.00000    6.00000  98.1%     -    0s
+H    0     0                     207.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    4  107.00000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    6  107.00000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   12  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   10  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 1
+  MIR: 2
+
+Explored 8 nodes (240 simplex iterations) in 0.02 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:21:01
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 32 rows, 49 columns, 156 nonzeros
+Optimize a model with 32 rows, 49 columns and 156 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 32 rows, 40 columns, 170 nonzeros
+Variable types: 0 continuous, 40 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 14 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  309.00000    6.00000  98.1%     -    0s
+H    0     0                     207.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    4  107.00000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    6  107.00000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   12  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   10  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 1
+  MIR: 2
+
+Explored 8 nodes (240 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:21:25
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 48 rows, 54 columns, 216 nonzeros
+Optimize a model with 48 rows, 54 columns and 216 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 214 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    6  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    4  107.00000    6.00000  94.4%     -    0s
+     0     0    6.00000    0    8  107.00000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   12  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0   10  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Implied bound: 4
+  MIR: 4
+
+Explored 13 nodes (226 simplex iterations) in 0.02 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:22:46
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.01 seconds
+(null): 48 rows, 54 columns, 216 nonzeros
+Optimize a model with 48 rows, 54 columns and 216 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:23:47
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 48 rows, 54 columns, 216 nonzeros
+Optimize a model with 48 rows, 54 columns and 216 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 309
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  309.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:40:45
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 62 columns, 232 nonzeros
+Optimize a model with 56 rows, 62 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 308
+Presolve removed 8 rows and 18 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  308.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:41:20
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 62 columns, 232 nonzeros
+Optimize a model with 56 rows, 62 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 308
+Presolve removed 8 rows and 18 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  308.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:46:46
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 62 columns, 232 nonzeros
+Optimize a model with 56 rows, 62 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 308
+Presolve removed 8 rows and 18 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  308.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:47:16
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 62 columns, 232 nonzeros
+Optimize a model with 56 rows, 62 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 308
+Presolve removed 8 rows and 18 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  308.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:47:45
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 62 columns, 232 nonzeros
+Optimize a model with 56 rows, 62 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 308
+Presolve removed 8 rows and 18 columns
+Presolve time: 0.00s
+Presolved: 48 rows, 44 columns, 238 nonzeros
+Variable types: 0 continuous, 44 integer (36 binary)
+
+Root relaxation: objective 6.000000e+00, 16 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    6.00000    0    4  308.00000    6.00000  98.1%     -    0s
+H    0     0                     208.0000000    6.00000  97.1%     -    0s
+H    0     0                     107.0000000    6.00000  94.4%     -    0s
+H    0     0                     106.0000000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    6  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     0    6.00000    0    8  106.00000    6.00000  94.3%     -    0s
+     0     2    6.00000    0    4  106.00000    6.00000  94.3%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Clique: 2
+  MIR: 2
+
+Explored 5 nodes (166 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/12/15 20:51:16
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\TestInstance1.lp
+Reading time = 0.00 seconds
+(null): 56 rows, 58 columns, 232 nonzeros
+Optimize a model with 56 rows, 58 columns and 232 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Found heuristic solution: objective 208
+Presolve removed 23 rows and 27 columns
+Presolve time: 0.00s
+Presolved: 33 rows, 31 columns, 141 nonzeros
+Variable types: 0 continuous, 31 integer (26 binary)
+
+Root relaxation: cutoff, 3 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0     cutoff    0       208.00000  207.00021  0.48%     -    0s
+
+Explored 0 nodes (3 simplex iterations) in 0.00 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.080000000000e+02, best bound 2.080000000000e+02, gap 0.0%

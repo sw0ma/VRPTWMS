@@ -1,13 +1,13 @@
 package data.mVRPTWMS;
 
-import data.AConfig;
+import data.AProperties;
 import io.simpleCSVParser.SimpleConfigParser;
 
 /**
  * 
  * @author Michael Walter
  */
-public class Properties extends AConfig {
+public class Properties extends AProperties {
 
 	/**
 	 * This method creates a new empty configuration object
@@ -37,7 +37,7 @@ public class Properties extends AConfig {
 	 * @return a configuration object with the given parameters
 	 */
 	public static Properties createNewConfig(double maxTimeDV, double maxTimeSV, int transportCapacityDV, int transportCapacitySV, double fuel,
-			double tranfertime) {
+			double tranfertime, double vehicleCosts) {
 		Properties config = new Properties();
 		config.setMaxTimeDV(maxTimeDV);
 		config.setMaxTimeSV(maxTimeSV);
@@ -45,6 +45,7 @@ public class Properties extends AConfig {
 		config.setTransportCapacitySV(transportCapacitySV);
 		config.setFuel(fuel);
 		config.setTransferTime(tranfertime);
+		config.setVehicleCosts(vehicleCosts);
 		return config;
 	}
 
@@ -163,6 +164,22 @@ public class Properties extends AConfig {
 			return d;
 		}
 	}
+	
+	public void setVehicleCosts(double vehicleCosts) {
+		if(vehicleCosts < 0) {
+			System.out.println("VRPTWMS Config: Vehicle costs set to less than zero.");
+		}
+		data.put("c", vehicleCosts);
+	}
+	
+	public double getVehicleCosts() {
+		Double d = data.get("c");
+		if (d == null) {
+			return -1;
+		} else {
+			return d;
+		}
+	}
 
 	public String getBriefDescription() {
 		String desc = "";
@@ -189,6 +206,10 @@ public class Properties extends AConfig {
 		val = Double.toString(getTransferTime());
 		if (!val.equals("-1.0")) {
 			desc = desc + "_b" + val;
+		}
+		val = Double.toString(getVehicleCosts());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_c" + val;
 		}
 		return desc;
 	}

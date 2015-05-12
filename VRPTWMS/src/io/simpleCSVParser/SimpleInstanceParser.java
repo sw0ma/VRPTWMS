@@ -62,7 +62,6 @@ public class SimpleInstanceParser extends AInstanceParser {
 						String e = st.nextToken();
 						String l = st.nextToken();
 						instance.addVertice(new Depot(name, x, y, e, l));
-
 					} else if (strNextType.equals("Arc")) {
 						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 
@@ -111,7 +110,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 	}
 
 	@Override
-	public AInstance parseFile(File file) {
+	public Instance parseFile(File file) {
 		return this.parseFile(file, null);
 	}
 

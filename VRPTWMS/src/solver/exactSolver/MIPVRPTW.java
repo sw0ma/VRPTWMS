@@ -9,10 +9,10 @@ import gurobi.GRBVar;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArrayMIP;
@@ -22,7 +22,7 @@ public class MIPVRPTW implements Runnable {
 
 	private String path;
 	private Solution solution;
-	Map<String, Double> variables = new HashMap<String, Double>();
+	Map<String, Double> variables = new TreeMap<String, Double>(String.CASE_INSENSITIVE_ORDER);
 
 	public MIPVRPTW(String folder, String name) {
 		path = System.getProperty("user.dir") + File.separator + "instances" + File.separator + folder + File.separator + name;
@@ -44,7 +44,9 @@ public class MIPVRPTW implements Runnable {
 				key = curVar.get(GRB.StringAttr.VarName);
 				value = curVar.get(GRB.DoubleAttr.X);
 				variables.put(key, value);
-				System.out.println(key + "\t" + value);
+			}
+			for (String var : variables.keySet()) {
+				System.out.println(var + "\t" + variables.get(var));
 			}
 			System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
 

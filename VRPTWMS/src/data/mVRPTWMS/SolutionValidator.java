@@ -138,7 +138,12 @@ public class SolutionValidator extends SolutionArray {
 					break;
 				}
 				remainingFuel -= fuel(i, j);
-				//TODO Fallunterscheidung bei SWAP
+				if(isSwapNode[nodes[j]]) {
+					if (remainingFuel < 0) {
+						eachRouteSatisfyFuel = false;
+					}
+					remainingFuel = instance.fuelCapacity;
+				}
 			}
 			if (remainingFuel < 0) {
 				eachRouteSatisfyFuel = false;
@@ -150,7 +155,6 @@ public class SolutionValidator extends SolutionArray {
 	}
 
 	public boolean checkTimeWindowsSatisfied() {
-		boolean timeWindowsSatisfied = true;
 		arrivalTimes = new double[2][instance.maxSize];
 		Arrays.fill(arrivalTimes[DV], UNASSIGNED);
 		Arrays.fill(arrivalTimes[SV], UNASSIGNED);
@@ -158,15 +162,22 @@ public class SolutionValidator extends SolutionArray {
 		Arrays.fill(swapTimes, UNASSIGNED);
 		serviceTimes = new double[instance.maxSize];
 		Arrays.fill(serviceTimes, UNASSIGNED);
+		for(int routeID : routes[SV]) {
+			arrivalTimes[SV][startDepot[SV][routeID]] = 0;
+		}
 
 		int i;
-		double arrival;
 		for (int routeID : routes[DV]) {
-			i = endDepot[DV][routeID];
-			arrival = calcDVArrival(i);
+			//Route Bounds
+			arrivalTimes[DV][startDepot[DV][routeID]] = 0;
+			swapTimes[startDepot[DV][routeID]] = 0;
+			serviceTimes[startDepot[DV][routeID]] = 0;
+			//Recursive Function
+			calcDVArrival(endDepot[DV][routeID]);
 		}
 		
-		arrival = UNASSIGNED;
+		boolean timeWindowsSatisfied = true;
+		double arrival = UNASSIGNED;
 		for (int routeID : routes[DV]) {
 			for (i = next[DV][startDepot[DV][routeID]]; !isDepot(i); i = next[DV][i]) { //Time Window Customer Check
 				arrival = serviceTimes[i];
@@ -228,17 +239,13 @@ public class SolutionValidator extends SolutionArray {
 	private double calcServiceStart(int i) {
 		double time = serviceTimes[i];
 		if (time == UNASSIGNED) {
-			if (isDepot(i)) {
-				time = 0;
+			if (!isSwapNode[i]) {
+				time = Math.max(calcDVArrival(i), readyTime(i));
 			} else {
-				if (!isSwapNode[i]) {
-					time = Math.max(calcDVArrival(i), readyTime(i));
+				if (isSwapFirst[i]) {
+					time = Math.max(calcSwapStarts(i) + instance.transferTime, readyTime(i));
 				} else {
-					if (isSwapFirst[i]) {
-						time = Math.max(calcSwapStarts(i) + instance.transferTime, readyTime(i));
-					} else {
-						time = Math.max(calcDVArrival(i), readyTime(i));
-					}
+					time = Math.max(calcDVArrival(i), readyTime(i));
 				}
 			}
 			serviceTimes[i] = time;
@@ -265,14 +272,13 @@ public class SolutionValidator extends SolutionArray {
 	private double calcSwapStarts(int i) {
 		double time = swapTimes[i];
 		if(time == UNASSIGNED) {
-			if (isSwapFirst[i]) {
+			if (isSwapFirst[nodes[i]]) {
 				time = Math.max(calcDVArrival(i) + serviceTime(i), calcSVArrival(i));
 			} else {
 				time = Math.max(calcServiceStart(i), calcSVArrival(i));
 			}
 			swapTimes[i] = time;
 		}
-		
 		return time;
 	}
 

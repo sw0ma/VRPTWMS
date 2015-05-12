@@ -2,7 +2,7 @@ package io;
 
 import java.io.File;
 
-import data.AInstance;
+import data.mVRPTWMS.Instance;
 
 /**
  * 
@@ -17,7 +17,7 @@ public abstract class AInstanceParser extends AParser {
 	 *            - path to instance file
 	 * @return the parsed instance
 	 */
-	public abstract AInstance parseFile(File file);
+	public abstract Instance parseFile(File file);
 
 	/**
 	 * Parses an instance and ignores included configuration. Configuration will be parsed from the give separate configuration file
@@ -26,6 +26,6 @@ public abstract class AInstanceParser extends AParser {
 	 * @param pathToConfig - path to separate configuration file
 	 * @return the parsed instance
 	 */
-	public abstract AInstance parseFile(File file, String pathToConfig);
+	public abstract Instance parseFile(File file, String pathToConfig);
 
 }

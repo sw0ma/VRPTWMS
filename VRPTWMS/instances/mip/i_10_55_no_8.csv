@@ -1,5 +1,5 @@
 //V	Name	X	Y	st	e	l	Demand
-Depot	d0	15	20
+Depot	d0	15	20	0	0	24
 Vertice	c3	24	23	0.1	16.0	18.0	2
 Vertice	c4	6	41	0.0667	6.0	22.0	5
 Vertice	c5	6	40	0.0833	18.0	20.0	3

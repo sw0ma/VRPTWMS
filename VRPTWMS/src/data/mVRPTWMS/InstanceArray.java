@@ -25,6 +25,8 @@ public class InstanceArray {
 	public final double maxWorkingTimeDV, maxWorkingTimeSV;
 	public final double fuelCapacity;
 	public final double transferTime;
+	public final double vehicleCosts;
+	public final double planningHorizon;
 
 	public final String[] mapping;
 	public final int[] demand;
@@ -39,7 +41,7 @@ public class InstanceArray {
 		this.numberOfCustomer = instance.getCustomers().size();
 		this.size = numberOfDepots + numberOfCustomer;
 		
-		this.maxSize = numberOfCustomer*3;
+		this.maxSize = numberOfCustomer*3 + 1;	// 0 never used -> +1
 
 		this.mapping = new String[size];
 		this.demand = new int[size];
@@ -58,7 +60,9 @@ public class InstanceArray {
 		this.maxWorkingTimeSV = c.getMaxTimeSV();
 		this.fuelCapacity = c.getFuelCapacity();
 		this.transferTime = c.getTransferTime();
+		this.vehicleCosts = c.getVehicleCosts();
 		
+		planningHorizon = instance.getDepots().get(0).getLatestStart();
 
 		Depot depot;
 		for (int i = 0; i < numberOfDepots; i++) {

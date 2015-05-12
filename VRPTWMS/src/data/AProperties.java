@@ -8,14 +8,14 @@ import java.util.Map.Entry;
  * 
  * @author Michael Walter
  */
-public class AConfig {
+public class AProperties {
 
 	protected HashMap<String, Double> data;
 
 	/**
 	 * Constructor of the configuration class.
 	 */
-	protected AConfig() {
+	protected AProperties() {
 		data = new HashMap<String, Double>();
 	}
 
@@ -24,8 +24,8 @@ public class AConfig {
 	 * 
 	 * @return an empty configuration object
 	 */
-	public static AConfig createNewConfig() {
-		return new AConfig();
+	public static AProperties createNewProperties() {
+		return new AProperties();
 	}
 
 	/**

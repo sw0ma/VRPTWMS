@@ -1,13 +1,12 @@
 package data.mVRPTWMS;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 import Runners.Config;
 
 public class SolutionArray {
 
-	protected final InstanceArray instance;
+	public final InstanceArray instance;
 
 	protected final int DV = Config.DV;
 	protected final int SV = Config.SV;
@@ -390,7 +389,7 @@ public class SolutionArray {
 	 * @param j node
 
 	 */
-	private void addArc(int iV, int i, int j) {
+	public void addArc(int iV, int i, int j) {
 		if (isDepot(i) && isDepot(j)) {
 			closeRoute(iV, i, j);
 		} else if (i != j) {
@@ -480,7 +479,7 @@ public class SolutionArray {
 	 * 			-1,	otherwise 
 	 * 
 	 */
-	private int createVirtualNode(int iV, int node) {
+	public int createVirtualNode(int iV, int node) {
 		for (int i = instance.size; i < instance.maxSize; i++) {
 			if (nodes[i] == UNASSIGNED) {
 				nodes[i] = node;
@@ -584,6 +583,13 @@ public class SolutionArray {
 		for (j = startDepot[iV][routeId]; j != UNASSIGNED; j = next[iV][j]) {
 			pos[iV][j] = position;
 			position++;
+		}
+		
+		// updateSwapNodes
+		for(j = 1; j <= instance.numberOfCustomer; j++) {
+			if(next[SV][j] != UNASSIGNED) {
+				isSwapNode[j] = true;
+			}
 		}
 
 		calculateExtendedStartTimes(iV, routeId);

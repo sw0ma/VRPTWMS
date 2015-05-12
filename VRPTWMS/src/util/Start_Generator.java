@@ -36,10 +36,11 @@ public class Start_Generator {
 		int TRANSPORT_CAPACITY_SV = 100;	// units
 		double FUEL = 100.0;				// liters
 		double TRANSFERTIME = 0.01;			// hours
+		double VEHICLE_COSTS = 100;			// price
 		
 		
 		// 1. Init Generator
-		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME);
+		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME, VEHICLE_COSTS);
 		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
 		
 		// 2. Generate instances
