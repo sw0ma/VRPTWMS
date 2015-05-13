@@ -151,3 +151,41 @@ Thread count was 2 (of 4 available processors)
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 1.581300000000e+02, best bound 1.581300000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/13/15 21:06:26
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 290 rows, 284 columns, 1570 nonzeros
+Optimize a model with 290 rows, 284 columns and 1570 nonzeros
+Model has 1000 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 3e+01]
+  Objective range [2e+00, 8e+01]
+  Bounds range    [1e+00, 2e+01]
+  RHS range       [1e+00, 2e+01]
+Presolve removed 85 rows and 58 columns
+Presolve time: 0.06s
+Presolved: 3905 rows, 2446 columns, 13117 nonzeros
+Variable types: 1480 continuous, 966 integer (944 binary)
+Found heuristic solution: objective 232.7800000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  157.79362    0   15  232.78000  157.79362  32.2%     -    0s
+H    0     0                     195.1300000  157.79362  19.1%     -    0s
+     0     0  195.06143    0   19  195.13000  195.06143  0.04%     -    0s
+     0     0  195.06143    0   12  195.13000  195.06143  0.04%     -    0s
+     0     0     cutoff    0       195.13000  195.12020  0.01%     -    0s
+
+Cutting planes:
+  Gomory: 3
+  Cover: 1
+  Clique: 1
+
+Explored 0 nodes (155 simplex iterations) in 0.17 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.951300000000e+02, best bound 1.951300000000e+02, gap 0.0%

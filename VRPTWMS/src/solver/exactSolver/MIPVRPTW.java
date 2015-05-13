@@ -33,7 +33,7 @@ public class MIPVRPTW implements Runnable {
 		try {
 			GRBEnv env = new GRBEnv(path + ".log");
 			GRBModel model = new GRBModel(env, path + ".lp");
-
+			
 			// Optimize model
 			model.optimize();
 
@@ -44,9 +44,20 @@ public class MIPVRPTW implements Runnable {
 				key = curVar.get(GRB.StringAttr.VarName);
 				value = curVar.get(GRB.DoubleAttr.X);
 				variables.put(key, value);
+//				System.out.println(key + "\t" + value);
 			}
 			for (String var : variables.keySet()) {
 				System.out.println(var + "\t" + variables.get(var));
+			}
+			System.out.println("\n");
+			for (String var : variables.keySet()) {
+				value = variables.get(var);
+				if((var.startsWith("x") || var.startsWith("z")) && value != 0) {
+					System.out.println(var + "\t" + variables.get(var));
+				}
+				if(!(var.startsWith("x") || var.startsWith("z"))) {
+					System.out.println(var + "\t" + variables.get(var));
+				}
 			}
 			System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
 

@@ -17,6 +17,7 @@ public class Start_Exact {
 
 		// Configuration
 		String INSTANCE_NAME = "TestInstance1";
+//		String INSTANCE_NAME = "i_10_55_no_8";
 		String FOLDER = "mip";
 
 		// 1. Load Instance

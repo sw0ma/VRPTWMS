@@ -4,14 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
-import data.AInstance;
-import data.mVRPTWMS.Instance;
-import data.mVRPTWMS.InstanceArray;
-import data.mVRPTWMS.InstanceArrayMIP;
 import data.mVRPTWMS.SolutionArray;
 
 /**
@@ -31,13 +26,18 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		super(overwrite);
 	}
 	
-	public boolean transform(String name, SolutionArray sol, String subFolder){
+	@Override
+	public boolean transform(String name, SolutionArray instance) {
+		return transform(name, instance, null);
+	}
+
+	public boolean transform(String name, SolutionArray sol, String subFolder) {
 		if (sol == null) {
 			System.out.println("InstanceToLPVRPTWMSTransformator: Wrong instance");
 			return false;
 		}
 		String folder;
-		if(subFolder == null){
+		if (subFolder == null) {
 			folder = INSTANCE_FOLDER + "mip" + File.separator;
 		} else {
 			folder = INSTANCE_FOLDER + subFolder + File.separator;
@@ -49,11 +49,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				file = new File(folder + name + "_No_" + (++i) + ".lp");
 			} while (file.exists());
 		}
-		
-		//Prepare solutionArray
+
+		// Prepare solutionArray
 		sol.createVirtualNode(1, 0);
-		
-		
 
 		try {
 			if (!createFile(file)) {
@@ -73,25 +71,36 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 
 			bw.write("Minimize");
 			bw.newLine();
-			createObjectiveFunction(sol);
+			createObjectiveFunction(sol); // (3.1)
 
 			bw.newLine();
 			bw.write("Subject To");
 			bw.newLine();
-			createSubjectRoutingSuccesorDV(sol);
-			createSubjectRoutingSuccesorSV(sol);
-			createSubjectFlowDV(sol);
-			createSubjectFlowSV(sol);
-			createSubjectTravelTimeDV(sol);
-			createSubjectTravelTimeSV(sol);
-			createSubjectTimeWindowsCustomer(sol);
-
-
+			createSubjectRoutingSuccesorDV(sol); // (3.2)
+			createSubjectRoutingSuccesorSV(sol); // (3.3)
+			createSubjectFlowDV(sol); // (3.4)
+			createSubjectFlowSV(sol); // (3.5)
+			createSubjectTravelTimeDV(sol); // (3.6)
+			createSubjectTravelTimeSV(sol); // (3.7)
+			createSubjectTimeWindowsCustomer(sol);	// (3.8)
+			createSubjectSynchronization(sol);	// (3.9)		//Verursacht manchmal nicht p.s.d Matrizen?!?!
+			createSubjectPrecedenceOfSwap(sol);	// (3.10)
+			createSubjectPrecedenceOfOrder(sol);	// (3.11)
+			createSubjectWorkShiftSV(sol);	// (3.12)
+			
+			createSubjectFreightNotRechargeable(sol);	// (3.21)
+			
+			
+			
 			bw.write("Bounds");
 			bw.newLine();
-			for(String s: generalVars) {
-				if(s.startsWith("tau")) {
+			for (String s : generalVars) {
+				if (s.startsWith("tau")) {
 					bw.write("0 <= " + s + " <= " + sol.instance.planningHorizon);
+					bw.newLine();
+				}
+				if (s.startsWith("k")) {
+					bw.write("0 <= " + s + " <= " + sol.instance.freightCapacityDV);
 					bw.newLine();
 				}
 			}
@@ -124,17 +133,166 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		return true;
 	}
 
-	/**
-	 * @param in
-	 * @throws IOException
-	 */
+	private void createSubjectFreightNotRechargeable(SolutionArray sol) throws IOException {
+		String s1;
+		String curVar1;
+		String curVar2;
+		String curVar3;
+		double M = sol.instance.freightCapacityDV;
+		
+		generalVars.add("k_dN");
+		for(int i = 1; i <= sol.instance.numberOfCustomer; i++){
+			curVar1 = "k_c" + i;
+			generalVars.add(curVar1);
+		}
+		
+		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
+			for(int j = 1; j <= sol.instance.numberOfCustomer + 1; j++) {
+				if(i != j) {
+					if(sol.isDepot(j)) {
+						s1 = "  Freight_c" + i + "_dN: ";
+						curVar1 = "k_dN";
+						curVar3 = "x_c" + i + "_dN";
+					} else {
+						s1 = "  Freight_c" + i + "_c" + j + ": ";
+						curVar1 = "k_c" + j;
+						curVar3 = "x_c" + i + "_c" + j;
+					}
+					curVar2 = "k_c" + i;
+					s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(M), curVar3, "<=", Double.toString(M - sol.demand(i)));
+					bw.write(s1);
+					bw.newLine();
+				}
+			}
+		}
+	}
+
+	private void createSubjectWorkShiftSV(SolutionArray sol) throws IOException {
+		String s1;
+		String curVar1;
+		String curVar2;
+		
+		for( int i = 1; i<= sol.instance.numberOfCustomer; i++) {
+			s1 = "  WorkShift_c" + i + ": ";
+			curVar1 = "tauS_c" + i;
+			curVar2 = "p_" + i;
+			s1 = String.join(" ", s1, curVar1, "+", Double.toString(sol.instance.transferTime), curVar2, "<=", Double.toString(sol.instance.maxWorkingTimeSV - sol.duration(i, sol.instance.numberOfCustomer+1)));
+			bw.write(s1);
+			bw.newLine();
+		}
+	}
+
+	private void createSubjectPrecedenceOfOrder(SolutionArray sol) throws IOException {
+		String s1;
+		String curVar1;
+		String curVar2;
+		
+		for( int i = 1; i<= sol.instance.numberOfCustomer; i++) {
+			s1 = "  Order_c" + i + ": ";
+			curVar1 = "o_" + i;
+			curVar2 = "p_" + i;
+			s1 = String.join(" ", s1, curVar1, "-", curVar2, "<=", "0");
+			bw.write(s1);
+			bw.newLine();
+		}
+		
+		
+	}
+
+	private void createSubjectPrecedenceOfSwap(SolutionArray sol) throws IOException {
+		String s1;
+		String curVar1;
+		String curVar2;
+		
+		for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
+			s1 = "  precedence_Swap_c" + j + ": ";
+			curVar2 = "p_" + j;
+			s1 = String.join(" ", s1, curVar2);
+			for( int i = 0; i<= sol.instance.numberOfCustomer; i++) {
+				if(i!=j) {
+					if(sol.isDepot(i)) {
+						curVar1 = "z_d0" + "_c" + j;
+					} else {
+						curVar1 = "z_c" + i + "_c" + j;
+					}
+					s1 = String.join(" ", s1, "-", curVar1);
+				}
+			}
+			s1 = String.join(" ", s1, "=", "0");
+			bw.write(s1);
+			bw.newLine();
+		}
+	}
+
+	private void createSubjectSynchronization(SolutionArray sol) throws IOException {
+		String s1;
+		String s2;
+		String s3;
+		String curVar1;
+		String curVar2;
+		String curVar3;
+		String curVar4;
+		String curVar5;
+		double M = sol.instance.planningHorizon; // maximal Depot working Time
+		
+		generalVars.add("tauS_dN");
+		generalVars.add("tauD_dN");
+
+		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
+			for (int j = 1; j <= sol.instance.numberOfCustomer + 1; j++) {
+				if (i != j) {
+					for (int k = 1; k <= sol.instance.numberOfCustomer + 1; k++) {
+						if (i != k) {
+							if (sol.isDepot(k)) {
+								s2 = "D";
+								curVar1 = "tauS_dN";
+								curVar2 = "z_c" + i + "_dN";
+							} else {
+								s2 = "c" + k;
+								curVar1 = "tauS_c" + k;
+								curVar2 = "z_c" + i + "_c" + k;
+							}
+							if (sol.isDepot(j)) {
+								s1 = "  SyncA_c" + i + "_dN_" + s2 + ":";
+								s3 = "  SyncB_c" + i + "_dN_" + s2 + ":";
+								curVar3 = "tauD_dN";
+								curVar4 = "x_c" + i + "_dN";
+							} else {
+								s1 = "  SyncA_c" + i + "_c" + j + "_" + s2 + ":";
+								s3 = "  SyncB_c" + i + "_c" + j + "_" + s2 + ":";
+								curVar3 = "tauD_c" + j;
+								curVar4 = "x_c" + i + "_c" + j;
+							}
+							curVar5 = "o_" + i;
+							s1 = String.join(" ", s1, "-", Double.toString(sol.duration(i, k)), curVar2, "+", Double.toString((sol.duration(i, j) + M)), curVar4);
+							s1 = String.join(" ", s1, "+", "[", curVar1, "*", curVar2, "-", curVar3, "*", curVar4, "+", Double.toString(sol.serviceTime(i)), curVar5, "*", curVar4, "]");
+							s1 = String.join(" ", s1, "<=", Double.toString(M));
+							bw.write(s1);
+							bw.newLine();
+							
+//							s1 = String.join(" ", s1, "-", Double.toString(sol.duration(i, k)), curVar2, "+", Double.toString((sol.duration(i, j) + M)), curVar4, "+", Double.toString(sol.serviceTime(i)), curVar5);
+//							s1 = String.join(" ", s1, "+", "[", curVar1, "*", curVar2, "-", curVar3, "*", curVar4, "]");
+//							s1 = String.join(" ", s1, "<=", Double.toString(M));
+//							bw.write(s1);
+//							bw.newLine();
+//							s3 = String.join(" ", s3, Double.toString(sol.duration(i, k)), curVar2, "-", Double.toString((sol.duration(i, j) + M)), curVar4, "+", Double.toString(sol.serviceTime(i)), curVar5);
+//							s3 = String.join(" ", s3, "+", "[", curVar1, "*", curVar2, "-", curVar3, "*", curVar4, "]", ">=", Double.toString(-M));
+//							bw.write(s3);
+//							bw.newLine();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private void createSubjectTimeWindowsCustomer(SolutionArray sol) throws IOException {
 		String s1;
 		String s2;
 		String curVar1;
 		String curVar2;
 
-		for(int i = 1; i <= sol.instance.numberOfCustomer; i++) {
+		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
 			s1 = "  time_window_c" + i + "_e:";
 			s2 = "  time_window_c" + i + "_l:";
 			curVar1 = "tauD_c" + i;
@@ -149,19 +307,14 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		}
 	}
 
-	@Override
-	public boolean transform(String name, SolutionArray instance) {
-		return transform(name,instance,null);
-	}
-
 	private void createSubjectTravelTimeDV(SolutionArray sol) throws IOException {
 		String s1, curVar0, curVar1, curVar2, curVar3;
-		double M = sol.instance.planningHorizon; //maximal Depot working Time
+		double M = sol.instance.planningHorizon; // maximal Depot working Time
 		//
 		double travelNServiceTime;
 		for (int i = 0; i <= sol.instance.numberOfCustomer; i++) {
 			if (sol.isDepot(i)) {
-				generalVars.add("tauD_d");
+				generalVars.add("tauD_d0");
 			} else {
 				generalVars.add("tauD_c" + i);
 				binaryVars.add("p_" + i);
@@ -169,9 +322,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
 				if (i != j) {
 					travelNServiceTime = Math.round((sol.duration(i, j) + sol.serviceTime(i) + M) * 10000.0) / 10000.0;
-					if(sol.isDepot(i)) {
-						s1 = "  travel_d" + "_c" + j + ":";
-						curVar1 = "tauD_d";
+					if (sol.isDepot(i)) {
+						s1 = "  travel_d0" + "_c" + j + ":";
+						curVar1 = "tauD_d0";
 						curVar2 = "tauD_c" + j;
 						curVar3 = "x_d" + "_c" + j;
 						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNServiceTime), curVar3, "<=", Double.toString(M));
@@ -181,7 +334,8 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 						curVar1 = "tauD_c" + i;
 						curVar2 = "tauD_c" + j;
 						curVar3 = "x_c" + i + "_c" + j;
-						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNServiceTime), curVar3, "+", Double.toString(sol.instance.transferTime), curVar0, "<=", Double.toString(M));
+						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNServiceTime), curVar3, "+",
+								Double.toString(sol.instance.transferTime), curVar0, "<=", Double.toString(M));
 					}
 					bw.write(s1);
 					bw.newLine();
@@ -189,15 +343,15 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			}
 		}
 	}
-	
+
 	private void createSubjectTravelTimeSV(SolutionArray sol) throws IOException {
 		String s1, curVar0, curVar1, curVar2, curVar3;
-		double M = sol.instance.planningHorizon; //maximal Depot working Time
+		double M = sol.instance.planningHorizon; // maximal Depot working Time
 		//
 		double travelNSwapTime;
 		for (int i = 0; i <= sol.instance.numberOfCustomer; i++) {
 			if (sol.isDepot(i)) {
-				generalVars.add("tauS_d");
+				generalVars.add("tauS_d0");
 			} else {
 				generalVars.add("tauS_c" + i);
 				binaryVars.add("p_" + i);
@@ -205,9 +359,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
 				if (i != j) {
 					travelNSwapTime = Math.round((sol.duration(i, j) + M) * 10000.0) / 10000.0;
-					if(sol.isDepot(i)) {
-						s1 = "  travel_d" + "_c" + j + ":";
-						curVar1 = "tauS_d";
+					if (sol.isDepot(i)) {
+						s1 = "  travel_d0" + "_c" + j + ":";
+						curVar1 = "tauS_d0";
 						curVar2 = "tauS_c" + j;
 						curVar3 = "z_d" + "_c" + j;
 						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNSwapTime), curVar3, "<=", Double.toString(M));
@@ -217,7 +371,8 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 						curVar1 = "tauS_c" + i;
 						curVar2 = "tauS_c" + j;
 						curVar3 = "z_c" + i + "_c" + j;
-						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNSwapTime), curVar3, "+", Double.toString(sol.instance.transferTime), curVar0, "<=", Double.toString(M));
+						s1 = String.join(" ", s1, curVar1, "-", curVar2, "+", Double.toString(travelNSwapTime), curVar3, "+",
+								Double.toString(sol.instance.transferTime), curVar0, "<=", Double.toString(M));
 					}
 					bw.write(s1);
 					bw.newLine();
@@ -236,7 +391,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				if (j != i) {
 					// Left
 					if (sol.isDepot(i)) {
-						curVar = "x_d" + "_c" + j;
+						curVar = "x_d0" + "_c" + j;
 					} else {
 						curVar = "x_c" + i + "_c" + j;
 					}
@@ -248,7 +403,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				if (j != i) {
 					// Right
 					if (sol.isDepot(i)) {
-						curVar = "x_c" + j + "_D";
+						curVar = "x_c" + j + "_dN";
 					} else {
 						curVar = "x_c" + j + "_c" + i;
 					}
@@ -259,7 +414,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			bw.newLine();
 		}
 	}
-	
+
 	private void createSubjectFlowSV(SolutionArray sol) throws IOException {
 		String s1;
 		String curVar;
@@ -270,7 +425,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				if (j != i) {
 					// Left
 					if (sol.isDepot(i)) {
-						curVar = "z_d" + "_c" + j;
+						curVar = "z_d0" + "_c" + j;
 					} else {
 						curVar = "z_c" + i + "_c" + j;
 					}
@@ -282,7 +437,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				if (j != i) {
 					// Right
 					if (sol.isDepot(i)) {
-						curVar = "z_c" + j + "_D";
+						curVar = "z_c" + j + "_dN";
 					} else {
 						curVar = "z_c" + j + "_c" + i;
 					}
@@ -301,9 +456,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
 			curString = "  Successor_DV_c" + i + ":";
 			for (int j = 1; j <= sol.instance.numberOfCustomer + 1; j++) {
-				if(i != j) {
+				if (i != j) {
 					if (sol.isDepot(j)) {
-						curVar = "x_c" + i + "_D";
+						curVar = "x_c" + i + "_dN";
 					} else {
 						curVar = "x_c" + i + "_c" + j;
 					}
@@ -322,9 +477,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
 			curString = "  Successor_SV_c" + i + ":";
 			for (int j = 1; j <= sol.instance.numberOfCustomer + 1; j++) {
-				if(i != j) {
+				if (i != j) {
 					if (sol.isDepot(j)) {
-						curVar = "z_c" + i + "_D";
+						curVar = "z_c" + i + "_dN";
 					} else {
 						curVar = "z_c" + i + "_c" + j;
 					}
@@ -340,51 +495,51 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		String curString = " ";
 		String curVar;
 		// x d0->cj
-		for(int j = 1; j <= sol.instance.numberOfCustomer; j++) {
-			curVar = "x_d" + "_c" + j;
+		for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
+			curVar = "x_d0" + "_c" + j;
 			binaryVars.add(curVar);
 			curString = String.join(" ", curString, Double.toString(sol.instance.dist[0][j]), curVar, "+");
-			curVar = "z_d" + "_c" + j;
+			curVar = "z_d0" + "_c" + j;
 			binaryVars.add(curVar);
 			curString = String.join(" ", curString, Double.toString(sol.instance.dist[0][j]), curVar, "+");
 		}
-		
+
 		// x c_i->c_j, c_j<-c_i
-		for(int i = 1; i <= sol.instance.numberOfCustomer; i++) {
+		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
 			for (int j = 1; j < sol.instance.numberOfCustomer; j++) {
-				if(i != j) {
+				if (i != j) {
 					curVar = "x_c" + i + "_c" + j;
 					binaryVars.add(curVar);
-					curString = String.join(" ", curString, Double.toString(sol.dist(i,j)), curVar, "+");
+					curString = String.join(" ", curString, Double.toString(sol.dist(i, j)), curVar, "+");
 					curVar = "x_c" + j + "_c" + i;
 					binaryVars.add(curVar);
-					curString = String.join(" ", curString, Double.toString(sol.dist(j,i)), curVar, "+");
+					curString = String.join(" ", curString, Double.toString(sol.dist(j, i)), curVar, "+");
 					curVar = "z_c" + i + "_c" + j;
 					binaryVars.add(curVar);
-					curString = String.join(" ", curString, Double.toString(sol.dist(i,j)), curVar, "+");
+					curString = String.join(" ", curString, Double.toString(sol.dist(i, j)), curVar, "+");
 					curVar = "z_c" + j + "_c" + i;
 					binaryVars.add(curVar);
-					curString = String.join(" ", curString, Double.toString(sol.dist(j,i)), curVar, "+");
+					curString = String.join(" ", curString, Double.toString(sol.dist(j, i)), curVar, "+");
 				}
 			}
 		}
 		// x c_i->dN
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
-			curVar = "x_c" + i + "_D";
+			curVar = "x_c" + i + "_dN";
 			binaryVars.add(curVar);
-			curString = String.join(" ", curString, Double.toString(sol.dist(i,0)), curVar, "+");
-			curVar = "z_c" + i + "_D";
+			curString = String.join(" ", curString, Double.toString(sol.dist(i, 0)), curVar, "+");
+			curVar = "z_c" + i + "_dN";
 			binaryVars.add(curVar);
-			curString = String.join(" ", curString, Double.toString(sol.dist(i,0)), curVar, "+");
+			curString = String.join(" ", curString, Double.toString(sol.dist(i, 0)), curVar, "+");
 		}
 		// Vehicle Costs
 		for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
-			curVar = "x_d" + "_c" + j;
+			curVar = "x_d0" + "_c" + j;
 			curString = String.join(" ", curString, Double.toString(sol.instance.vehicleCosts), curVar, "+");
-			curVar = "z_d" + "_c" + j;
+			curVar = "z_d0" + "_c" + j;
 			curString = String.join(" ", curString, Double.toString(sol.instance.vehicleCosts), curVar, "+");
 		}
-		
+
 		bw.write(curString.substring(0, curString.length() - 2));
 	}
 
