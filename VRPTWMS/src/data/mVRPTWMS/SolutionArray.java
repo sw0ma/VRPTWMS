@@ -54,7 +54,7 @@ public class SolutionArray {
 	protected final boolean[] isSwapNode;
 	
 	/** Swap order */
-	protected final boolean[] isSwapFirst;
+	public final boolean[] isSwapFirst;
 
 	/** First/last node of every route */
 	protected final int[] routeStart, routeEnd;
@@ -260,12 +260,15 @@ public class SolutionArray {
 	    System.arraycopy(sol.pos[SV], 0, pos[SV], 0, sol.pos[SV].length);
 	    System.arraycopy(sol.nodes, 0, nodes, 0, sol.nodes.length);
 
+	    routes[DV] = new int[sol.numberOfVehiclesByTypes[DV]];
 	    System.arraycopy(sol.routes[DV], 0, routes[DV], 0, sol.routes[DV].length);
+	    routes[SV] = new int[sol.numberOfVehiclesByTypes[SV]];
 	    System.arraycopy(sol.routes[SV], 0, routes[SV], 0, sol.routes[SV].length);
 	    
 	    System.arraycopy(sol.routeIsSV, 0, routeIsSV, 0, sol.routeIsSV.length);
-
+	    
 	    System.arraycopy(sol.isSwapNode, 0, isSwapNode, 0, sol.isSwapNode.length);
+	    System.arraycopy(sol.isSwapFirst, 0, isSwapFirst, 0, sol.isSwapFirst.length);
 
 	    System.arraycopy(sol.routeStart, 0, routeStart, 0, sol.routeStart.length);
 	    System.arraycopy(sol.routeEnd, 0, routeEnd, 0, sol.routeEnd.length);
@@ -495,7 +498,7 @@ public class SolutionArray {
 	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 * @param i
 	 */
-	private void removeVirtualNode(int iV, int i) {
+	public void removeVirtualNode(int iV, int i) {
 		nodes[i] = UNASSIGNED;
 	}
 
@@ -865,5 +868,15 @@ public class SolutionArray {
 //		routeString.append(String.format(Locale.ENGLISH, " (%.2f,%.2f)", getTravelTime(routeId), getDurationViolation(routeId)));
 
 		return routeString.toString();
+	}
+	
+	/** Checks, whether i and j are the same real vertex
+	 * 
+	 * @param i node 1
+	 * @param j node 2
+	 * @return true, if both nodes are the same real vertex
+	 */
+	public boolean isSameNode(int i, int j) {
+		return nodes[i] == nodes[j];
 	}
 }

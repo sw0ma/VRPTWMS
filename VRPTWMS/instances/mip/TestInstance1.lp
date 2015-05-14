@@ -19,10 +19,10 @@ Subject To
   Flow_SV_c2: z_d0_c2 + z_c1_c2 + z_c3_c2 + z_c4_c2 - z_c2_dN - z_c2_c1 - z_c2_c3 - z_c2_c4 = 0
   Flow_SV_c3: z_d0_c3 + z_c1_c3 + z_c2_c3 + z_c4_c3 - z_c3_dN - z_c3_c1 - z_c3_c2 - z_c3_c4 = 0
   Flow_SV_c4: z_d0_c4 + z_c1_c4 + z_c2_c4 + z_c3_c4 - z_c4_dN - z_c4_c1 - z_c4_c2 - z_c4_c3 = 0
-  travel_d0_c1: tauD_d0 - tauD_c1 + 110.0 x_d_c1 <= 100.0
-  travel_d0_c2: tauD_d0 - tauD_c2 + 120.0 x_d_c2 <= 100.0
-  travel_d0_c3: tauD_d0 - tauD_c3 + 110.0 x_d_c3 <= 100.0
-  travel_d0_c4: tauD_d0 - tauD_c4 + 110.0 x_d_c4 <= 100.0
+  travel_d0_c1: tauD_d0 - tauD_c1 + 110.0 x_d0_c1 <= 100.0
+  travel_d0_c2: tauD_d0 - tauD_c2 + 120.0 x_d0_c2 <= 100.0
+  travel_d0_c3: tauD_d0 - tauD_c3 + 110.0 x_d0_c3 <= 100.0
+  travel_d0_c4: tauD_d0 - tauD_c4 + 110.0 x_d0_c4 <= 100.0
   travel_c1_c2: tauD_c1 - tauD_c2 + 120.0 x_c1_c2 + 10.0 p_1 <= 100.0
   travel_c1_c3: tauD_c1 - tauD_c3 + 120.0 x_c1_c3 + 10.0 p_1 <= 100.0
   travel_c1_c4: tauD_c1 - tauD_c4 + 120.0 x_c1_c4 + 10.0 p_1 <= 100.0
@@ -35,10 +35,10 @@ Subject To
   travel_c4_c1: tauD_c4 - tauD_c1 + 120.0 x_c4_c1 + 10.0 p_4 <= 100.0
   travel_c4_c2: tauD_c4 - tauD_c2 + 120.0 x_c4_c2 + 10.0 p_4 <= 100.0
   travel_c4_c3: tauD_c4 - tauD_c3 + 120.0 x_c4_c3 + 10.0 p_4 <= 100.0
-  travel_d0_c1: tauS_d0 - tauS_c1 + 110.0 z_d_c1 <= 100.0
-  travel_d0_c2: tauS_d0 - tauS_c2 + 120.0 z_d_c2 <= 100.0
-  travel_d0_c3: tauS_d0 - tauS_c3 + 110.0 z_d_c3 <= 100.0
-  travel_d0_c4: tauS_d0 - tauS_c4 + 110.0 z_d_c4 <= 100.0
+  travel_d0_c1: tauS_d0 - tauS_c1 + 110.0 z_d0_c1 <= 100.0
+  travel_d0_c2: tauS_d0 - tauS_c2 + 120.0 z_d0_c2 <= 100.0
+  travel_d0_c3: tauS_d0 - tauS_c3 + 110.0 z_d0_c3 <= 100.0
+  travel_d0_c4: tauS_d0 - tauS_c4 + 110.0 z_d0_c4 <= 100.0
   travel_c1_c2: tauS_c1 - tauS_c2 + 110.0 z_c1_c2 + 10.0 p_1 <= 100.0
   travel_c1_c3: tauS_c1 - tauS_c3 + 110.0 z_c1_c3 + 10.0 p_1 <= 100.0
   travel_c1_c4: tauS_c1 - tauS_c4 + 110.0 z_c1_c4 + 10.0 p_1 <= 100.0
@@ -62,67 +62,67 @@ Subject To
   SyncA_c1_c2_c2: - 10.0 z_c1_c2 + 110.0 x_c1_c2 + [ tauS_c2 * z_c1_c2 - tauD_c2 * x_c1_c2 + 10.0 o_1 * x_c1_c2 ] <= 100.0
   SyncA_c1_c2_c3: - 10.0 z_c1_c3 + 110.0 x_c1_c2 + [ tauS_c3 * z_c1_c3 - tauD_c2 * x_c1_c2 + 10.0 o_1 * x_c1_c2 ] <= 100.0
   SyncA_c1_c2_c4: - 10.0 z_c1_c4 + 110.0 x_c1_c2 + [ tauS_c4 * z_c1_c4 - tauD_c2 * x_c1_c2 + 10.0 o_1 * x_c1_c2 ] <= 100.0
-  SyncA_c1_c2_D: - 10.0 z_c1_dN + 110.0 x_c1_c2 + [ tauS_dN * z_c1_dN - tauD_c2 * x_c1_c2 + 10.0 o_1 * x_c1_c2 ] <= 100.0
+  SyncA_c1_c2_dN: - 10.0 z_c1_dN + 110.0 x_c1_c2 + [ tauS_dN * z_c1_dN - tauD_c2 * x_c1_c2 + 10.0 o_1 * x_c1_c2 ] <= 100.0
   SyncA_c1_c3_c2: - 10.0 z_c1_c2 + 110.0 x_c1_c3 + [ tauS_c2 * z_c1_c2 - tauD_c3 * x_c1_c3 + 10.0 o_1 * x_c1_c3 ] <= 100.0
   SyncA_c1_c3_c3: - 10.0 z_c1_c3 + 110.0 x_c1_c3 + [ tauS_c3 * z_c1_c3 - tauD_c3 * x_c1_c3 + 10.0 o_1 * x_c1_c3 ] <= 100.0
   SyncA_c1_c3_c4: - 10.0 z_c1_c4 + 110.0 x_c1_c3 + [ tauS_c4 * z_c1_c4 - tauD_c3 * x_c1_c3 + 10.0 o_1 * x_c1_c3 ] <= 100.0
-  SyncA_c1_c3_D: - 10.0 z_c1_dN + 110.0 x_c1_c3 + [ tauS_dN * z_c1_dN - tauD_c3 * x_c1_c3 + 10.0 o_1 * x_c1_c3 ] <= 100.0
+  SyncA_c1_c3_dN: - 10.0 z_c1_dN + 110.0 x_c1_c3 + [ tauS_dN * z_c1_dN - tauD_c3 * x_c1_c3 + 10.0 o_1 * x_c1_c3 ] <= 100.0
   SyncA_c1_c4_c2: - 10.0 z_c1_c2 + 110.0 x_c1_c4 + [ tauS_c2 * z_c1_c2 - tauD_c4 * x_c1_c4 + 10.0 o_1 * x_c1_c4 ] <= 100.0
   SyncA_c1_c4_c3: - 10.0 z_c1_c3 + 110.0 x_c1_c4 + [ tauS_c3 * z_c1_c3 - tauD_c4 * x_c1_c4 + 10.0 o_1 * x_c1_c4 ] <= 100.0
   SyncA_c1_c4_c4: - 10.0 z_c1_c4 + 110.0 x_c1_c4 + [ tauS_c4 * z_c1_c4 - tauD_c4 * x_c1_c4 + 10.0 o_1 * x_c1_c4 ] <= 100.0
-  SyncA_c1_c4_D: - 10.0 z_c1_dN + 110.0 x_c1_c4 + [ tauS_dN * z_c1_dN - tauD_c4 * x_c1_c4 + 10.0 o_1 * x_c1_c4 ] <= 100.0
+  SyncA_c1_c4_dN: - 10.0 z_c1_dN + 110.0 x_c1_c4 + [ tauS_dN * z_c1_dN - tauD_c4 * x_c1_c4 + 10.0 o_1 * x_c1_c4 ] <= 100.0
   SyncA_c1_dN_c2: - 10.0 z_c1_c2 + 110.0 x_c1_dN + [ tauS_c2 * z_c1_c2 - tauD_dN * x_c1_dN + 10.0 o_1 * x_c1_dN ] <= 100.0
   SyncA_c1_dN_c3: - 10.0 z_c1_c3 + 110.0 x_c1_dN + [ tauS_c3 * z_c1_c3 - tauD_dN * x_c1_dN + 10.0 o_1 * x_c1_dN ] <= 100.0
   SyncA_c1_dN_c4: - 10.0 z_c1_c4 + 110.0 x_c1_dN + [ tauS_c4 * z_c1_c4 - tauD_dN * x_c1_dN + 10.0 o_1 * x_c1_dN ] <= 100.0
-  SyncA_c1_dN_D: - 10.0 z_c1_dN + 110.0 x_c1_dN + [ tauS_dN * z_c1_dN - tauD_dN * x_c1_dN + 10.0 o_1 * x_c1_dN ] <= 100.0
+  SyncA_c1_dN_dN: - 10.0 z_c1_dN + 110.0 x_c1_dN + [ tauS_dN * z_c1_dN - tauD_dN * x_c1_dN + 10.0 o_1 * x_c1_dN ] <= 100.0
   SyncA_c2_c1_c1: - 10.0 z_c2_c1 + 110.0 x_c2_c1 + [ tauS_c1 * z_c2_c1 - tauD_c1 * x_c2_c1 + 10.0 o_2 * x_c2_c1 ] <= 100.0
   SyncA_c2_c1_c3: - 10.0 z_c2_c3 + 110.0 x_c2_c1 + [ tauS_c3 * z_c2_c3 - tauD_c1 * x_c2_c1 + 10.0 o_2 * x_c2_c1 ] <= 100.0
   SyncA_c2_c1_c4: - 10.0 z_c2_c4 + 110.0 x_c2_c1 + [ tauS_c4 * z_c2_c4 - tauD_c1 * x_c2_c1 + 10.0 o_2 * x_c2_c1 ] <= 100.0
-  SyncA_c2_c1_D: - 20.0 z_c2_dN + 110.0 x_c2_c1 + [ tauS_dN * z_c2_dN - tauD_c1 * x_c2_c1 + 10.0 o_2 * x_c2_c1 ] <= 100.0
+  SyncA_c2_c1_dN: - 20.0 z_c2_dN + 110.0 x_c2_c1 + [ tauS_dN * z_c2_dN - tauD_c1 * x_c2_c1 + 10.0 o_2 * x_c2_c1 ] <= 100.0
   SyncA_c2_c3_c1: - 10.0 z_c2_c1 + 110.0 x_c2_c3 + [ tauS_c1 * z_c2_c1 - tauD_c3 * x_c2_c3 + 10.0 o_2 * x_c2_c3 ] <= 100.0
   SyncA_c2_c3_c3: - 10.0 z_c2_c3 + 110.0 x_c2_c3 + [ tauS_c3 * z_c2_c3 - tauD_c3 * x_c2_c3 + 10.0 o_2 * x_c2_c3 ] <= 100.0
   SyncA_c2_c3_c4: - 10.0 z_c2_c4 + 110.0 x_c2_c3 + [ tauS_c4 * z_c2_c4 - tauD_c3 * x_c2_c3 + 10.0 o_2 * x_c2_c3 ] <= 100.0
-  SyncA_c2_c3_D: - 20.0 z_c2_dN + 110.0 x_c2_c3 + [ tauS_dN * z_c2_dN - tauD_c3 * x_c2_c3 + 10.0 o_2 * x_c2_c3 ] <= 100.0
+  SyncA_c2_c3_dN: - 20.0 z_c2_dN + 110.0 x_c2_c3 + [ tauS_dN * z_c2_dN - tauD_c3 * x_c2_c3 + 10.0 o_2 * x_c2_c3 ] <= 100.0
   SyncA_c2_c4_c1: - 10.0 z_c2_c1 + 110.0 x_c2_c4 + [ tauS_c1 * z_c2_c1 - tauD_c4 * x_c2_c4 + 10.0 o_2 * x_c2_c4 ] <= 100.0
   SyncA_c2_c4_c3: - 10.0 z_c2_c3 + 110.0 x_c2_c4 + [ tauS_c3 * z_c2_c3 - tauD_c4 * x_c2_c4 + 10.0 o_2 * x_c2_c4 ] <= 100.0
   SyncA_c2_c4_c4: - 10.0 z_c2_c4 + 110.0 x_c2_c4 + [ tauS_c4 * z_c2_c4 - tauD_c4 * x_c2_c4 + 10.0 o_2 * x_c2_c4 ] <= 100.0
-  SyncA_c2_c4_D: - 20.0 z_c2_dN + 110.0 x_c2_c4 + [ tauS_dN * z_c2_dN - tauD_c4 * x_c2_c4 + 10.0 o_2 * x_c2_c4 ] <= 100.0
+  SyncA_c2_c4_dN: - 20.0 z_c2_dN + 110.0 x_c2_c4 + [ tauS_dN * z_c2_dN - tauD_c4 * x_c2_c4 + 10.0 o_2 * x_c2_c4 ] <= 100.0
   SyncA_c2_dN_c1: - 10.0 z_c2_c1 + 120.0 x_c2_dN + [ tauS_c1 * z_c2_c1 - tauD_dN * x_c2_dN + 10.0 o_2 * x_c2_dN ] <= 100.0
   SyncA_c2_dN_c3: - 10.0 z_c2_c3 + 120.0 x_c2_dN + [ tauS_c3 * z_c2_c3 - tauD_dN * x_c2_dN + 10.0 o_2 * x_c2_dN ] <= 100.0
   SyncA_c2_dN_c4: - 10.0 z_c2_c4 + 120.0 x_c2_dN + [ tauS_c4 * z_c2_c4 - tauD_dN * x_c2_dN + 10.0 o_2 * x_c2_dN ] <= 100.0
-  SyncA_c2_dN_D: - 20.0 z_c2_dN + 120.0 x_c2_dN + [ tauS_dN * z_c2_dN - tauD_dN * x_c2_dN + 10.0 o_2 * x_c2_dN ] <= 100.0
+  SyncA_c2_dN_dN: - 20.0 z_c2_dN + 120.0 x_c2_dN + [ tauS_dN * z_c2_dN - tauD_dN * x_c2_dN + 10.0 o_2 * x_c2_dN ] <= 100.0
   SyncA_c3_c1_c1: - 10.0 z_c3_c1 + 110.0 x_c3_c1 + [ tauS_c1 * z_c3_c1 - tauD_c1 * x_c3_c1 + 10.0 o_3 * x_c3_c1 ] <= 100.0
   SyncA_c3_c1_c2: - 10.0 z_c3_c2 + 110.0 x_c3_c1 + [ tauS_c2 * z_c3_c2 - tauD_c1 * x_c3_c1 + 10.0 o_3 * x_c3_c1 ] <= 100.0
   SyncA_c3_c1_c4: - 10.0 z_c3_c4 + 110.0 x_c3_c1 + [ tauS_c4 * z_c3_c4 - tauD_c1 * x_c3_c1 + 10.0 o_3 * x_c3_c1 ] <= 100.0
-  SyncA_c3_c1_D: - 10.0 z_c3_dN + 110.0 x_c3_c1 + [ tauS_dN * z_c3_dN - tauD_c1 * x_c3_c1 + 10.0 o_3 * x_c3_c1 ] <= 100.0
+  SyncA_c3_c1_dN: - 10.0 z_c3_dN + 110.0 x_c3_c1 + [ tauS_dN * z_c3_dN - tauD_c1 * x_c3_c1 + 10.0 o_3 * x_c3_c1 ] <= 100.0
   SyncA_c3_c2_c1: - 10.0 z_c3_c1 + 110.0 x_c3_c2 + [ tauS_c1 * z_c3_c1 - tauD_c2 * x_c3_c2 + 10.0 o_3 * x_c3_c2 ] <= 100.0
   SyncA_c3_c2_c2: - 10.0 z_c3_c2 + 110.0 x_c3_c2 + [ tauS_c2 * z_c3_c2 - tauD_c2 * x_c3_c2 + 10.0 o_3 * x_c3_c2 ] <= 100.0
   SyncA_c3_c2_c4: - 10.0 z_c3_c4 + 110.0 x_c3_c2 + [ tauS_c4 * z_c3_c4 - tauD_c2 * x_c3_c2 + 10.0 o_3 * x_c3_c2 ] <= 100.0
-  SyncA_c3_c2_D: - 10.0 z_c3_dN + 110.0 x_c3_c2 + [ tauS_dN * z_c3_dN - tauD_c2 * x_c3_c2 + 10.0 o_3 * x_c3_c2 ] <= 100.0
+  SyncA_c3_c2_dN: - 10.0 z_c3_dN + 110.0 x_c3_c2 + [ tauS_dN * z_c3_dN - tauD_c2 * x_c3_c2 + 10.0 o_3 * x_c3_c2 ] <= 100.0
   SyncA_c3_c4_c1: - 10.0 z_c3_c1 + 110.0 x_c3_c4 + [ tauS_c1 * z_c3_c1 - tauD_c4 * x_c3_c4 + 10.0 o_3 * x_c3_c4 ] <= 100.0
   SyncA_c3_c4_c2: - 10.0 z_c3_c2 + 110.0 x_c3_c4 + [ tauS_c2 * z_c3_c2 - tauD_c4 * x_c3_c4 + 10.0 o_3 * x_c3_c4 ] <= 100.0
   SyncA_c3_c4_c4: - 10.0 z_c3_c4 + 110.0 x_c3_c4 + [ tauS_c4 * z_c3_c4 - tauD_c4 * x_c3_c4 + 10.0 o_3 * x_c3_c4 ] <= 100.0
-  SyncA_c3_c4_D: - 10.0 z_c3_dN + 110.0 x_c3_c4 + [ tauS_dN * z_c3_dN - tauD_c4 * x_c3_c4 + 10.0 o_3 * x_c3_c4 ] <= 100.0
+  SyncA_c3_c4_dN: - 10.0 z_c3_dN + 110.0 x_c3_c4 + [ tauS_dN * z_c3_dN - tauD_c4 * x_c3_c4 + 10.0 o_3 * x_c3_c4 ] <= 100.0
   SyncA_c3_dN_c1: - 10.0 z_c3_c1 + 110.0 x_c3_dN + [ tauS_c1 * z_c3_c1 - tauD_dN * x_c3_dN + 10.0 o_3 * x_c3_dN ] <= 100.0
   SyncA_c3_dN_c2: - 10.0 z_c3_c2 + 110.0 x_c3_dN + [ tauS_c2 * z_c3_c2 - tauD_dN * x_c3_dN + 10.0 o_3 * x_c3_dN ] <= 100.0
   SyncA_c3_dN_c4: - 10.0 z_c3_c4 + 110.0 x_c3_dN + [ tauS_c4 * z_c3_c4 - tauD_dN * x_c3_dN + 10.0 o_3 * x_c3_dN ] <= 100.0
-  SyncA_c3_dN_D: - 10.0 z_c3_dN + 110.0 x_c3_dN + [ tauS_dN * z_c3_dN - tauD_dN * x_c3_dN + 10.0 o_3 * x_c3_dN ] <= 100.0
+  SyncA_c3_dN_dN: - 10.0 z_c3_dN + 110.0 x_c3_dN + [ tauS_dN * z_c3_dN - tauD_dN * x_c3_dN + 10.0 o_3 * x_c3_dN ] <= 100.0
   SyncA_c4_c1_c1: - 10.0 z_c4_c1 + 110.0 x_c4_c1 + [ tauS_c1 * z_c4_c1 - tauD_c1 * x_c4_c1 + 10.0 o_4 * x_c4_c1 ] <= 100.0
   SyncA_c4_c1_c2: - 10.0 z_c4_c2 + 110.0 x_c4_c1 + [ tauS_c2 * z_c4_c2 - tauD_c1 * x_c4_c1 + 10.0 o_4 * x_c4_c1 ] <= 100.0
   SyncA_c4_c1_c3: - 10.0 z_c4_c3 + 110.0 x_c4_c1 + [ tauS_c3 * z_c4_c3 - tauD_c1 * x_c4_c1 + 10.0 o_4 * x_c4_c1 ] <= 100.0
-  SyncA_c4_c1_D: - 10.0 z_c4_dN + 110.0 x_c4_c1 + [ tauS_dN * z_c4_dN - tauD_c1 * x_c4_c1 + 10.0 o_4 * x_c4_c1 ] <= 100.0
+  SyncA_c4_c1_dN: - 10.0 z_c4_dN + 110.0 x_c4_c1 + [ tauS_dN * z_c4_dN - tauD_c1 * x_c4_c1 + 10.0 o_4 * x_c4_c1 ] <= 100.0
   SyncA_c4_c2_c1: - 10.0 z_c4_c1 + 110.0 x_c4_c2 + [ tauS_c1 * z_c4_c1 - tauD_c2 * x_c4_c2 + 10.0 o_4 * x_c4_c2 ] <= 100.0
   SyncA_c4_c2_c2: - 10.0 z_c4_c2 + 110.0 x_c4_c2 + [ tauS_c2 * z_c4_c2 - tauD_c2 * x_c4_c2 + 10.0 o_4 * x_c4_c2 ] <= 100.0
   SyncA_c4_c2_c3: - 10.0 z_c4_c3 + 110.0 x_c4_c2 + [ tauS_c3 * z_c4_c3 - tauD_c2 * x_c4_c2 + 10.0 o_4 * x_c4_c2 ] <= 100.0
-  SyncA_c4_c2_D: - 10.0 z_c4_dN + 110.0 x_c4_c2 + [ tauS_dN * z_c4_dN - tauD_c2 * x_c4_c2 + 10.0 o_4 * x_c4_c2 ] <= 100.0
+  SyncA_c4_c2_dN: - 10.0 z_c4_dN + 110.0 x_c4_c2 + [ tauS_dN * z_c4_dN - tauD_c2 * x_c4_c2 + 10.0 o_4 * x_c4_c2 ] <= 100.0
   SyncA_c4_c3_c1: - 10.0 z_c4_c1 + 110.0 x_c4_c3 + [ tauS_c1 * z_c4_c1 - tauD_c3 * x_c4_c3 + 10.0 o_4 * x_c4_c3 ] <= 100.0
   SyncA_c4_c3_c2: - 10.0 z_c4_c2 + 110.0 x_c4_c3 + [ tauS_c2 * z_c4_c2 - tauD_c3 * x_c4_c3 + 10.0 o_4 * x_c4_c3 ] <= 100.0
   SyncA_c4_c3_c3: - 10.0 z_c4_c3 + 110.0 x_c4_c3 + [ tauS_c3 * z_c4_c3 - tauD_c3 * x_c4_c3 + 10.0 o_4 * x_c4_c3 ] <= 100.0
-  SyncA_c4_c3_D: - 10.0 z_c4_dN + 110.0 x_c4_c3 + [ tauS_dN * z_c4_dN - tauD_c3 * x_c4_c3 + 10.0 o_4 * x_c4_c3 ] <= 100.0
+  SyncA_c4_c3_dN: - 10.0 z_c4_dN + 110.0 x_c4_c3 + [ tauS_dN * z_c4_dN - tauD_c3 * x_c4_c3 + 10.0 o_4 * x_c4_c3 ] <= 100.0
   SyncA_c4_dN_c1: - 10.0 z_c4_c1 + 110.0 x_c4_dN + [ tauS_c1 * z_c4_c1 - tauD_dN * x_c4_dN + 10.0 o_4 * x_c4_dN ] <= 100.0
   SyncA_c4_dN_c2: - 10.0 z_c4_c2 + 110.0 x_c4_dN + [ tauS_c2 * z_c4_c2 - tauD_dN * x_c4_dN + 10.0 o_4 * x_c4_dN ] <= 100.0
   SyncA_c4_dN_c3: - 10.0 z_c4_c3 + 110.0 x_c4_dN + [ tauS_c3 * z_c4_c3 - tauD_dN * x_c4_dN + 10.0 o_4 * x_c4_dN ] <= 100.0
-  SyncA_c4_dN_D: - 10.0 z_c4_dN + 110.0 x_c4_dN + [ tauS_dN * z_c4_dN - tauD_dN * x_c4_dN + 10.0 o_4 * x_c4_dN ] <= 100.0
+  SyncA_c4_dN_dN: - 10.0 z_c4_dN + 110.0 x_c4_dN + [ tauS_dN * z_c4_dN - tauD_dN * x_c4_dN + 10.0 o_4 * x_c4_dN ] <= 100.0
   precedence_Swap_c1:  p_1 - z_d0_c1 - z_c2_c1 - z_c3_c1 - z_c4_c1 = 0
   precedence_Swap_c2:  p_2 - z_d0_c2 - z_c1_c2 - z_c3_c2 - z_c4_c2 = 0
   precedence_Swap_c3:  p_3 - z_d0_c3 - z_c1_c3 - z_c2_c3 - z_c4_c3 = 0
@@ -131,10 +131,10 @@ Subject To
   Order_c2:  o_2 - p_2 <= 0
   Order_c3:  o_3 - p_3 <= 0
   Order_c4:  o_4 - p_4 <= 0
-  WorkShift_c1:  tauS_c1 + 10.0 p_1 <= 90.0
-  WorkShift_c2:  tauS_c2 + 10.0 p_2 <= 80.0
-  WorkShift_c3:  tauS_c3 + 10.0 p_3 <= 90.0
-  WorkShift_c4:  tauS_c4 + 10.0 p_4 <= 90.0
+  WorkingTime_c1:  tauS_c1 + 10.0 p_1 <= 90.0
+  WorkingTime_c2:  tauS_c2 + 10.0 p_2 <= 80.0
+  WorkingTime_c3:  tauS_c3 + 10.0 p_3 <= 90.0
+  WorkingTime_c4:  tauS_c4 + 10.0 p_4 <= 90.0
   Freight_c1_c2:  k_c2 - k_c1 + 100.0 x_c1_c2 <= 60.0
   Freight_c1_c3:  k_c3 - k_c1 + 100.0 x_c1_c3 <= 60.0
   Freight_c1_c4:  k_c4 - k_c1 + 100.0 x_c1_c4 <= 60.0
@@ -151,12 +151,67 @@ Subject To
   Freight_c4_c2:  k_c2 - k_c4 + 100.0 x_c4_c2 <= 60.0
   Freight_c4_c3:  k_c3 - k_c4 + 100.0 x_c4_c3 <= 60.0
   Freight_c4_dN:  k_dN - k_c4 + 100.0 x_c4_dN <= 60.0
+  FuelDV_d0_c1:  phi_c1 + 125.0 x_d0_c1 <= 200.0
+  FuelSV_d0_c1:  pi_c1 <= 100.0
+  FuelDV_d0_c2:  phi_c2 + 150.0 x_d0_c2 <= 200.0
+  FuelSV_d0_c2:  pi_c2 <= 100.0
+  FuelDV_d0_c3:  phi_c3 + 125.0 x_d0_c3 <= 200.0
+  FuelSV_d0_c3:  pi_c3 <= 100.0
+  FuelDV_d0_c4:  phi_c4 + 125.0 x_d0_c4 <= 200.0
+  FuelSV_d0_c4:  pi_c4 <= 100.0
+  FuelDV_c1_c2:  phi_c2 - phi_c1 + 125.0 x_c1_c2 + [ phi_c1 * p_1 - 100.0 x_c1_c2 * p_1 ] <= 100.0
+  FuelSV_c1_c2:  pi_c2 + 200.0 z_c1_c2 + [ - pi_c1 * z_c1_c2 - phi_c1 * z_c1_c2 ] <= 100.0
+  FuelDV_c1_c3:  phi_c3 - phi_c1 + 125.0 x_c1_c3 + [ phi_c1 * p_1 - 100.0 x_c1_c3 * p_1 ] <= 100.0
+  FuelSV_c1_c3:  pi_c3 + 200.0 z_c1_c3 + [ - pi_c1 * z_c1_c3 - phi_c1 * z_c1_c3 ] <= 100.0
+  FuelDV_c1_c4:  phi_c4 - phi_c1 + 125.0 x_c1_c4 + [ phi_c1 * p_1 - 100.0 x_c1_c4 * p_1 ] <= 100.0
+  FuelSV_c1_c4:  pi_c4 + 200.0 z_c1_c4 + [ - pi_c1 * z_c1_c4 - phi_c1 * z_c1_c4 ] <= 100.0
+  FuelDV_c1_dN:  phi_dN - phi_c1 + 125.0 x_c1_dN + [ phi_c1 * p_1 - 100.0 x_c1_dN * p_1 ] <= 100.0
+  FuelSV_c1_dN:  pi_dN + 200.0 z_c1_dN + [ - pi_c1 * z_c1_dN - phi_c1 * z_c1_dN ] <= 100.0
+  FuelDV_c2_c1:  phi_c1 - phi_c2 + 125.0 x_c2_c1 + [ phi_c2 * p_2 - 100.0 x_c2_c1 * p_2 ] <= 100.0
+  FuelSV_c2_c1:  pi_c1 + 200.0 z_c2_c1 + [ - pi_c2 * z_c2_c1 - phi_c2 * z_c2_c1 ] <= 100.0
+  FuelDV_c2_c3:  phi_c3 - phi_c2 + 125.0 x_c2_c3 + [ phi_c2 * p_2 - 100.0 x_c2_c3 * p_2 ] <= 100.0
+  FuelSV_c2_c3:  pi_c3 + 200.0 z_c2_c3 + [ - pi_c2 * z_c2_c3 - phi_c2 * z_c2_c3 ] <= 100.0
+  FuelDV_c2_c4:  phi_c4 - phi_c2 + 125.0 x_c2_c4 + [ phi_c2 * p_2 - 100.0 x_c2_c4 * p_2 ] <= 100.0
+  FuelSV_c2_c4:  pi_c4 + 200.0 z_c2_c4 + [ - pi_c2 * z_c2_c4 - phi_c2 * z_c2_c4 ] <= 100.0
+  FuelDV_c2_dN:  phi_dN - phi_c2 + 150.0 x_c2_dN + [ phi_c2 * p_2 - 100.0 x_c2_dN * p_2 ] <= 100.0
+  FuelSV_c2_dN:  pi_dN + 200.0 z_c2_dN + [ - pi_c2 * z_c2_dN - phi_c2 * z_c2_dN ] <= 100.0
+  FuelDV_c3_c1:  phi_c1 - phi_c3 + 125.0 x_c3_c1 + [ phi_c3 * p_3 - 100.0 x_c3_c1 * p_3 ] <= 100.0
+  FuelSV_c3_c1:  pi_c1 + 200.0 z_c3_c1 + [ - pi_c3 * z_c3_c1 - phi_c3 * z_c3_c1 ] <= 100.0
+  FuelDV_c3_c2:  phi_c2 - phi_c3 + 125.0 x_c3_c2 + [ phi_c3 * p_3 - 100.0 x_c3_c2 * p_3 ] <= 100.0
+  FuelSV_c3_c2:  pi_c2 + 200.0 z_c3_c2 + [ - pi_c3 * z_c3_c2 - phi_c3 * z_c3_c2 ] <= 100.0
+  FuelDV_c3_c4:  phi_c4 - phi_c3 + 125.0 x_c3_c4 + [ phi_c3 * p_3 - 100.0 x_c3_c4 * p_3 ] <= 100.0
+  FuelSV_c3_c4:  pi_c4 + 200.0 z_c3_c4 + [ - pi_c3 * z_c3_c4 - phi_c3 * z_c3_c4 ] <= 100.0
+  FuelDV_c3_dN:  phi_dN - phi_c3 + 125.0 x_c3_dN + [ phi_c3 * p_3 - 100.0 x_c3_dN * p_3 ] <= 100.0
+  FuelSV_c3_dN:  pi_dN + 200.0 z_c3_dN + [ - pi_c3 * z_c3_dN - phi_c3 * z_c3_dN ] <= 100.0
+  FuelDV_c4_c1:  phi_c1 - phi_c4 + 125.0 x_c4_c1 + [ phi_c4 * p_4 - 100.0 x_c4_c1 * p_4 ] <= 100.0
+  FuelSV_c4_c1:  pi_c1 + 200.0 z_c4_c1 + [ - pi_c4 * z_c4_c1 - phi_c4 * z_c4_c1 ] <= 100.0
+  FuelDV_c4_c2:  phi_c2 - phi_c4 + 125.0 x_c4_c2 + [ phi_c4 * p_4 - 100.0 x_c4_c2 * p_4 ] <= 100.0
+  FuelSV_c4_c2:  pi_c2 + 200.0 z_c4_c2 + [ - pi_c4 * z_c4_c2 - phi_c4 * z_c4_c2 ] <= 100.0
+  FuelDV_c4_c3:  phi_c3 - phi_c4 + 125.0 x_c4_c3 + [ phi_c4 * p_4 - 100.0 x_c4_c3 * p_4 ] <= 100.0
+  FuelSV_c4_c3:  pi_c3 + 200.0 z_c4_c3 + [ - pi_c4 * z_c4_c3 - phi_c4 * z_c4_c3 ] <= 100.0
+  FuelDV_c4_dN:  phi_dN - phi_c4 + 125.0 x_c4_dN + [ phi_c4 * p_4 - 100.0 x_c4_dN * p_4 ] <= 100.0
+  FuelSV_c4_dN:  pi_dN + 200.0 z_c4_dN + [ - pi_c4 * z_c4_dN - phi_c4 * z_c4_dN ] <= 100.0
+  WorkingTime_c1:  tauD_c1 + 10.0 p_1 <= 80.0
+  WorkingTime_c2:  tauD_c2 + 10.0 p_2 <= 70.0
+  WorkingTime_c3:  tauD_c3 + 10.0 p_3 <= 80.0
+  WorkingTime_c4:  tauD_c4 + 10.0 p_4 <= 80.0
 Bounds
 0 <= k_c1 <= 100.0
 0 <= k_c2 <= 100.0
 0 <= k_c3 <= 100.0
 0 <= k_c4 <= 100.0
 0 <= k_dN <= 100.0
+0 <= phi_c1 <= 100.0
+0 <= phi_c2 <= 100.0
+0 <= phi_c3 <= 100.0
+0 <= phi_c4 <= 100.0
+0 <= phi_d0 <= 100.0
+0 <= phi_dN <= 100.0
+0 <= pi_c1 <= 100.0
+0 <= pi_c2 <= 100.0
+0 <= pi_c3 <= 100.0
+0 <= pi_c4 <= 100.0
+0 <= pi_dN <= 100.0
 0 <= tauD_c1 <= 100.0
 0 <= tauD_c2 <= 100.0
 0 <= tauD_c3 <= 100.0
@@ -175,6 +230,17 @@ Generals
   k_c3
   k_c4
   k_dN
+  phi_c1
+  phi_c2
+  phi_c3
+  phi_c4
+  phi_d0
+  phi_dN
+  pi_c1
+  pi_c2
+  pi_c3
+  pi_c4
+  pi_dN
   tauD_c1
   tauD_c2
   tauD_c3

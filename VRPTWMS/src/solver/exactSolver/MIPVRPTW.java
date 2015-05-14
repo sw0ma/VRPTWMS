@@ -7,23 +7,23 @@ import gurobi.GRBModel;
 import gurobi.GRBVar;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import data.mVRPTWMS.Instance;
-import data.mVRPTWMS.InstanceArrayMIP;
-import data.mVRPTWMS.Solution;
+import Runners.Config;
+import data.mVRPTWMS.SolutionArray;
 
 public class MIPVRPTW implements Runnable {
 
 	private String path;
-	private Solution solution;
 	Map<String, Double> variables = new TreeMap<String, Double>(String.CASE_INSENSITIVE_ORDER);
-
+	Map<Integer, Integer> routesDV = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> routesSV = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> nodesDV = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> nodesSV = new HashMap<Integer, Integer>();
+	Map<Integer, Boolean> swapFirst = new HashMap<Integer, Boolean>();
+	
 	public MIPVRPTW(String folder, String name) {
 		path = System.getProperty("user.dir") + File.separator + "instances" + File.separator + folder + File.separator + name;
 	}
@@ -40,25 +40,30 @@ public class MIPVRPTW implements Runnable {
 			// Print Solution
 			String key;
 			double value;
+			int routesDVs = 0, routesSVs = 0; 
 			for (GRBVar curVar : model.getVars()) {
 				key = curVar.get(GRB.StringAttr.VarName);
 				value = curVar.get(GRB.DoubleAttr.X);
-				variables.put(key, value);
+				if(key.startsWith("x_d") && value != 0) {
+					routesDV.put(routesDVs++, getJ(key));
+				} else if(key.startsWith("x_c") && value != 0) {
+					nodesDV.put(getI(key), getJ(key));
+				} else if(key.startsWith("z_d") && value != 0) {
+					routesSV.put(routesSVs++, getJ(key));
+				} else if(key.startsWith("z_c") && value != 0) {
+					nodesSV.put(getI(key), getJ(key));
+				} else if(key.startsWith("o_")) {
+					swapFirst.put(Integer.parseInt(key.substring(2,3)), value == 1);
+					variables.put(key, value);
+				} else {
+					variables.put(key, value);
+				}
 //				System.out.println(key + "\t" + value);
 			}
 			for (String var : variables.keySet()) {
 				System.out.println(var + "\t" + variables.get(var));
 			}
 			System.out.println("\n");
-			for (String var : variables.keySet()) {
-				value = variables.get(var);
-				if((var.startsWith("x") || var.startsWith("z")) && value != 0) {
-					System.out.println(var + "\t" + variables.get(var));
-				}
-				if(!(var.startsWith("x") || var.startsWith("z"))) {
-					System.out.println(var + "\t" + variables.get(var));
-				}
-			}
 			System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
 
 			// Dispose of model and environment
@@ -66,6 +71,19 @@ public class MIPVRPTW implements Runnable {
 
 		} catch (GRBException e) {
 			System.out.println("Error code: " + e.getErrorCode() + ". " + e.getMessage());
+		}
+	}
+	
+	private Integer getI(String var) {
+		return Integer.parseInt(var.substring(3, 4));
+	}
+	
+	private Integer getJ(String var) {
+		String next = var.substring(6, 7);
+		if(next.equals("N")) {
+			return 0;
+		}else {
+			return Integer.parseInt(next);
 		}
 	}
 
@@ -80,42 +98,39 @@ public class MIPVRPTW implements Runnable {
 	 * 
 	 * @param instance
 	 * @return
-	 * @deprecated
 	 */
-	public Solution getSolution(Instance instance) {
-		solution = new Solution(instance);
-		InstanceArrayMIP in = new InstanceArrayMIP(instance);
-		int[] next = new int[in.size];
-		List<Integer> routes = new ArrayList<Integer>();
-		Arrays.fill(next, -1);
-		String s, n1, n2;
-		for (Entry<String, Double> e : variables.entrySet()) {
-			if (e.getValue().doubleValue() == 1.0) {
-				s = e.getKey();
-				if (s.startsWith("x_c")) {
-					n1 = s.substring(3, s.lastIndexOf("_"));
-					n2 = s.substring(s.lastIndexOf("_") + 2);
-					next[Integer.parseInt(n1)] = Integer.parseInt(n2);
-				} else if (s.startsWith("x_d")) {
-					n2 = s.substring(s.lastIndexOf("_") + 2);
-					routes.add(new Integer(n2));
-				} else if (s.startsWith("x_D")) {
-					n2 = s.substring(s.lastIndexOf("_") + 2);
-					routes.add(Integer.parseInt(s) - in.numberOfCustomer);
-				}
+	public SolutionArray getSolution(SolutionArray sol) {
+		if(sol == null) {
+			return null;
+		}
+		
+		Integer next, cur;
+		for (Integer var : routesDV.keySet()) {
+			next = routesDV.get(var);
+			sol.createRoute(Config.DV, next, 0);
+			cur = next;
+			next = nodesDV.get(next);
+			while(next != 0) {
+				sol.insertAfter(Config.DV, cur, next);
+				cur = next;
+				next = nodesDV.get(next);
 			}
 		}
-		int routeNumber = 0;
-		for (int routeId : routes) {
-			//TODO
-//			solution.addNodeToRoute(routeNumber, in.mapping[0]);
-//			for (int i = routeId; next[i] != -1; i = next[i]) {
-//				solution.addNodeToRoute(routeNumber, in.mapping[i]);
-//			}
-//			solution.addNodeToRoute(routeNumber, in.mapping[in.numberOfCustomer + in.numberOfDepots]);
-			routeNumber++;
+		for (Integer var : routesSV.keySet()) {
+			next = routesSV.get(var);
+			sol.createRoute(Config.SV, next, 0);
+			cur = next;
+			next = nodesSV.get(next);
+			while(next != 0) {
+				sol.insertAfter(Config.SV, cur, next);
+				cur = next;
+				next = nodesSV.get(next);
+			}
 		}
-		// TODO Add other variables to Solution
-		return solution;
+		for (Integer var : swapFirst.keySet()) {
+			sol.isSwapFirst[var] = swapFirst.get(var);
+		}
+		
+		return sol;
 	}
 }
