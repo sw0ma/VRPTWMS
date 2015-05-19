@@ -4,8 +4,6 @@ import io.AInstanceParser;
 import io.AInstanceUnparser;
 import io.simpleCSVParser.SimpleInstanceParser;
 import io.simpleCSVUnparser.SimpleInstanceUnparser;
-import io.ui.DrawingArea;
-import io.ui.SimpleFrame;
 
 import java.io.File;
 import java.util.List;
@@ -14,6 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
+import util.ui.MapDrawingArea;
+import util.ui.SimpleMapFrame;
 import data.AInstance;
 import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
@@ -58,8 +58,8 @@ public class T00_Unparser {
 		}
 		
 		//Paint
-		SimpleFrame frame = new SimpleFrame();
-		DrawingArea drawingArea = frame.getDrawingArea();
+		SimpleMapFrame frame = new SimpleMapFrame();
+		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		Runnable toRun = new Runnable() {
@@ -68,7 +68,7 @@ public class T00_Unparser {
 
 			public void run() {
 				Instance instance = instances.get((++i) - 1);
-				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
+				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {
 					i = 0;

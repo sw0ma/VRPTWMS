@@ -2,13 +2,13 @@ package util.tests.other;
 
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;
-import io.ui.DrawingArea;
-import io.ui.SimpleFrame;
 
 import java.io.File;
 
 import javax.swing.SwingUtilities;
 
+import util.ui.MapDrawingArea;
+import util.ui.SimpleMapFrame;
 import Runners.Config;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
@@ -68,13 +68,13 @@ public class T01_SolutionPrinter {
 		// 5. Display
 		validator = new SolutionValidator(solution);
 		
-		SimpleFrame frame = new SimpleFrame();
-		DrawingArea drawingArea = frame.getDrawingArea();
+		SimpleMapFrame frame = new SimpleMapFrame();
+		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instanceObj));
-				drawingArea.setSolution(DrawingArea.createSolutionPattern(validator));
+				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
+				drawingArea.setSolution(MapDrawingArea.createSolutionPattern(validator));
             }
         });
 

@@ -1,6 +1,6 @@
 package data.mVRPTWMS;
 
-import io.ui.DrawingArea;
+import util.ui.MapDrawingArea;
 import data.AVertex;
 
 public class Depot extends AVertex {
@@ -19,8 +19,8 @@ public class Depot extends AVertex {
 	 * @return a depot
 	 */
 	public static Depot createRandomDepot(String name) {
-		double centerAreaSize = DrawingArea.NUMBER_OF_NODES_PER_AXIS * 0.5;
-		double centerOffset = (DrawingArea.NUMBER_OF_NODES_PER_AXIS - centerAreaSize) / 2;
+		double centerAreaSize = MapDrawingArea.NUMBER_OF_NODES_PER_AXIS * 0.5;
+		double centerOffset = (MapDrawingArea.NUMBER_OF_NODES_PER_AXIS - centerAreaSize) / 2;
 		double x = (Math.random() * centerAreaSize) + centerOffset;
 		double y = (Math.random() * centerAreaSize) + centerOffset;
 		return new Depot(name, (int) Math.round(x), (int) Math.round(y), 0, 24);

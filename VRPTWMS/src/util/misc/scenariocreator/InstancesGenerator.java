@@ -1,11 +1,10 @@
 package util.misc.scenariocreator;
 
-import io.ui.DrawingArea;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import util.Distribution;
+import util.ui.MapDrawingArea;
 import data.AVertex;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
@@ -25,7 +24,7 @@ public class InstancesGenerator {
 	private int numberOfInstances;
 	private boolean withArcs;
 	private int numberOfNodes;
-	private int numberOfNodesPerAxis = DrawingArea.NUMBER_OF_NODES_PER_AXIS;
+	private int numberOfNodesPerAxis = MapDrawingArea.NUMBER_OF_NODES_PER_AXIS;
 	private Properties config;
 
 	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, double mileage, double speed) {

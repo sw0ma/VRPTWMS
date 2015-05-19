@@ -2,8 +2,6 @@ package Runners;
 
 import io.AInstanceUnparser;
 import io.simpleCSVUnparser.SimpleInstanceUnparser;
-import io.ui.DrawingArea;
-import io.ui.SimpleFrame;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -11,6 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
+import util.ui.MapDrawingArea;
+import util.ui.SimpleMapFrame;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.Properties;
 
@@ -54,8 +54,8 @@ public class Start_Generator {
 		}
 		
 		// 4. Display
-		SimpleFrame frame = new SimpleFrame();
-		DrawingArea drawingArea = frame.getDrawingArea();
+		SimpleMapFrame frame = new SimpleMapFrame();
+		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		Runnable toRun = new Runnable() {
@@ -64,7 +64,7 @@ public class Start_Generator {
 
 			public void run() {
 				Instance instance = instances.get((++i) - 1);
-				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
+				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {
 					i = 0;

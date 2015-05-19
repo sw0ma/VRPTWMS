@@ -1,20 +1,20 @@
-package io.ui;
-
-import io.ui.objects.Border;
+package util.ui;
 
 import javax.swing.JFrame;
 
+import util.ui.mapObjects.Border;
+
 @SuppressWarnings("serial")
-public class SimpleFrame extends JFrame{
+public class SimpleMapFrame extends JFrame{
 
-	private DrawingArea drawingArea;
+	private MapDrawingArea drawingArea;
 
-	public SimpleFrame() {
+	public SimpleMapFrame() {
 		// create the frame
 		super("Instance Mapping");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		drawingArea = new DrawingArea();
+		drawingArea = new MapDrawingArea();
 		this.setContentPane(drawingArea);
 		
 		drawingArea.addPaintObject(new Border());
@@ -26,7 +26,7 @@ public class SimpleFrame extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public DrawingArea getDrawingArea() {
+	public MapDrawingArea getDrawingArea() {
 		return this.drawingArea;
 	}
 	

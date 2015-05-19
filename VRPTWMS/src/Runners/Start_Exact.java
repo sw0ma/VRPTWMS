@@ -3,9 +3,6 @@ package Runners;
 import io.AInstanceParser;
 import io.SolutionUnparser.SolutionWriter;
 import io.simpleCSVParser.SimpleInstanceParser;
-import io.ui.DrawingArea;
-import io.ui.IPaintable;
-import io.ui.SimpleFrame;
 
 import java.io.File;
 import java.util.List;
@@ -15,6 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
+import util.ui.MapDrawingArea;
+import util.ui.IPaintable;
+import util.ui.SimpleMapFrame;
 import data.AInstance;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
@@ -96,8 +96,8 @@ public class Start_Exact {
 			sw.save(solution, FOLDER);
 			
 			// 6. Show
-			SimpleFrame frame = new SimpleFrame();
-			DrawingArea drawingArea = frame.getDrawingArea();
+			SimpleMapFrame frame = new SimpleMapFrame();
+			MapDrawingArea drawingArea = frame.getDrawingArea();
 
 			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 			Runnable toRun = new Runnable() {
@@ -105,7 +105,7 @@ public class Start_Exact {
 				int i = 0;
 
 				public void run() {
-					drawingArea.setPaintObjects(DrawingArea.createNewPattern(instanceO));
+					drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instanceO));
 					drawingArea.setSolution(drawingArea.createSolutionPattern(validator));
 				}
 			};

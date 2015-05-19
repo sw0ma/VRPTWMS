@@ -1,9 +1,9 @@
-package io.ui.objects;
+package util.ui.mapObjects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import io.ui.IPaintable;
+import util.ui.IPaintable;
 
 public class Text implements IPaintable {
 	

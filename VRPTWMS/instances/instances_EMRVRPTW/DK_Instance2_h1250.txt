@@ -1,0 +1,20 @@
+StringID   Type		x		y		demand	ReadyTime	DueDate		ServiceTime
+D0         d		4.74	5.50	0.00	0			120			0.00
+C1         c		2.81	3.31	2.00	0			120			5.00
+C2         c		1.62	4.23	5.00	60			120			6.00
+C3         c		3.81	5.11	3.00	60			120			4.00
+C4         c		9.99	8.44	3.00	60			120			6.00
+C5         c		4.50	9.35	3.00	0			60			6.00
+C6         c		7.46	2.04	5.00	60			120			5.00
+C7         c		1.23	2.15	5.00	30			120			5.00
+C8         c		4.83	3.59	4.00	30			90			5.00
+C9         c		3.02	9.14	4.00	30			90			5.00
+C10        c		8.18	7.62	2.00	30			90			5.00
+
+Q Vehicle fuel tank capacity /100/
+C Vehicle freight capacity /15.0/
+r fuel consumption rate /12.50/
+b battery swap time /5/
+v average Velocity /12/
+m numDV /5/
+n numSV /2/

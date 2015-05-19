@@ -1,10 +1,10 @@
 package tempTest;
 
-import io.ui.DrawingArea;
-import io.ui.SimpleFrame;
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.misc.scenariocreator.InstancesGenerator;
+import util.ui.MapDrawingArea;
+import util.ui.SimpleMapFrame;
 import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
@@ -42,8 +42,8 @@ public class SolutionPaintTest {
 		
 		
 		// 5. Display
-		SimpleFrame frame = new SimpleFrame();
-		DrawingArea drawingArea = frame.getDrawingArea();
+		SimpleMapFrame frame = new SimpleMapFrame();
+		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		//TODO Paint überarbeiten
 //		while(true) {

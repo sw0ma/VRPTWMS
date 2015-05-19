@@ -1,11 +1,5 @@
 package util.tests.other;
 
-import io.ui.DrawingArea;
-import io.ui.IPaintable;
-import io.ui.SimpleFrame;
-import io.ui.objects.Node;
-import io.ui.objects.Route;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +7,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import util.ui.MapDrawingArea;
+import util.ui.IPaintable;
+import util.ui.SimpleMapFrame;
+import util.ui.mapObjects.Node;
+import util.ui.mapObjects.Route;
+
 public class T00_Paint {
 
 	public static void main(String[] args) {
-		SimpleFrame frame = new SimpleFrame();
-		DrawingArea drawingArea = frame.getDrawingArea();
+		SimpleMapFrame frame = new SimpleMapFrame();
+		MapDrawingArea drawingArea = frame.getDrawingArea();
 		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		Runnable toRun = new Runnable() {
