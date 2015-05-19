@@ -201,7 +201,7 @@ public class Solution {
 	private boolean checkEachRouteSatisfyFreight() {
 		boolean eachRouteSatisfyFreight = true;
 		for (List<AVertex> route : routesDV) {
-			int remainingFreight = instanceO.getConfig().getTransportCapacityDV();
+			double remainingFreight = instanceO.getConfig().getTransportCapacityDV();
 			for (AVertex c : route) {
 				if (c instanceof Customer) {
 					remainingFreight -= ((Customer) c).getDemand();

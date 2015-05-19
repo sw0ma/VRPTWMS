@@ -1,4 +1,4 @@
-package util;
+package Runners;
 
 import io.AInstanceUnparser;
 import io.simpleCSVUnparser.SimpleInstanceUnparser;
@@ -11,9 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
-import data.AInstance;
-import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
+import data.mVRPTWMS.Properties;
 
 public class Start_Generator {
 
@@ -23,7 +22,6 @@ public class Start_Generator {
 		
 		// Configuration
 		String FOLDER = "gen-new";
-		String NAME = "i";
 		
 		int NUMBER_OF_INSTANCES = 10;
 		int NUMBER_OF_NODES = 10;
@@ -32,16 +30,19 @@ public class Start_Generator {
 		
 		double MAX_TIME_DV = 24.0;			// hours
 		double MAX_TIME_SV = 24.0;			// hours
-		int TRANSPORT_CAPACITY_DV = 100;	// units
-		int TRANSPORT_CAPACITY_SV = 100;	// units
-		double FUEL = 100.0;				// liters
+		int TRANSPORT_CAPACITY_DV = 20;	// units
+		int TRANSPORT_CAPACITY_SV = 200;	// units
+		double FUEL = 10.0;					// liters
 		double TRANSFERTIME = 0.01;			// hours
 		double VEHICLE_COSTS = 100;			// price
+		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
+		double SPEED = 32.8; 				// km/h				(Source: Mobilität in Deutschland 2002)
+		
 		
 		
 		// 1. Init Generator
 		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME, VEHICLE_COSTS);
-		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
+		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config, MILEAGE, SPEED);
 		
 		// 2. Generate instances
 		List<Instance> instances = generator.generateInstances();
@@ -62,7 +63,7 @@ public class Start_Generator {
 			int i = 0;
 
 			public void run() {
-				AInstance instance = instances.get((++i) - 1);
+				Instance instance = instances.get((++i) - 1);
 				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {

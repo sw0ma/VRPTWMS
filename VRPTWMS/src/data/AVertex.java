@@ -7,13 +7,13 @@ public abstract class AVertex extends AElement {
 	protected String name;
 	protected int id;
 
-	protected int x;
-	protected int y;
+	protected double x;
+	protected double y;
 
 	private double earliestStart;
 	private double latestStart;
 
-	protected AVertex(String pName, int pX, int pY, double pEarliestStart, double pLatestStart) {
+	protected AVertex(String pName, double pX, double pY, double pEarliestStart, double pLatestStart) {
 		this.name = pName;
 		this.x = pX;
 		this.y = pY;
@@ -36,11 +36,11 @@ public abstract class AVertex extends AElement {
 		return id;
 	}
 
-	public int getPosX() {
+	public double getPosX() {
 		return x;
 	}
 
-	public int getPosY() {
+	public double getPosY() {
 		return y;
 	}
 	

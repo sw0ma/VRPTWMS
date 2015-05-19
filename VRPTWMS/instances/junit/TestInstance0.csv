@@ -1,5 +1,5 @@
 //V	Name	X	Y	stime	e	l	Demand
-Depot	d0	32	22
+Depot	d0	32	22	0.00	0	22	0
 Vertice	c3	30	29	0.10	15	18	0
 Vertice	c0	6	27	0.25	6	9	0
 Vertice	c1	18	21	0.05	9	12	0

@@ -27,10 +27,12 @@ public class SolutionPaintTest {
 		double FUEL = 100.0;				// liters
 		double TRANSFERTIME = 0.01;			// hours
 		double VEHICLE_COSTS = 100;			// Price
+		double MILEAGE = 0.0669; 			// 0.05=5l/100km
+		double SPEED = 32.8; 				// km/h				
 		
 		
 		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME, VEHICLE_COSTS);
-		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config);
+		InstancesGenerator generator = new InstancesGenerator(NUMBER_OF_INSTANCES, NUMBER_OF_NODES, WITH_ARCS, config, MILEAGE, SPEED);
 
 		InstanceToLPVRPTWMSTransformator trafo = new InstanceToLPVRPTWMSTransformator(true);
 		
@@ -43,7 +45,7 @@ public class SolutionPaintTest {
 		SimpleFrame frame = new SimpleFrame();
 		DrawingArea drawingArea = frame.getDrawingArea();
 
-		//TODO
+		//TODO Paint überarbeiten
 //		while(true) {
 //			Instance instance = generator.generateInstance();
 //			trafo.transform(NAME, instance, FOLDER);

@@ -5,12 +5,12 @@ import data.AVertex;
 
 public class Depot extends AVertex {
 
-	public Depot(String pName, int pX, int pY, double pE, double pL) {
+	public Depot(String pName, double pX, double pY, double pE, double pL) {
 		super(pName, pX, pY, pE, pL);
 	}
 	
 	public Depot(String pName, String pX, String pY, String pE, String pL) {
-		super(pName, Integer.parseInt(pX), Integer.parseInt(pY), Double.parseDouble(pE), Double.parseDouble(pL));
+		super(pName, Double.parseDouble(pX), Double.parseDouble(pY), Double.parseDouble(pE), Double.parseDouble(pL));
 	}
 
 	/** creates in the middle of the area a depot and returns it as a depot object

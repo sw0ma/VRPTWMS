@@ -19,8 +19,8 @@ import data.mVRPTWMS.Instance;
  */
 public class InstancesGenerator {
 
-	private static final double FUEL_FACTOR = 0.05; // =5l / 100km
-	private static final double TIME_FACTOR = 1.39; // ~43,2km / h
+	private static double FUEL_FACTOR; // =5l / 100km
+	private static double SPEED_FACTOR; // ~43,2km / h
 	private static int instanceCounter = 0;
 	private int numberOfInstances;
 	private boolean withArcs;
@@ -28,17 +28,21 @@ public class InstancesGenerator {
 	private int numberOfNodesPerAxis = DrawingArea.NUMBER_OF_NODES_PER_AXIS;
 	private Properties config;
 
-	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs) {
+	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, double mileage, double speed) {
 		this.numberOfInstances = numberOfInstances;
 		this.numberOfNodes = numberOfNodes;
 		this.withArcs = withArcs;
+		FUEL_FACTOR = mileage;
+		SPEED_FACTOR = speed;
 	}
 
-	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Properties config) {
+	public InstancesGenerator(int numberOfInstances, int numberOfNodes, boolean withArcs, Properties config, double mileage, double speed) {
 		this.numberOfInstances = numberOfInstances;
 		this.numberOfNodes = numberOfNodes;
 		this.withArcs = withArcs;
 		this.config = config;
+		FUEL_FACTOR = mileage;
+		SPEED_FACTOR = speed;
 	}
 
 	public List<Instance> generateInstances() {
@@ -70,6 +74,8 @@ public class InstancesGenerator {
 		Instance newInstance = new Instance();
 		if (config != null) {
 			newInstance.setConfig(config);
+		} else {
+			newInstance.setConfig(createConfig());
 		}
 		if(name == null || name.isEmpty()) {
 			name = "i"+ newInstance.getConfig().getBriefDescription() + "_" + ++instanceCounter;
@@ -81,13 +87,12 @@ public class InstancesGenerator {
 		if (withArcs) {
 			newInstance.setArcs(createArcs(vertices));
 		}
-
-		if (config != null) {
-			newInstance.setConfig(config);
-		} else {
-			newInstance.setConfig(createConfig());
-		}
 		return newInstance;
+	}
+	
+	public Instance generateInstanceFromKnobloch(Instance instance) {
+		instance.setArcs(createArcs(instance.getVertices()));
+		return instance;
 	}
 
 	private List<AVertex> createVertices() {
@@ -105,7 +110,7 @@ public class InstancesGenerator {
 			e = drawTimes[0];
 			l = drawTimes[1];
 			demand = Distribution.getPoisson(2) + 1;
-			newVertices.add((new Customer("c" + i, positions.get(i) / 10000, positions.get(i) % 10000, stime, e, l, demand)));
+			newVertices.add((new Customer("c" + (i+1), positions.get(i) / 10000, positions.get(i) % 10000, stime, e, l, demand)));
 		}
 		return newVertices;
 	}
@@ -120,7 +125,7 @@ public class InstancesGenerator {
 				v1 = vertices.get(i);
 				v2 = vertices.get(j);
 				distance = Math.round(calcEuclideanDistance(v1.getPosX(), v1.getPosY(), v2.getPosX(), v2.getPosY()) * 100.0) / 100.0;
-				time = Math.round(distance * TIME_FACTOR / 60.0 * 10000.0) / 10000.0; // Minutes
+				time = Math.round((distance / SPEED_FACTOR) * 10000.0) / 10000.0; // Minutes
 				fuel = Math.round(distance * FUEL_FACTOR * 10000.0) / 10000.0;
 				newArcs.add((new Arc(v1, v2, distance, time, fuel)));
 			}
@@ -132,17 +137,13 @@ public class InstancesGenerator {
 	/**
 	 * Calculates the euclidean distance between to points.
 	 * 
-	 * @param x1
-	 *            - x of position 1
-	 * @param y1
-	 *            - y of position 1
-	 * @param x2
-	 *            - x of position 2
-	 * @param y2
-	 *            - y of position 2
+	 * @param x1 - x of position 1
+	 * @param y1 - y of position 1
+	 * @param x2 - x of position 2
+	 * @param y2 - y of position 2
 	 * @return the euclidean distance
 	 */
-	private double calcEuclideanDistance(int x1, int y1, int x2, int y2) {
+	private double calcEuclideanDistance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 	}
 
@@ -188,7 +189,9 @@ public class InstancesGenerator {
 		}
 		// remove depot Positions
 		if (depot != null) {
-			availablePositions[((depot.getPosX() - 1) * axisSize) + depot.getPosY() - 1] = availablePositions[--range];
+			int depotX = (int) depot.getPosX();
+			int depotY = (int) depot.getPosY();
+			availablePositions[((depotX - 1) * axisSize) + depotY - 1] = availablePositions[--range];
 		}
 
 		// Draw positions

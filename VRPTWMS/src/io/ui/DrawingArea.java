@@ -16,12 +16,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import Runners.Config;
 import data.AArc;
-import data.AInstance;
 import data.AVertex;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
-import data.mVRPTWMS.Solution;
+import data.mVRPTWMS.Instance;
+import data.mVRPTWMS.SolutionValidator;
 
 @SuppressWarnings("serial")
 public class DrawingArea extends JPanel {
@@ -32,9 +33,7 @@ public class DrawingArea extends JPanel {
 	public final static int BORDER_RIGHT = 12;
 	public final static int SIZE = 800;
 
-	public final static int NUMBER_OF_NODES_PER_AXIS = 50; // max Number of
-															// nodes =
-															// Number_of_Nodes_per_Axis^2
+	public static final int NUMBER_OF_NODES_PER_AXIS = 50; // max Number of nodes = Number_of_Nodes_per_Axis^2
 
 	private List<IPaintable> paintObjects;
 	private List<IPaintable> currentSolution;
@@ -88,14 +87,21 @@ public class DrawingArea extends JPanel {
 		repaint();
 	}
 
-	public static List<IPaintable> createNewPattern(AInstance instance) {
+	public static List<IPaintable> createNewPattern(Instance instance) {
 
 		List<IPaintable> pattern = new ArrayList<IPaintable>();
-		
 		pattern.add(new Text(DrawingArea.BORDER_LEFT, DrawingArea.BORDER_TOP, instance.getName(), Color.DARK_GRAY));
 
+		int x1, y1, x2, y2;
+		double xStep = NUMBER_OF_NODES_PER_AXIS / instance.getMaxX();
+		double yStep = NUMBER_OF_NODES_PER_AXIS / instance.getMaxY();
+		
 		for (AArc arc : instance.getArcs()) {
-			pattern.add(new Path(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY()));
+			x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
+			y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
+			x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
+			y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
+			pattern.add(new Path(x1, y1, x2, y2));
 		}
 
 		for (Customer consumer : instance.getCustomers()) {
@@ -105,40 +111,49 @@ public class DrawingArea extends JPanel {
 			} else {
 //				int r = (int)(255.0*consumer.getEarliestStart()/22.0);
 				int r = 0;
-				int g = (int)(255.0*consumer.getLatestStart()/22.0);
+				int g = (int)(255.0*consumer.getLatestStart()/instance.getDepots().get(0).getLatestStart());
 				int b = 0;
 				color = new Color(r, g, b);
 			}
-			pattern.add(new Node(consumer.getPosX(), consumer.getPosY(), color, consumer.getName()));
+			x1 = (int) Math.round(consumer.getPosX() * xStep);
+			y1 = (int) Math.round(consumer.getPosY() * yStep);
+			pattern.add(new Node(x1, y1, color, consumer.getName()));
 		}
 
 		for (Depot depot : instance.getDepots()) {
-			pattern.add(new Node(depot.getPosX(), depot.getPosY(), Color.RED, depot.getName()));
+			x1 = (int) Math.round(depot.getPosX() * xStep);
+			y1 = (int) Math.round(depot.getPosY() * yStep);
+			pattern.add(new Node(x1, y1, Color.RED, depot.getName()));
 		}
 
 		return pattern;
 	}
 
-	public static List<IPaintable> createSolutionPattern(Solution solution) {
+	public static List<IPaintable> createSolutionPattern(SolutionValidator solution) {
 		List<IPaintable> pattern = new ArrayList<IPaintable>();
-		
-		for(List<AArc> route : solution.getRoutes()){
+		int x1, y1, x2, y2;
+		double xStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxX();
+		double yStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxY();
+		for(List<AArc> route : solution.getArcs(Config.DV)){
 			for(AArc arc : route) {
 				Color color;
 				AVertex v = (AVertex) arc.getFrom();
-				if(v.getEarliestStart() == 0.0 && v.getLatestStart() == 22.0) {
+				if(v.getEarliestStart() == 0.0 && v.getLatestStart() == solution.instance.planningHorizon) {
 					color = Color.black;
 				} else {
 //					int r = (int)(255.0*consumer.getEarliestStart()/22.0);
 					int r = 0;
-					int g = (int)(255.0*v.getLatestStart()/22.0);
+					int g = (int)(255.0*v.getLatestStart()/solution.instance.planningHorizon);
 					int b = 0;
 					color = new Color(r, g, b);
 				}
-				pattern.add(new Route(arc.getFrom().getPosX(), arc.getFrom().getPosY(), arc.getTo().getPosX(), arc.getTo().getPosY(), color));
+				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
+				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
+				x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
+				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
+				pattern.add(new Route(x1, y1, x2, y2, color));
 			}
 		}
-		
 		return pattern;
 	}
 

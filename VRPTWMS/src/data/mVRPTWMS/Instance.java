@@ -139,8 +139,8 @@ public class Instance extends AInstance {
 	public boolean setArcs(List<Arc> arcs) {
 		this.arcs = new DuoHashMap<String, String, Arc>();
 		for (Arc arc : arcs) {
-			if ((getCustomer(arc.getFrom().getName()) == null && getCustomer(arc.getFrom().getName()) == null)
-					|| (getCustomer(arc.getTo().getName()) == null && getCustomer(arc.getTo().getName()) == null)) {
+			if ((getVertice(arc.getFrom().getName()) == null && getVertice(arc.getFrom().getName()) == null)
+					|| (getVertice(arc.getTo().getName()) == null && getVertice(arc.getTo().getName()) == null)) {
 				System.out.println(getCustomer(arc.getFrom().getName()));
 				System.out.println(depots.get(arc.getFrom().getName()));
 				System.out.println(getCustomer(arc.getTo().getName()));
@@ -156,6 +156,28 @@ public class Instance extends AInstance {
 	@Override
 	public boolean isDepot(String name) {
 		return depots.containsKey(name);
+	}
+
+	@Override
+	public double getMaxX() {
+		double tmpX = 0;
+		for(AVertex v : getVertices()) {
+			if(tmpX < v.getPosX()) {
+				tmpX = v.getPosX();
+			}
+		}
+		return tmpX;
+	}
+
+	@Override
+	public double getMaxY() {
+		double tmpY = 0;
+		for(AVertex v : getVertices()) {
+			if(tmpY < v.getPosY()) {
+				tmpY = v.getPosY();
+			}
+		}
+		return tmpY;
 	}
 
 }

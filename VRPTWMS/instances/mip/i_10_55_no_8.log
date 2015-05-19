@@ -674,3 +674,395 @@ Thread count was 2 (of 4 available processors)
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:39:45
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.59 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:40:36
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.54 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:42:07
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.56 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:44:02
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.55 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:44:28
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.53 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:44:43
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.08s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.60 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%
+
+Gurobi 6.0.2 (win64) logging started 05/15/15 15:46:03
+
+Warning: unknown variable 'phi_d0' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\i_10_55_no_8.lp
+Reading time = 0.01 seconds
+(null): 420 rows, 298 columns, 1920 nonzeros
+Optimize a model with 420 rows, 298 columns and 1920 nonzeros
+Model has 1200 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e-02, 1e+02]
+  Objective range [2e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 2e+02]
+Presolve removed 95 rows and 30 columns
+Presolve time: 0.07s
+Presolved: 4799 rows, 2862 columns, 16098 nonzeros
+Variable types: 1780 continuous, 1082 integer (1028 binary)
+Found heuristic solution: objective 810.5500000
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  307.87597    0   32  810.55000  307.87597  62.0%     -    0s
+H    0     0                     731.5900000  307.87597  57.9%     -    0s
+     0     0  313.35178    0   34  731.59000  313.35178  57.2%     -    0s
+H    0     0                     412.7300000  313.35178  24.1%     -    0s
+     0     0  316.42072    0   43  412.73000  316.42072  23.3%     -    0s
+     0     0  319.28345    0   44  412.73000  319.28345  22.6%     -    0s
+     0     0  322.09290    0   46  412.73000  322.09290  22.0%     -    0s
+     0     0  322.10779    0   48  412.73000  322.10779  22.0%     -    0s
+     0     0  323.22924    0   42  412.73000  323.22924  21.7%     -    0s
+     0     0  323.72269    0   45  412.73000  323.72269  21.6%     -    0s
+     0     0  323.73461    0   47  412.73000  323.73461  21.6%     -    0s
+     0     0  323.73461    0   43  412.73000  323.73461  21.6%     -    0s
+H    0     2                     380.7600000  323.73461  15.0%     -    0s
+     0     2  323.73461    0   32  380.76000  323.73461  15.0%     -    0s
+H   27     9                     356.9900000  356.95000  0.01%   9.3    0s
+H   47     0                     356.9500000  356.95000  0.00%   9.6    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 6
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 1
+  Zero half: 3
+  Mod-K: 1
+
+Explored 53 nodes (799 simplex iterations) in 0.55 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.569500000000e+02, best bound 3.569500000000e+02, gap 0.0%

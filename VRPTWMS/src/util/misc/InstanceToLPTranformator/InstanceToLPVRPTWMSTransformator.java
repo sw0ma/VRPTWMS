@@ -41,7 +41,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		if (subFolder == null) {
 			folder = INSTANCE_FOLDER + "mip" + File.separator;
 		} else {
-			folder = INSTANCE_FOLDER + subFolder + File.separator;
+			folder = INSTANCE_FOLDER + "mip" + File.separator + subFolder + File.separator;
 		}
 		File file = new File(folder + name + ".lp");
 		if (!overwrite) {
@@ -52,7 +52,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		}
 
 		// Prepare solutionArray
-		sol.createVirtualNode(0, 0);
+		int virtualNode = sol.createVirtualNode(0);
 
 		try {
 			if (!createFile(file)) {
@@ -84,7 +84,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			createSubjectTravelTimeDV(sol); // (3.6)
 			createSubjectTravelTimeSV(sol); // (3.7)
 			createSubjectTimeWindowsCustomer(sol); // (3.8)
-			createSubjectSynchronization(sol); // (3.9) //TODO: SV fährt zu früh ab
+//			createSubjectSynchronization(sol); // (3.9) //TODO: SV fährt zu früh ab
 			createSubjectPrecedenceOfSwap(sol); // (3.10)
 			createSubjectPrecedenceOfOrder(sol); // (3.11)
 			createSubjectWorkShiftSV(sol); // (3.12)
@@ -157,7 +157,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			e.printStackTrace();
 		}
 
-		sol.removeVirtualNode(0, sol.instance.numberOfCustomer + 1);
+		sol.removeVirtualNode(virtualNode);
 		
 		return true;
 	}
@@ -237,13 +237,17 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		double F = sol.instance.fuelCapacity;
 		double P = sol.instance.transportCapacitySV;
 
-		generalVars.add("phi_d0");
+//		generalVars.add("phi_d0");
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
 			generalVars.add("phi_c" + i);
-			generalVars.add("pi_c" + i);
+			if(Config.svHasLimitations) {
+				generalVars.add("pi_c" + i);
+			}
 		}
 		generalVars.add("phi_dN");
-		generalVars.add("pi_dN");
+		if(Config.svHasLimitations) {
+			generalVars.add("pi_dN");
+		}
 
 		for (int i = 0; i <= sol.instance.numberOfCustomer; i++) {
 			for (int j = 1; j <= sol.instance.numberOfCustomer + 1; j++) {
@@ -293,17 +297,19 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 					bw.newLine();
 					
 					// (3.55)
-					if(sol.isDepot(i)) {
-						s2 = String.join(" ", s2, pi_j);
-//						s2 = String.join(" ", s2, pi_j, "+", Double.toString(F + P), z);
-//						s2 = String.join(" ", s2, "+", "[", "-", pi_i, "*", z, "-", phi_i, "*", z, "]");
-					} else {
-						s2 = String.join(" ", s2, pi_j, "+", Double.toString(F + P), z);
-						s2 = String.join(" ", s2, "+", "[", "-", pi_i, "*", z, "-", phi_i, "*", z, "]");
+					if(Config.svHasLimitations) {
+						if(sol.isDepot(i)) {
+							s2 = String.join(" ", s2, pi_j);
+//							s2 = String.join(" ", s2, pi_j, "+", Double.toString(F + P), z);
+//							s2 = String.join(" ", s2, "+", "[", "-", pi_i, "*", z, "-", phi_i, "*", z, "]");
+						} else {
+							s2 = String.join(" ", s2, pi_j, "+", Double.toString(F + P), z);
+							s2 = String.join(" ", s2, "+", "[", "-", pi_i, "*", z, "-", phi_i, "*", z, "]");
+						}
+						s2 = String.join(" ", s2, "<=", Double.toString(P));
+						bw.write(s2);
+						bw.newLine();
 					}
-					s2 = String.join(" ", s2, "<=", Double.toString(P));
-					bw.write(s2);
-					bw.newLine();
 				}
 			}
 		}
@@ -686,8 +692,8 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		}
 
 		// x c_i->c_j, c_j<-c_i
-		for (int i = 1; i <= sol.instance.numberOfCustomer; i++) {
-			for (int j = 1; j < sol.instance.numberOfCustomer; j++) {
+		for (int i = 1; i < sol.instance.numberOfCustomer; i++) {
+			for (int j = i + 1; j <= sol.instance.numberOfCustomer; j++) {
 				if (i != j) {
 					curVar = "x_c" + i + "_c" + j;
 					binaryVars.add(curVar);
@@ -695,6 +701,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 					curVar = "x_c" + j + "_c" + i;
 					binaryVars.add(curVar);
 					curString = String.join(" ", curString, Double.toString(sol.dist(j, i)), curVar, "+");
+					
 					curVar = "z_c" + i + "_c" + j;
 					binaryVars.add(curVar);
 					curString = String.join(" ", curString, Double.toString(sol.dist(i, j)), curVar, "+");
@@ -716,9 +723,9 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		// Vehicle Costs
 		for (int j = 1; j <= sol.instance.numberOfCustomer; j++) {
 			curVar = "x_d0" + "_c" + j;
-			curString = String.join(" ", curString, Double.toString(sol.instance.vehicleCosts), curVar, "+");
+			curString = String.join(" ", curString, Double.toString(sol.instance.vehiclePrice), curVar, "+");
 			curVar = "z_d0" + "_c" + j;
-			curString = String.join(" ", curString, Double.toString(sol.instance.vehicleCosts), curVar, "+");
+			curString = String.join(" ", curString, Double.toString(sol.instance.vehiclePrice), curVar, "+");
 		}
 
 		bw.write(curString.substring(0, curString.length() - 2));

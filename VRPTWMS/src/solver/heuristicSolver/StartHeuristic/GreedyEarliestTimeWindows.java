@@ -1,6 +1,6 @@
 package solver.heuristicSolver.StartHeuristic;
 
-import solver.heuristicSolver.AGreedy;
+import solver.heuristicSolver.AStartHeuristic;
 import data.mVRPTWMS.SolutionArray;
 
 /**
@@ -9,22 +9,25 @@ import data.mVRPTWMS.SolutionArray;
  * 
  * @author Michael Walter
  */
-public class GreedyEarliestTimeWindows extends AGreedy {
+public class GreedyEarliestTimeWindows extends AStartHeuristic {
 
-	@Override
-	public SolutionArray generateInitalSolution() {
 
-//		solution.
-		
-		return null;
+	public GreedyEarliestTimeWindows(SolutionArray solution) {
+		super(solution);
 	}
-	
+
 	private int findNextNode(double afterTime) {
 		int result = -1;
 		
 //		for(int i = 0; i < solution.)
 		
 		return result;
+	}
+
+	@Override
+	public SolutionArray constructInitialSolution() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -5,6 +5,8 @@ import io.simpleCSVParser.SimpleInstanceParser;
 
 import java.io.File;
 
+import solver.heuristicSolver.AStartHeuristic;
+import solver.heuristicSolver.StartHeuristic.GreedyKnobloch;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
 import data.mVRPTWMS.SolutionArray;
@@ -15,30 +17,40 @@ public class Start_Heuristic {
 	public static void main(String[] args) {
 		
 		// 0. Configuration
-		String FOLDER = "10";
+		String FOLDER = "mip";
+		String INSTANCE_NAME = "TestInstance2Fuel";
 		
-		// 1. Parse an instance
+		// 1. Load Instance
 		AInstanceParser parser = new SimpleInstanceParser();
-		File paths[] = parser.getListOfFiles(FOLDER, ".csv");
-		Instance objInstance = (Instance) parser.parseFile(paths[0], "ParserTest");
+		File file = parser.getFile(FOLDER + File.separator + INSTANCE_NAME + ".csv");
+		Instance instanceO = parser.parseFile(file);
+		InstanceArray instanceA = new InstanceArray(instanceO);
+		SolutionArray solution = new SolutionArray(instanceA);
 		
-		// 2. Transform to Instance to Instance Arrays
-		InstanceArray instance = new InstanceArray(objInstance);
-		
-		// 3. Init Solution Arrays
-		SolutionArray solution = new SolutionArray(instance);
+		// 2. Load Settings
+		long timeStart, timeEnd;
+		double timeInSeconds;
 		
 		// 4. Build InitalSolution
-		
+		AStartHeuristic startHeuristic = new GreedyKnobloch(solution);
+		solution = startHeuristic.constructInitialSolution();
+		System.out.println(solution.printRequestBank());
 		
 		
 		// 5. Run Heuristic
+		timeStart = System.currentTimeMillis();
+//		tabuSearch.run();
+		timeEnd = System.currentTimeMillis();
 		
 		// 6. Save Solution
+//		solution = tabuSearch.getSolution();
+		timeInSeconds = (timeEnd - timeStart) / 1000d;
 		
 		// 7. Show Solution
 		
 		
+		// 8. Cleanup
+		System.gc(); // start GC after run is finished, to lessen GC during the run
 
 	}
 }

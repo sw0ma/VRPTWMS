@@ -13,10 +13,14 @@ import util.misc.scenariocreator.InstancesGenerator;
 public class T00_Generator {
 
 	public static void main(String[] args) {
+		
+		double MILEAGE = 0.0669; 			// 0.05=5l/100km
+		double SPEED = 32.8; 				// km/h	
+		
 		SimpleFrame frame = new SimpleFrame();
 		DrawingArea drawingArea = frame.getDrawingArea();
 		
-		InstancesGenerator generator = new InstancesGenerator(1, 2, true);
+		InstancesGenerator generator = new InstancesGenerator(1, 2, true, MILEAGE, SPEED);
 
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		Runnable toRun = new Runnable() {

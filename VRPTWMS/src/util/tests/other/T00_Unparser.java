@@ -29,6 +29,9 @@ public class T00_Unparser {
 		int numberOfConsumersPerInstance = 4;
 		boolean withArcs = true;
 		
+		double MILEAGE = 0.0669; 			// 0.05=5l/100km
+		double SPEED = 32.8; 				// km/h	
+		
 		Properties config = Properties.createNewConfig();
 		config.setMaxTimeDV(100);
 		config.setMaxTimeSV(100);
@@ -37,7 +40,7 @@ public class T00_Unparser {
 		config.setFuel(100);
 		config.setTransferTime(10);
 		
-		InstancesGenerator generator = new InstancesGenerator(numberOfInstances, numberOfConsumersPerInstance, withArcs, config);
+		InstancesGenerator generator = new InstancesGenerator(numberOfInstances, numberOfConsumersPerInstance, withArcs, config, MILEAGE, SPEED);
 		instances = generator.generateInstances("test");
 
 		//Save
@@ -64,7 +67,7 @@ public class T00_Unparser {
 			int i = 0;
 
 			public void run() {
-				AInstance instance = instances.get((++i) - 1);
+				Instance instance = instances.get((++i) - 1);
 				drawingArea.setPaintObjects(DrawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {

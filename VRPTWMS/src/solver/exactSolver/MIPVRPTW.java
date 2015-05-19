@@ -32,6 +32,7 @@ public class MIPVRPTW implements Runnable {
 	public void run() {
 		try {
 			GRBEnv env = new GRBEnv(path + ".log");
+//			env.set(GRB.IntParam.Method, 2);
 			GRBModel model = new GRBModel(env, path + ".lp");
 			
 			// Optimize model
@@ -53,12 +54,10 @@ public class MIPVRPTW implements Runnable {
 				} else if(key.startsWith("z_c") && value != 0) {
 					nodesSV.put(getI(key), getJ(key));
 				} else if(key.startsWith("o_")) {
-					swapFirst.put(Integer.parseInt(key.substring(2,3)), value == 1);
-					variables.put(key, value);
-				} else {
-					variables.put(key, value);
+					swapFirst.put(getO(key), value == 1);
+					System.out.println(key + "\t" + value);
 				}
-//				System.out.println(key + "\t" + value);
+				variables.put(key, value);
 			}
 			for (String var : variables.keySet()) {
 				System.out.println(var + "\t" + variables.get(var));
@@ -75,16 +74,20 @@ public class MIPVRPTW implements Runnable {
 	}
 	
 	private Integer getI(String var) {
-		return Integer.parseInt(var.substring(3, 4));
+		return Integer.parseInt(var.substring(var.indexOf("_") + 2, var.lastIndexOf("_")));
 	}
 	
 	private Integer getJ(String var) {
-		String next = var.substring(6, 7);
-		if(next.equals("N")) {
+		String j = var.substring(var.lastIndexOf("_") + 2, var.length());
+		if(j.equals("N")) {
 			return 0;
 		}else {
-			return Integer.parseInt(next);
+			return Integer.parseInt(j);
 		}
+	}
+	
+	private Integer getO(String var) {
+		return Integer.parseInt(var.substring(var.lastIndexOf("_") + 1,var.length()));
 	}
 
 	public static void cleanup(GRBModel model, GRBEnv env) throws GRBException {

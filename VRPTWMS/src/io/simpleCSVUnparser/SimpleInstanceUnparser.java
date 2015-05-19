@@ -41,7 +41,9 @@ public class SimpleInstanceUnparser extends AInstanceUnparser {
 			bw.write("//V	Name	X	Y	st	e	l	Demand");
 			bw.newLine();
 			for (Depot depot : instance.getDepots()) {
-				bw.write(String.join(DELIMITER, "Depot", depot.getName(), String.valueOf(depot.getPosX()), String.valueOf(depot.getPosY())));
+				bw.write(String.join(DELIMITER, "Depot", depot.getName(), String.valueOf(depot.getPosX()), String.valueOf(depot.getPosY()),
+						"0", String.valueOf(depot.getEarliestStart()),
+						String.valueOf(depot.getLatestStart()), "0"));
 				bw.newLine();
 			}
 

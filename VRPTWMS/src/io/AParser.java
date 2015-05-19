@@ -23,7 +23,6 @@ public abstract class AParser {
 	public File[] getListOfFiles(String pPath, String pSuffix) {
 		File basedir = new File(INSTANCE_FOLDER + pPath + File.separator);
 		FilenameFilter pf = (f, s) -> s.toLowerCase().endsWith(pSuffix);
-
 		return basedir.listFiles(pf);
 	}
 	

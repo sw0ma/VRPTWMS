@@ -101,14 +101,14 @@ public class Properties extends AProperties {
 		}
 	}
 
-	public void setTransportCapacityDV(int capacity) {
+	public void setTransportCapacityDV(double capacity) {
 		if (capacity < 0) {
 			System.out.println("VRPTWMS Config: DV's Transport Capacity set to less than zero.");
 		}
-		data.put("C_DV", (double) capacity);
+		data.put("C_DV", capacity);
 	}
 
-	public int getTransportCapacityDV() {
+	public double getTransportCapacityDV() {
 		Double d = data.get("C_DV");
 		if (d == null) {
 			return -1;
@@ -117,14 +117,14 @@ public class Properties extends AProperties {
 		}
 	}
 
-	public void setTransportCapacitySV(int capacity) {
+	public void setTransportCapacitySV(double capacity) {
 		if (capacity < 0) {
 			System.out.println("VRPTWMS Config: SV's Transport Capacity set to less than zero.");
 		}
-		data.put("C_SV", (double) capacity);
+		data.put("C_SV", capacity);
 	}
 
-	public int getTransportCapacitySV() {
+	public double getTransportCapacitySV() {
 		Double d = data.get("C_SV");
 		if (d == null) {
 			return -1;
@@ -191,11 +191,11 @@ public class Properties extends AProperties {
 		if (!val.equals("-1.0")) {
 			desc = desc + "_Ts" + val;
 		}
-		val = Integer.toString(getTransportCapacityDV());
+		val = Double.toString(getTransportCapacityDV());
 		if (!val.equals("-1")) {
 			desc = desc + "_Cd" + val;
 		}
-		val = Integer.toString(getTransportCapacitySV());
+		val = Double.toString(getTransportCapacitySV());
 		if (!val.equals("-1")) {
 			desc = desc + "_Cs" + val;
 		}

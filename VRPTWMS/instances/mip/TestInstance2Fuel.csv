@@ -1,0 +1,25 @@
+//Example Paper: Schneider et al. 2013, A note on the time travel approach for handling time windows in vehicle routing problems.
+//Solution: 2 DVs (0,1,0) (0,2,3,0), 1 SV (0,2,3,1,0), o_1=0, o_2=1, o_3=0, p_1=1, p_2=1, p_3=1
+
+//V	Name	X	Y	sti	e	l	Demand
+Depot	d0	32	22	0	0	100	0
+Vertice	c1	30	29	10	40	50	40
+Vertice	c2	30	29	10	50	60	40
+Vertice	c3	10	10	10	20	30	40
+
+//Arc	From	To	Dist	t	f
+Arc	d0	c3	1	10	90
+Arc	d0	c1	1	10	90
+Arc	d0	c2	1	10	20
+Arc	c3	c1	1	10	151
+Arc	c3	c2	1	10	151
+Arc	c1	c2	1	10	20
+
+//Opt	Name	Value
+Option	C_SV	200.0
+Option	C_DV	100.0
+Option	b	10.0
+Option	F	100.0
+Option	T_SV	100.0
+Option	T_DV	100.0
+Option	c	100.0

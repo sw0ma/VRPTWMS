@@ -5,7 +5,7 @@ import data.AVertex;
 /**
  * This class holds all information of the currently loaded instance .
  * <p/>
- * It holds the following information: \\TODO
+ * It holds the following information: \\XXX Description Instance Array
  * <p/>
  * It also computes a table of distances between the locations, so the distances
  * only need to be computed once upon loading.
@@ -25,7 +25,7 @@ public class InstanceArray {
 	public final double maxWorkingTimeDV, maxWorkingTimeSV;
 	public final double fuelCapacity;
 	public final double transferTime;
-	public final double vehicleCosts;
+	public final double vehiclePrice;
 	public final double planningHorizon;
 
 	public final String[] mapping;
@@ -60,7 +60,7 @@ public class InstanceArray {
 		this.maxWorkingTimeSV = c.getMaxTimeSV();
 		this.fuelCapacity = c.getFuelCapacity();
 		this.transferTime = c.getTransferTime();
-		this.vehicleCosts = c.getVehicleCosts();
+		this.vehiclePrice = c.getVehicleCosts();
 		
 		planningHorizon = instance.getDepots().get(0).getLatestStart();
 

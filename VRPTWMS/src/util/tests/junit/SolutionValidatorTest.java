@@ -64,7 +64,7 @@ public class SolutionValidatorTest {
 	
 	@Test
 	public void testCheckEachRouteStartsEndsAtDepot() {
-		System.out.println("\n\n##### Test: Chec kEach Route Starts And Ends At Depot #####");
+		System.out.println("\n\n##### Test: Check Each Route Starts And Ends At Depot #####");
 		solution.createRoute(DV, 1, 0);
 		solution.insertAfter(DV, 1, 2);
 		solution.update();	// <0,1,2,0>

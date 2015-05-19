@@ -61,5 +61,9 @@ public abstract class AInstance {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	//For Drawing
+	public abstract double getMaxX();
+	public abstract double getMaxY();
 
 }
