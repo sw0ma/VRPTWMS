@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import util.ui.MapDrawingArea;
-import util.ui.SimpleMapFrame;
+import util.ui.MapSimpleFrame;
 
 
 public class T00_Generator {
@@ -16,7 +16,7 @@ public class T00_Generator {
 		double MILEAGE = 0.0669; 			// 0.05=5l/100km
 		double SPEED = 32.8; 				// km/h	
 		
-		SimpleMapFrame frame = new SimpleMapFrame();
+		MapSimpleFrame frame = new MapSimpleFrame();
 		MapDrawingArea drawingArea = frame.getDrawingArea();
 		
 		InstancesGenerator generator = new InstancesGenerator(1, 2, true, MILEAGE, SPEED);

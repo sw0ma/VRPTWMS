@@ -8,7 +8,9 @@ import java.io.File;
 import javax.swing.SwingUtilities;
 
 import util.ui.MapDrawingArea;
-import util.ui.SimpleMapFrame;
+import util.ui.ScheduleDrawingArea;
+import util.ui.MapSimpleFrame;
+import util.ui.ScheduleSimpleFrame;
 import Runners.Config;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
@@ -68,16 +70,22 @@ public class T01_SolutionPrinter {
 		// 5. Display
 		validator = new SolutionValidator(solution);
 		
-		SimpleMapFrame frame = new SimpleMapFrame();
-		MapDrawingArea drawingArea = frame.getDrawingArea();
-
+//		SimpleMapFrame frame = new SimpleMapFrame();
+//		MapDrawingArea drawingArea = frame.getDrawingArea();
+//		SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
+//				drawingArea.setSolution(MapDrawingArea.createSolutionPattern(validator));
+//            }
+//        });
+		
+		ScheduleSimpleFrame frame = new ScheduleSimpleFrame();
+		ScheduleDrawingArea drawingArea = frame.getDrawingArea();
 		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
-				drawingArea.setSolution(MapDrawingArea.createSolutionPattern(validator));
-            }
-        });
-
+			public void run() {
+				drawingArea.setPaintObjects(drawingArea.createSchedule(validator));
+			}
+		});
 	}
 
 }

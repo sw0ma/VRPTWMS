@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.misc.scenariocreator.InstancesGenerator;
 import util.ui.MapDrawingArea;
-import util.ui.SimpleMapFrame;
+import util.ui.MapSimpleFrame;
 import data.AInstance;
 import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
@@ -58,7 +58,7 @@ public class T00_Unparser {
 		}
 		
 		//Paint
-		SimpleMapFrame frame = new SimpleMapFrame();
+		MapSimpleFrame frame = new MapSimpleFrame();
 		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

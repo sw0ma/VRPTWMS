@@ -5,11 +5,11 @@ import javax.swing.JFrame;
 import util.ui.mapObjects.Border;
 
 @SuppressWarnings("serial")
-public class SimpleMapFrame extends JFrame{
+public class MapSimpleFrame extends JFrame{
 
 	private MapDrawingArea drawingArea;
 
-	public SimpleMapFrame() {
+	public MapSimpleFrame() {
 		// create the frame
 		super("Instance Mapping");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

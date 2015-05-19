@@ -9,14 +9,14 @@ import java.util.concurrent.TimeUnit;
 
 import util.ui.MapDrawingArea;
 import util.ui.IPaintable;
-import util.ui.SimpleMapFrame;
+import util.ui.MapSimpleFrame;
 import util.ui.mapObjects.Node;
 import util.ui.mapObjects.Route;
 
 public class T00_Paint {
 
 	public static void main(String[] args) {
-		SimpleMapFrame frame = new SimpleMapFrame();
+		MapSimpleFrame frame = new MapSimpleFrame();
 		MapDrawingArea drawingArea = frame.getDrawingArea();
 		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
