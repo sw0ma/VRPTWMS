@@ -33,7 +33,7 @@ public class SolutionArray {
 	protected final int[][] pos;
 
 	/** Mapping of solution nodes to instance nodes */
-	protected final int[] nodes;
+	public final int[] nodes;
 
 	/** Contains all start nodes of routes <br>
 	 * 	Dimension 1: DV = [0], SV = [1] <br>
@@ -53,7 +53,7 @@ public class SolutionArray {
 	protected final boolean[] routeIsSV;
 
 	/** Swap node configuration */
-	protected final boolean[] isSwapNode; // SPEED: Als integer um direkt als multiplikator zu funktionieren?
+	public final boolean[] isSwapNode; // SPEED: Als integer um direkt als multiplikator zu funktionieren?
 
 	/** Swap order */
 	public final boolean[] isSwapFirst;

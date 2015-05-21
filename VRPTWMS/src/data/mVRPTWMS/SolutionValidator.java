@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import data.AArc;
-import data.AVertex;
 import Runners.Config;
 
 public class SolutionValidator extends SolutionArray {
@@ -20,9 +19,9 @@ public class SolutionValidator extends SolutionArray {
 		super(solution);
 	}
 
-	private double[][] arrivalTimes;
-	private double[] swapTimes;
-	private double[] serviceTimes;
+	public double[][] arrivalTimes;
+	public double[] swapTimes;
+	public double[] serviceTimes;
 
 	private int stepDebug = 0;
 
@@ -197,6 +196,7 @@ public class SolutionValidator extends SolutionArray {
 				arrival = serviceTimes[i];
 				if (arrival < readyTime(i) || arrival > dueDate(i)) {
 					timeWindowsSatisfied = false;
+					System.out.println("Time window at vertex " + i + " not satisfied: " + readyTime(i) + " <= " + arrival + " <= " + dueDate(i));
 				}
 			}
 		}
@@ -207,6 +207,7 @@ public class SolutionValidator extends SolutionArray {
 		for (int routeID : routes[DV]) {
 			if (arrivalTimes[DV][endDepot[DV][routeID]] > instance.maxWorkingTimeDV) {
 				maxWorkingTimeDV = false;
+				System.out.println("Working time on DV route: " + routeID + " exceeded: " + arrivalTimes[DV][endDepot[DV][routeID]] + " <= " + instance.maxWorkingTimeDV);
 			}
 		}
 		strResult = maxWorkingTimeDV ? "X" : " ";
@@ -216,6 +217,7 @@ public class SolutionValidator extends SolutionArray {
 		for (int routeID : routes[SV]) {
 			if (arrivalTimes[SV][endDepot[SV][routeID]] > instance.maxWorkingTimeSV) {
 				maxWorkingTimeSV = false;
+				System.out.println("Working time on SV route: " + routeID + " exceeded: " + arrivalTimes[SV][endDepot[SV][routeID]] + " <= " + instance.maxWorkingTimeSV);
 			}
 		}
 		strResult = maxWorkingTimeSV ? "X" : " ";
@@ -328,6 +330,23 @@ public class SolutionValidator extends SolutionArray {
 			routesAsArcs.add(curRoute);
 		}
 		return routesAsArcs;
+	}
+	
+	public int getLongestRouteSize() {
+		int size = 0;
+		int routeSize = 0;
+		for (int iV = 0; iV <= SV; iV++) {
+			for (int r : routes[iV]) {
+				routeSize = 0;
+				for(int i = startDepot[iV][r]; i != UNASSIGNED; i = next[iV][i]) {
+					routeSize++;
+				}
+				if(size < routeSize) {
+					size = routeSize;
+				}
+			}
+		}
+		return size;
 	}
 
 }

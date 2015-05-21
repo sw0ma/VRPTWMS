@@ -4,7 +4,7 @@ import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.misc.scenariocreator.InstancesGenerator;
 import util.ui.MapDrawingArea;
-import util.ui.SimpleMapFrame;
+import util.ui.MapSimpleFrame;
 import data.mVRPTWMS.Properties;
 import data.mVRPTWMS.Instance;
 
@@ -42,7 +42,7 @@ public class SolutionPaintTest {
 		
 		
 		// 5. Display
-		SimpleMapFrame frame = new SimpleMapFrame();
+		MapSimpleFrame frame = new MapSimpleFrame();
 		MapDrawingArea drawingArea = frame.getDrawingArea();
 
 		//TODO Paint überarbeiten

@@ -10,11 +10,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.SwingUtilities;
+
 import solver.exactSolver.MIPVRPTW;
 import util.misc.InstanceToLPTranformator.InstanceToLPVRPTWMSTransformator;
 import util.ui.MapDrawingArea;
 import util.ui.IPaintable;
-import util.ui.SimpleMapFrame;
+import util.ui.MapSimpleFrame;
+import util.ui.ScheduleDrawingArea;
+import util.ui.ScheduleSimpleFrame;
+import util.ui.SimpleFrame;
 import data.AInstance;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
@@ -87,6 +92,7 @@ public class Start_Exact {
 			
 			// 4. Validate Solution & Print
 			SolutionValidator validator = new SolutionValidator(model.getSolution(solution));
+//			validator.isSwapFirst[3] = true;
 			validator.update();
 			validator.print();
 			System.out.println("Solution valid: " + validator.checkSolution());
@@ -95,21 +101,18 @@ public class Start_Exact {
 			SolutionWriter sw = new SolutionWriter(false);
 			sw.save(solution, FOLDER);
 			
-			// 6. Show
-			SimpleMapFrame frame = new SimpleMapFrame();
-			MapDrawingArea drawingArea = frame.getDrawingArea();
-
-			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-			Runnable toRun = new Runnable() {
-
-				int i = 0;
-
+			// 6. Show	
+			SimpleFrame frame = new SimpleFrame(validator.instance.name);
+			ScheduleDrawingArea schedule = frame.getPanelSchedule();
+			MapDrawingArea map = frame.getPanelMap();
+			
+			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instanceO));
-					drawingArea.setSolution(drawingArea.createSolutionPattern(validator));
+					schedule.setPaintObjects(schedule.createSchedule(validator));
+					map.setPaintObjects(MapDrawingArea.createNewPattern(instanceO));
+					map.setSolution(MapDrawingArea.createSolutionPattern(validator));
 				}
-			};
-			scheduler.scheduleAtFixedRate(toRun, 0, 1000, TimeUnit.MILLISECONDS);
+			});
 		}
 		
 		

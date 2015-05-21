@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import data.AInstance;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
@@ -40,7 +39,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 			br = new BufferedReader(new FileReader(file));
 
 			List<TempArc> arcsToAdd = new ArrayList<TempArc>();
-
+			String name, x, y, stime, e, l, d;
 			while ((strLine = br.readLine()) != null) {
 				lineNumber++;
 
@@ -52,15 +51,21 @@ public class SimpleInstanceParser extends AInstanceParser {
 					if (strNextType.equals("") || strNextType.startsWith("//")) {
 						// System.out.println("Empty or comment line");
 					} else if (strNextType.equals("Vertice")) {
-						instance.addVertice(new Customer(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st
-								.nextToken(), st.nextToken()));
+						name = st.nextToken();
+						x = st.nextToken();
+						y = st.nextToken();
+						stime = st.nextToken();
+						e = st.nextToken();
+						l = st.nextToken();
+						d = st.nextToken();
+						instance.addVertice(new Customer(name, x, y, stime, e, l, d));
 						
 					} else if (strNextType.equals("Depot")) {
-						String name = st.nextToken();
-						String x = st.nextToken();
-						String y = st.nextToken(); st.nextToken();
-						String e = st.nextToken();
-						String l = st.nextToken();
+						name = st.nextToken();
+						x = st.nextToken();
+						y = st.nextToken(); st.nextToken();
+						e = st.nextToken();
+						l = st.nextToken();
 						instance.addVertice(new Depot(name, x, y, e, l));
 					} else if (strNextType.equals("Arc")) {
 						arcsToAdd.add(new TempArc(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
@@ -79,7 +84,7 @@ public class SimpleInstanceParser extends AInstanceParser {
 			}
 			
 			instance.setConfig(aConfig);
-			String name = file.getName();
+			name = file.getName();
 			instance.setName(name.substring(0, name.lastIndexOf(".")));
 
 			br.close();

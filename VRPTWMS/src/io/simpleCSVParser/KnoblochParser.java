@@ -21,7 +21,7 @@ public class KnoblochParser extends AInstanceParser {
 	public static void main(String[] args) {
 		// Config
 		String SRC_FOLDER = "instances_EMRVRPTW";
-		String NAME = "DK_Instance1_h875.txt";
+		String NAME = "gen_c104_21_EMR.txt";
 		String TARGET_FOLDER = SRC_FOLDER  + File.separator + "gen-new";
 		
 		// Parse and unparse

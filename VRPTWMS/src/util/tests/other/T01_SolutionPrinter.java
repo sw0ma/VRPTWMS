@@ -66,9 +66,11 @@ public class T01_SolutionPrinter {
 		solution.isSwapFirst[2] = true;
 
 		solution.update();
+		solution.print();
 		
 		// 5. Display
 		validator = new SolutionValidator(solution);
+		validator.checkSolution();
 		
 //		SimpleMapFrame frame = new SimpleMapFrame();
 //		MapDrawingArea drawingArea = frame.getDrawingArea();
