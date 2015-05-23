@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 
 import util.ui.MapDrawingArea;
 import util.ui.ScheduleDrawingArea;
-import util.ui.ScheduleSimpleFrame;
 import util.ui.SimpleFrame;
 import Runners.Config;
 import data.mVRPTWMS.Instance;
@@ -74,6 +73,7 @@ public class SolutionValidatorKnobloch {
 		
 	}
 
+	@SuppressWarnings("unused")
 	private static void instance1h875() {
 		//D-1
 		validator.createRoute(DV, 4, 0);
@@ -103,6 +103,7 @@ public class SolutionValidatorKnobloch {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void instance1h1250() {
 		//D-1
 		validator.createRoute(DV, 2, 0);
@@ -139,6 +140,7 @@ public class SolutionValidatorKnobloch {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void instance2h875() {
 		//D-1
 		validator.createRoute(DV, 2, 0);

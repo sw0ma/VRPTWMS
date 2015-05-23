@@ -1,4 +1,4 @@
-package util.tests.other;
+package tempTest;
 
 import io.AInstanceParser;
 import io.simpleCSVParser.SimpleInstanceParser;
@@ -16,14 +16,12 @@ import data.mVRPTWMS.InstanceArray;
 import data.mVRPTWMS.SolutionArray;
 import data.mVRPTWMS.SolutionValidator;
 
-public class T01_SolutionPrinter
-{
+public class CheckSolutionSlack {
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		// 0. Configuration
 		String FOLDER = "junit";
-		String INSTANCE_NAME = "DK_Instance1_h875.csv";
+		String INSTANCE_NAME = "Freight.csv";
 
 		Instance instanceObj;
 		InstanceArray instance;
@@ -44,26 +42,31 @@ public class T01_SolutionPrinter
 
 		// 4. Add Solution
 		// D-1
-		solution.createRoute(DV, 4, 0);
-		solution.insertAfter(DV, 4, 2);
-		solution.insertAfter(DV, 2, 5);
-		solution.insertAfter(DV, 5, 3);
-
-		// D-2
 		solution.createRoute(DV, 1, 0);
-		solution.insertAfter(DV, 1, 9);
-		solution.insertAfter(DV, 9, 6);
-		solution.insertAfter(DV, 6, 10);
+		solution.insertAfter(DV, 1, 2);
+		solution.insertAfter(DV, 2, 3);
+		solution.update(); // <0,1,2,3,0>
 
-		// D-3
-		solution.createRoute(DV, 8, 0);
-		solution.insertAfter(DV, 8, 7);
+		System.out.println(solution.evaluateFreightCapacity(1, 4, 2));
 
-		// S-1
-		solution.createRoute(SV, 1, 0);
-		solution.isSwapFirst[1] = true;
-		solution.insertAfter(SV, 1, 2);
-		solution.isSwapFirst[2] = true;
+		 // D-2
+		 solution.createRoute(DV, 5, 0);
+		 solution.insertAfter(DV, 5, 6);
+		 solution.update(); // <0,5,6,0>
+		 System.out.println(solution.evaluateFreightCapacity(3, 5));
+		 
+//		 solution.insertAfter(DV, 9, 6);
+//		 solution.insertAfter(DV, 6, 10);
+		//
+		// // D-3
+		// solution.createRoute(DV, 8, 0);
+		// solution.insertAfter(DV, 8, 7);
+		//
+		// // S-1
+		// solution.createRoute(SV, 1, 0);
+		// solution.isSwapFirst[1] = true;
+		// solution.insertAfter(SV, 1, 2);
+		// solution.isSwapFirst[2] = true;
 
 		solution.update();
 		solution.print();
@@ -78,8 +81,7 @@ public class T01_SolutionPrinter
 
 		SwingUtilities.invokeLater(new Runnable()
 		{
-			public void run()
-			{
+			public void run() {
 				schedule.setPaintObjects(schedule.createSchedule(validator));
 				map.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
 				map.setSolution(MapDrawingArea.createSolutionPattern(validator));

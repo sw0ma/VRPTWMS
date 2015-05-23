@@ -92,7 +92,6 @@ public class Start_Exact {
 			
 			// 4. Validate Solution & Print
 			SolutionValidator validator = new SolutionValidator(model.getSolution(solution));
-//			validator.isSwapFirst[3] = true;
 			validator.update();
 			validator.print();
 			System.out.println("Solution valid: " + validator.checkSolution());

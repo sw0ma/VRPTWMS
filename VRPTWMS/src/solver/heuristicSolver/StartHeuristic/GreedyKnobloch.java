@@ -35,7 +35,7 @@ public class GreedyKnobloch extends AStartHeuristic {
 		createRoutes(sol.requestBank, DV);
 		int maxIterations = sol.requestBank.size();
 		for(int iterations = 0; iterations < maxIterations; )
-		while(sol.getFuelViolation() > 0 || sol.getTimeWindowSyncViolationTotal() > 0) {
+		while(sol.calculateFuelTotalViolation() > 0 || sol.getTimeWindowSyncViolationTotal() > 0) {
 //			identifyPotentialSwapNodes();	//TODO: Next Start Heuristik
 //			insertSwapNodes();
 		}

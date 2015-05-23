@@ -24,12 +24,12 @@ import data.mVRPTWMS.SolutionValidator;
 public class ScheduleDrawingArea extends JPanel {
 
 	private List<IPaintable> paintObjects;
-	private int maxWidth = 800;
-	private int maxHeight = 800;
-	public static int width = 800;
+	public static int width = 1200;
 	public static double timeStep = 1;
 	public static int rowHeight = 70;
 	public static int timeLineShift = 30;
+	private int maxWidth = 800;
+	private int maxHeight = rowHeight;
 
 	public ScheduleDrawingArea() {
 		paintObjects = new ArrayList<IPaintable>();
@@ -99,6 +99,9 @@ public class ScheduleDrawingArea extends JPanel {
 				}
 				row++;
 			}
+		}
+		if(maxHeight < row * rowHeight) {
+			maxHeight = row * rowHeight;
 		}
 		return pattern;
 	}

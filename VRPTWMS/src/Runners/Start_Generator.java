@@ -24,16 +24,16 @@ public class Start_Generator {
 		String FOLDER = "gen-new";
 		
 		int NUMBER_OF_INSTANCES = 10;
-		int NUMBER_OF_NODES = 10;
+		int NUMBER_OF_NODES = 12;
 		boolean WITH_ARCS = true;
 		boolean OVERWRITE = false;
 		
-		double MAX_TIME_DV = 24.0;			// hours
-		double MAX_TIME_SV = 24.0;			// hours
+		double MAX_TIME_DV = 8.0;			// hours
+		double MAX_TIME_SV = 8.0;			// hours
 		int TRANSPORT_CAPACITY_DV = 20;	// units
 		int TRANSPORT_CAPACITY_SV = 200;	// units
-		double FUEL = 10.0;					// liters
-		double TRANSFERTIME = 0.01;			// hours
+		double FUEL = 5.0;					// liters
+		double TRANSFERTIME = 0.08;			// hours
 		double VEHICLE_COSTS = 100;			// price
 		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
 		double SPEED = 32.8; 				// km/h				(Source: Mobilität in Deutschland 2002)

@@ -104,7 +104,7 @@ public class InstancesGenerator {
 
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
-			stime = Math.round((Distribution.getPoisson(4) + 1.0) / 60.0 * 10000.0) / 10000.0;
+			stime = Math.round((Distribution.getPoisson(8) + 1.0) / 60.0 * 10000.0) / 10000.0;
 			drawTimes = drawServiceTimes();
 			e = drawTimes[0];
 			l = drawTimes[1];
@@ -208,34 +208,63 @@ public class InstancesGenerator {
 	 * Source: Retail Logistics Task Force (2001): @Your Home - New Markets for
 	 * Consumer Service and Delivery. UK Government Foresight program
 	 */
-	private double[] drawServiceTimes() {
+	private double[] drawServiceTimes() {	//TODO: Generator: TimeWindow überarbeiten
 		double random = Math.round(Math.random() * 10000.0) / 100;
 		double[] result = new double[2];
+		
 		if (random < 4.26) {
-			result[0] = 7;
-			result[1] = 8;
+			result[0] = 0;
+			result[1] = 2;
 		} else if (random < 23.41) {
-			result[0] = 8;
-			result[1] = 12;
+			result[0] = 2;
+			result[1] = 4;
 		} else if (random < 29.79) {
-			result[0] = 12;
-			result[1] = 14;
+			result[0] = 4;
+			result[1] = 6;
 		} else if (random < 32.98) {
-			result[0] = 14;
-			result[1] = 16;
-		} else if (random < 42.55) {
-			result[0] = 16;
-			result[1] = 18;
-		} else if (random < 78.72) {
-			result[0] = 18;
-			result[1] = 20;
-		} else if (random < 82.98) {
-			result[0] = 20;
-			result[1] = 22;
-		} else {
 			result[0] = 6;
-			result[1] = 22;
+			result[1] = 8;
+		} else if (random < 42.55) {
+			result[0] = 0;
+			result[1] = 8;
+		} else if (random < 78.72) {
+			result[0] = 3;
+			result[1] = 6;
+		} else if (random < 82.98) {
+			result[0] = 1;
+			result[1] = 4;
+		} else {
+			result[0] = 5;
+			result[1] = 7;
 		}
+		
+//		if (random < 4.26) {
+//			result[0] = 7;
+//			result[1] = 8;
+//		} else if (random < 23.41) {
+//			result[0] = 8;
+//			result[1] = 12;
+//		} else if (random < 29.79) {
+//			result[0] = 12;
+//			result[1] = 14;
+//		} else if (random < 32.98) {
+//			result[0] = 14;
+//			result[1] = 16;
+//		} else if (random < 42.55) {
+//			result[0] = 16;
+//			result[1] = 18;
+//		} else if (random < 78.72) {
+//			result[0] = 18;
+//			result[1] = 20;
+//		} else if (random < 82.98) {
+//			result[0] = 20;
+//			result[1] = 22;
+//		} else {
+//			result[0] = 7;
+//			result[1] = 22;
+//		}
+//		result[0] = result[0] - 7;
+//		result[1] = result[1] - 7;
 
 		return result;
 	}
