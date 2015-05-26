@@ -41,19 +41,20 @@ public class CheckSolutionSlack {
 		solution = new SolutionArray(instance);
 
 		// 4. Add Solution
+//		Freight(solution, DV);
 		// D-1
 		solution.createRoute(DV, 1, 0);
 		solution.insertAfter(DV, 1, 2);
 		solution.insertAfter(DV, 2, 3);
 		solution.update(); // <0,1,2,3,0>
 
-		System.out.println(solution.evaluateFreightCapacity(1, 4, 2));
+		System.out.println(solution.evaluateFuelCapacity(1, 4, 2, true));
 
 		 // D-2
 		 solution.createRoute(DV, 5, 0);
 		 solution.insertAfter(DV, 5, 6);
 		 solution.update(); // <0,5,6,0>
-		 System.out.println(solution.evaluateFreightCapacity(3, 5));
+		 System.out.println(solution.evaluateFuelCapacity(3, 5));
 		 
 //		 solution.insertAfter(DV, 9, 6);
 //		 solution.insertAfter(DV, 6, 10);
@@ -87,5 +88,25 @@ public class CheckSolutionSlack {
 				map.setSolution(MapDrawingArea.createSolutionPattern(validator));
 			}
 		});
+	}
+
+	/**
+	 * @param solution
+	 * @param DV
+	 */
+	protected static void Freight(SolutionArray solution, int DV) {
+		// D-1
+		solution.createRoute(DV, 1, 0);
+		solution.insertAfter(DV, 1, 2);
+		solution.insertAfter(DV, 2, 3);
+		solution.update(); // <0,1,2,3,0>
+
+		System.out.println(solution.evaluateFreightCapacity(1, 4, 2));
+
+		 // D-2
+		 solution.createRoute(DV, 5, 0);
+		 solution.insertAfter(DV, 5, 6);
+		 solution.update(); // <0,5,6,0>
+		 System.out.println(solution.evaluateFreightCapacity(3, 5));
 	}
 }

@@ -69,7 +69,7 @@ public class SolutionArray {
 	protected final double[][] travelDistance;
 
 	/** Load on each route */
-	// protected final double[] load;
+	// protected final double[] load; //FIXME Check welche Variable verwendet wird
 
 	/** Buffered freight capacity for each vertex */
 	protected final double[] forwardFreightCapacity, backwardFreightCapacity;
@@ -81,7 +81,6 @@ public class SolutionArray {
 	private final double[] routeFuelCapacityViolation;
 	private double totalFuelViolation;
 
-
 	/** Extended earliest/latest <b>starting times of service</b><br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices] */
@@ -90,6 +89,8 @@ public class SolutionArray {
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
 	protected final double[][] aDash, zDash;
+	private double totalTimeWindowViolation;
+
 	/** Time window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
@@ -136,14 +137,13 @@ public class SolutionArray {
 	/** First/last node of every route */
 	// protected final int[] routeStart, routeEnd;
 
-	private double timeWindowViolation;
 	private double workingTimeViolation;
 
 	public double totalLoad;
 
-	/** alpha - time window penalty<br>
-	 *  beta - freight penalty<br>
-	 *  gamma - fuel penalty<br>
+	/** alpha - freight penalty<br>
+	 *  beta - fuel penalty<br>
+	 *  gamma - time window penalty<br>
 	 *  epsilon - working time penalty */
 	private double alpha, beta, gamma, epsilon;
 
@@ -245,6 +245,11 @@ public class SolutionArray {
 		routeFuelCapacityViolation = new double[maxNumberOfRoutes];
 
 		totalLoad = 0;
+
+		alpha = 1;
+		beta = 1;
+		gamma = 1;
+		epsilon = 1;
 
 		requestBank = new HashSet<Integer>(instance.numberOfCustomer);
 		for (int c = 1; c <= instance.numberOfCustomer; c++)
@@ -353,7 +358,7 @@ public class SolutionArray {
 
 		System.arraycopy(sol.routeFuelCapacityViolation, 0, routeFuelCapacityViolation, 0, sol.routeFuelCapacityViolation.length);
 
-		timeWindowViolation = sol.timeWindowViolation;
+		totalTimeWindowViolation = sol.totalTimeWindowViolation;
 		totalFreightViolation = sol.totalFreightViolation;
 		totalFuelViolation = sol.totalFuelViolation;
 		workingTimeViolation = sol.workingTimeViolation;
@@ -369,7 +374,7 @@ public class SolutionArray {
 		totalVehicleCosts = sol.totalVehicleCosts;
 	}
 
-	public InstanceArray getInstance() {
+	final public InstanceArray getInstance() {
 		return instance;
 	}
 
@@ -556,42 +561,112 @@ public class SolutionArray {
 		return startDepot[iV][routeId] != UNASSIGNED;
 	}
 
+	/** 
+	 * Checks, whether i and j are the same real vertex
+	 * 
+	 * @param i node 1
+	 * @param j node 2
+	 * @return true, if both nodes are the same real vertex
+	 */
+	public boolean isSameNode(int i, int j) {
+		return nodes[i] == nodes[j];
+	}
+
+	/**
+	 * Checks if an arc between the given nodes exists.
+	 *
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param i node
+	 * @param j node
+	 * @return true if the arc exists, false otherwise
+	 */
+	public boolean arcExists(int iV, int i, int j) {
+		return next[iV][i] == j;
+	}
+
+	// /////////////////////////////////////////////
+	// ////////////////Evaluation///////////////////
+	// /////////////////////////////////////////////
+	/**
+	 * Returns the objective value for this solution.
+	 *
+	 * @return result of the objective function
+	 */
+	public double getObjectiveValue() {
+		return getObjectiveValue(alpha, beta, gamma, epsilon);
+	}
+
+	/**
+	 * Returns the result of the objective function for the solution with the
+	 * passed penalties.
+	 *
+	 * @param alpha		freight penalty
+	 * @param beta		fuel penalty
+	 * @param gamma		time window penalty
+	 * @param epsilon	working time penalty
+	 * @return result of the objective function
+	 */
+	public double getObjectiveValue(double alpha, double beta, double gamma, double epsilon) {
+		return totalVehicleCosts + totalTravelDistance + (alpha * totalFreightViolation) + (beta * totalFuelViolation) + (gamma * totalTimeWindowViolation);
+		//  + (epsilon * workingTimeViolation);
+	}
+
 	/**
 	 * Updates all helpers variables of the current solution. Should only be
 	 * called when everything needs to be reset, e.g. after setting an initial
 	 * solution.
 	 */
-	public void update() {
-		totalTravelDistance = timeWindowViolation = workingTimeViolation = totalLoad = 0.0;
+	public void update() { // SPEED: Schleifen über routen und Nodes zusammenfassen.
+		totalTravelDistance = totalLoad = totalTimeWindowViolation = workingTimeViolation = 0.0;
+
+		// General
+		updateRouteArray(DV);
+		updateRouteArray(SV);
+
+		for (int j = 1; j <= instance.numberOfCustomer; j++) // updateSwapNodes
+		{
+			if (next[SV][j] != UNASSIGNED)
+			{
+				isSwapNode[j] = true;
+			}
+		}
 
 		// Update Slacks and Violations
 		for (int r : routes[DV])
 		{
+			updateRouteNodes(DV, r);
+
 			calculateFreightSlack(r);
+			calculateFuelSlack(r);
+
+			calculateTimeWindowExtendedTimes(DV, r);
+
+			totalLoad += getTotalLoadRoute(r);
+		}
+		for (int r : routes[SV])
+		{
+			updateRouteNodes(SV, r);
+
+			calculateTimeWindowExtendedTimes(SV, r);
 		}
 		calculateFreightTotalViolation();
+		calculateFuelTotalViolation();
+		calculateTimeWindowTotalViolation();
 
-		// // Only DVs
-		// fuelViolation += getTotalFuelViolation();
-		// totalLoad += getTotalLoad();
-		//
-		// for (int iV = 0; iV <= 1; iV++)
-		// {
-		// updateRouteArray(iV);
-		// for (int r : routes[iV])
-		// {
-		// updateRoute(iV, r);
-		// totalTravelDistance += calculateTravelDistance(iV, r);
+		// TODO: Add other constraints, Add other constraints synchro times,
 		// timeWindowViolation += getTimeWindowViolation(iV, r);
-		//
-		// // TODO: Add other constraints
-		// // workingTimeViolation += getWorkingTimeViolation(r);
+		// workingTimeViolation += getWorkingTimeViolation(r);
+		// if (iV == DV)
+		// {
+		// calculateForwardTWPenaltySlack(routeId);
+		// calculateBackwardTWPenaltySlack(routeId);
+		// calculateFreightSlack(routeId);
 		// }
-		// }
+		// calculateDurationSlacks(iV, routeId);
 	}
 
 	/**
-	 * Updates the routes array containing the indices of open routes.
+	 * Updates route arrays which containing the indices of open routes.
 	 * 
 	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 */
@@ -609,53 +684,73 @@ public class SolutionArray {
 	}
 
 	/**
-	 * Update all helpers variables for a given route.
+	 * Updates the assignment, node belongs to route x and updates the position of a node in the route
 	 *
 	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param routeId route
+	 * @param r route
 	 */
-	public void updateRoute(int iV, int routeId) {
-		// updateNodeRoutes(iV, routeId); //Updates the assignment, node belongs to route x
-		int j;
-		for (j = startDepot[iV][routeId];; j = next[iV][j])
+	private void updateRouteNodes(int iV, int r) {
+		// updateNodeRoutes(iV, routeId); //
+		int j, position = 0;
+		for (j = startDepot[iV][r];; j = next[iV][j])
 		{
-			route[iV][j] = routeId;
+			pos[iV][j] = ++position;
+			route[iV][j] = r;
 			if (next[iV][j] == UNASSIGNED)
-				break;
-		}
-		endDepot[iV][routeId] = j;
-
-		// updateNodePositions(iV, routeId); //Updates the position of a node in the route //SPEED: Vorherige Schleife mit dieser verbinden?
-		int position = 0;
-		for (j = startDepot[iV][routeId]; j != UNASSIGNED; j = next[iV][j])
-		{
-			pos[iV][j] = position;
-			position++;
-		}
-
-		// updateSwapNodes
-		for (j = 1; j <= instance.numberOfCustomer; j++)
-		{
-			if (next[SV][j] != UNASSIGNED)
 			{
-				isSwapNode[j] = true;
+				endDepot[iV][r] = j;
+				break;
 			}
 		}
 
-		calculateExtendedStartTimes(iV, routeId);
-		calculateExtendedEndTimes(iV, routeId);
-		if (iV == DV)
+		totalTravelDistance = 0;
+		calculateTravelDistance(iV, r);
+		totalTravelDistance += getTravelDistance(iV, r);
+	}
+
+	// /////////////////////////////////////////////
+	// ///////////////////LOAD//////////////////////
+	// /////////////////////////////////////////////
+	/**
+	 * Return the total load of a give route
+	 * 
+	 * @param routeId route
+	 * @return total load
+	 */
+	public double getTotalLoadRoute(int routeId) {
+		return forwardFreightCapacity[endDepot[DV][routeId]];
+	}
+
+	// /////////////////////////////////////////////
+	// /////////////////DISTANCE////////////////////
+	// /////////////////////////////////////////////
+	/**
+	 * Calculates the travel distance of a route
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 */
+	private void calculateTravelDistance(int iV, int routeId) {
+		double result = 0;
+		int j, i = startDepot[iV][routeId];
+		do
 		{
-			calculateForwardTWPenaltySlack(routeId);
-			calculateBackwardTWPenaltySlack(routeId);
-			calculateFreightSlack(routeId);
-		}
+			j = next[iV][i];
+			result += dist(i, j);
+			i = j;
+		} while (!isDepot(j));
+		travelDistance[iV][routeId] = result;
+	}
 
-		// TODO: Add other constraints synchro times, sv tw, fuel
-
-		// calculateDurationSlacks(iV, routeId);
-
-		// ...
+	/**
+	 * Returns the travel distance of a route
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 * @return the distance
+	 */
+	public double getTravelDistance(int iV, int routeId) {
+		return travelDistance[iV][routeId];
 	}
 
 	// /////////////////////////////////////////////
@@ -684,8 +779,6 @@ public class SolutionArray {
 
 	/**
 	 * Calculates the total freight violation of all DV routes
-	 * 
-	 * @param routeId a route
 	 */
 	private void calculateFreightTotalViolation() {
 		totalFreightViolation = 0;
@@ -729,17 +822,19 @@ public class SolutionArray {
 	 * @param r the route id
 	 */
 	private void calculateFuelSlack(int r) {
-		
 		// FORWARD Customer
 		double tmpFuelCapacity = 0;
 		routeFuelCapacityViolation[r] = 0;
-		int j = startDepot[DV][r];	// j -> i
+		int j = startDepot[DV][r]; // j -> i
 		for (int i = next[DV][j]; i != UNASSIGNED; i = next[DV][i])
 		{
-			if(isSwapNode[j]) {
-				tmpFuelCapacity = fuel(j,i);
+			if (isSwapNode[nodes[j]])
+			{
+				tmpFuelCapacity = fuel(j, i);
 				routeFuelCapacityViolation[r] += Math.max(forwardFuelCapacity[j] - instance.fuelCapacity, 0);
-			} else {
+			}
+			else
+			{
 				tmpFuelCapacity += fuel(j, i);
 			}
 			forwardFuelCapacity[i] = tmpFuelCapacity;
@@ -747,52 +842,207 @@ public class SolutionArray {
 		}
 		// FORWARD Depot
 		routeFuelCapacityViolation[r] += Math.max(forwardFuelCapacity[endDepot[DV][r]] - instance.fuelCapacity, 0);
-		
+
 		// BACKWARD
 		tmpFuelCapacity = 0;
-		j = endDepot[DV][r];		// i <- j
+		j = endDepot[DV][r]; // i <- j
 		for (int i = prev[DV][j]; i != UNASSIGNED; i = prev[DV][i])
 		{
-			if(isSwapNode[i]) {
-				tmpFuelCapacity = fuel(i,j);
-			} else {
+			if (isSwapNode[nodes[i]])
+			{
+				tmpFuelCapacity = fuel(i, j);
+			}
+			else
+			{
 				tmpFuelCapacity += fuel(i, j);
 			}
 			backwardFuelCapacity[i] = tmpFuelCapacity;
-			i = j;
+			j = i;
 		}
-
-		//TODO Check
-//		// add batcap violations from last station to depot
-//		if (isChargeVisit(routeEnd[r]))
-//			cumulatedBatteryCapacityViolations += Math.max(backwardBatteryCapacity[routeEnd[r]] - inst.vehicleBatteryCapacity, 0);
-//		else
-//			cumulatedBatteryCapacityViolations += Math.max(forwardBatteryCapacity[routeEnd[r]] + backwardBatteryCapacity[routeEnd[r]]
-//					- inst.vehicleBatteryCapacity, 0);
-//		// printRoutes();
-//		routeBatteryCapacityViolation[r] = cumulatedBatteryCapacityViolations;
-
 	}
-
-
-	
-	//FIXME NEXT ToDo
 
 	/**
 	 * Calculates the total fuel violation of all visited nodes
-	 * 
-	 * @return total violations
 	 */
-	public double calculateFuelTotalViolation() {
-		double tmpFuelViolation = 0;
-		for (int i = 1; i < instance.maxSize; i++)
+	private void calculateFuelTotalViolation() {
+		totalFuelViolation = 0.0;
+		for (int r : routes[DV])
 		{
-			if (route[DV][i] != UNASSIGNED)
-			{	//TODO 
-//				tmpFuelViolation += calculateFuelSlack(i);
+			totalFuelViolation += routeFuelCapacityViolation[r];
+		}
+	}
+
+	/**
+	 * Evaluates fuel consumption on arc x->y
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public double evaluateFuelCapacity(int x, int y) // SPEED: isSwapNode -> int, isSwapNode * forwardFuelCapacity
+	{
+		double tmpForwardX = 0, tmpBackwardY = 0;
+		if (!isSwapNode[x])
+		{
+			tmpForwardX = forwardFuelCapacity[x];
+		}
+		if (!isSwapNode[y])
+		{
+			tmpBackwardY = backwardFuelCapacity[y];
+		}
+		return Math.max(tmpForwardX + tmpBackwardY + fuel(x, y) - instance.fuelCapacity, 0.0);
+	}
+
+	/**
+	 * Evaluates the batteryCapacity Violation if two arcs x->v and v->y are added.
+	 * 
+	 * @param x node before v
+	 * @param v	node to be insert
+	 * @param y node after v
+	 * @param isVnewSwapNode node v is a new swap node
+	 * @return
+	 */
+	public double evaluateFuelCapacity(int x, int v, int y, boolean isVnewSwapNode) {
+		double tmpForwardX = 0, tmpBackwardY = 0;
+		if (!isSwapNode[x])
+		{
+			tmpForwardX = forwardFuelCapacity[x];
+		}
+		if (!isSwapNode[y])
+		{
+			tmpBackwardY = backwardFuelCapacity[y];
+		}
+		if (isVnewSwapNode)
+		{
+			return Math.max(tmpForwardX + fuel(x, v) - instance.fuelCapacity, 0.0) + Math.max(tmpBackwardY + fuel(v, y) - instance.fuelCapacity, 0.0);
+		}
+		else
+		{
+			return Math.max(tmpForwardX + tmpBackwardY + fuel(x, v) + fuel(v, y) - instance.fuelCapacity, 0.0);
+		}
+	}
+
+	// /////////////////////////////////////////////
+	// /////////////////TIME WINDOW/////////////////
+	// /////////////////////////////////////////////
+	/**
+	 * Calculates a and a' for a given route.
+	 * See Nagata/Braysy/Dullaert, 2009, p.726, eq (4) for more information.<br>
+	 * Calculates z and z' for a given route.
+	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (7) for more information.<br>
+	 *
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 */
+	private void calculateTimeWindowExtendedTimes(int iV, int routeId) {
+		int startNode = startDepot[iV][routeId];
+		a[iV][startNode] = aDash[iV][startNode] = readyTime(startNode);
+		int j = startNode, i = next[iV][j]; // j = v_(i-1), i = v_(i); j -> i
+		double tmpA = aDash[iV][j], tmpADash;
+		do
+		{
+			tmpADash = tmpA + duration(j, i);
+			if (isSwapNode[nodes[j]])
+			{
+				tmpADash += instance.transferTime;
+			}
+
+			if (iV == DV)
+			{
+				tmpADash += serviceTime(j);
+				if (tmpADash <= dueDate(i))
+				{
+					tmpA = Math.max(tmpADash, readyTime(i));
+				}
+				else
+				{
+					tmpA = dueDate(i);
+				}
+			}
+			else
+			{
+				if (tmpADash <= instance.planningHorizon)
+				{
+					tmpA = tmpADash; // Math.max(tmpADash, 0.0);
+				}
+				else
+				{
+					tmpADash = instance.planningHorizon;
+				}
+			}
+
+			a[iV][i] = tmpA;
+			aDash[iV][i] = tmpADash;
+
+			j = i;
+			i = next[iV][i];
+		} while (i != UNASSIGNED);
+
+		int endDepot = this.endDepot[iV][routeId];
+		z[iV][endDepot] = zDash[iV][endDepot] = dueDate(endDepot);
+		j = endDepot;
+		i = prev[iV][j]; // i -> j
+		double tmpZ = zDash[iV][j], tmpZDash;
+		do
+		{
+			tmpZDash = tmpZ - duration(i, j);
+			if (isSwapNode[nodes[i]])
+			{
+				tmpZDash -= instance.transferTime;
+			}
+
+			if (iV == DV)
+			{
+				tmpZDash -= serviceTime(i);
+				if (tmpZDash >= readyTime(i))
+				{
+					tmpZ = Math.min(tmpZDash, dueDate(i));
+				}
+				else
+				{
+					tmpZ = readyTime(i);
+				}
+			}
+			else
+			{
+				if (tmpZDash >= 0.0)
+				{
+					tmpZ = Math.min(tmpZDash, instance.planningHorizon);
+				}
+				else
+				{
+					tmpZ = 0.0;
+				}
+			}
+			z[iV][i] = tmpZ;
+			zDash[iV][i] = tmpZDash;
+
+			j = i;
+			i = prev[iV][i];
+		} while (i != UNASSIGNED);
+	}
+
+	/**
+	 * Calculates the total time window violation to serve a customer of all visited nodes
+	 */
+	private void calculateTimeWindowTotalViolation() {
+		totalTimeWindowViolation = 0.0;
+		for (int r : routes[DV])
+		{
+			for (int i = startDepot[DV][r]; i != UNASSIGNED; i = next[DV][i])
+			{
+				totalTimeWindowViolation += Math.max(aDash[DV][i] - dueDate(i), 0);
+				totalTimeWindowViolation += Math.max(readyTime(i) - zDash[DV][i], 0);
 			}
 		}
-		return tmpFuelViolation;
+		for (int r : routes[SV])
+		{
+			for (int i = startDepot[SV][r]; i != UNASSIGNED; i = next[SV][i])
+			{
+				totalTimeWindowViolation += Math.max(aDash[SV][i] - instance.planningHorizon, 0);
+//				totalTimeWindowViolation += Math.max(-zDash[SV][i], 0);
+			}
+		}
 	}
 
 	/**
@@ -832,36 +1082,6 @@ public class SolutionArray {
 	}
 
 	/**
-	 * Calculates the travel distance of a route
-	 * 
-	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param routeId route
-	 * @return the distance
-	 */
-	private double calculateTravelDistance(int iV, int routeId) {
-		double result = 0;
-		int j = startDepot[iV][routeId];
-		do
-		{
-			j = next[iV][j];
-			result += dist(prev[iV][j], j);
-		} while (!isDepot(j));
-		travelDistance[iV][routeId] = result;
-		return result;
-	}
-
-	/**
-	 * Returns the travel distance of a route
-	 * 
-	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param routeId route
-	 * @return the distance
-	 */
-	public double getTravelDistance(int iV, int routeId) {
-		return travelDistance[iV][endDepot[iV][routeId]];
-	}
-
-	/**
 	 * Returns the time window violation of a route
 	 * 
 	 * @param iV vehicle index: 0 = DV, 1 = SV
@@ -879,104 +1099,6 @@ public class SolutionArray {
 			// totalTwSyncVio += getForwardTimeWindowSyncViolation(r); //FIXME: TW Sync!
 		}
 		return totalTwSyncVio;
-	}
-
-	/**
-	 * Checks if an arc between the given nodes exists.
-	 *
-	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param i node
-	 * @param j node
-	 * @return true if the arc exists, false otherwise
-	 */
-	public boolean arcExists(int iV, int i, int j) {
-		return next[iV][i] == j;
-	}
-
-	/**
-	 * Returns the objective value for this solution.
-	 *
-	 * @return result of the objective function
-	 */
-	public double getObjectiveValue() {
-		return getObjectiveValue(alpha, beta, gamma, epsilon);
-	}
-
-	/**
-	 * Returns the result of the objective function for the solution with the
-	 * passed penalties.
-	 *
-	 * @param alpha		time window penalty
-	 * @param beta		freight penalty
-	 * @param gamma		fuel penalty
-	 * @param epsilon	working time penalty
-	 * @return result of the objective function
-	 */
-	public double getObjectiveValue(double alpha, double beta, double gamma, double epsilon) {
-		return totalVehicleCosts + totalTravelDistance + (alpha * timeWindowViolation) + (beta * totalFreightViolation)
-				+ (gamma * totalFuelViolation) + (epsilon * workingTimeViolation);
-	}
-
-	/**
-	 * Calculates a and a' for a given route.
-	 * See Nagata/Braysy/Dullaert, 2009, p.726, eq (4) for more information.
-	 *
-	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param routeId route
-	 */
-	private void calculateExtendedStartTimes(int iV, int routeId) {
-		int startDepot = this.startDepot[iV][routeId];
-		a[iV][startDepot] = aDash[iV][startDepot] = readyTime(startDepot);
-		int i = startDepot, j = next[iV][i];
-		double tmpA = aDash[iV][i], tmpADash;
-		do
-		{
-			tmpADash = tmpA + serviceTime(i) + duration(i, j);
-			if (tmpADash <= dueDate(j))
-			{
-				tmpA = Math.max(tmpADash, readyTime(j));
-			}
-			else
-			{
-				tmpA = dueDate(j);
-			}
-			a[iV][j] = tmpA;
-			aDash[iV][j] = tmpADash;
-
-			i = j;
-			j = next[iV][j];
-		} while (!isDepot(i));
-	}
-
-	/**
-	 * Calculates z and z' for a given route.
-	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (7) for more information.
-	 *
-	 * @param iV vehicle index: 0 = DV, 1 = SV
-	 * @param routeId route
-	 */
-	private void calculateExtendedEndTimes(int iV, int routeId) {
-		int endDepot = this.endDepot[iV][routeId];
-		z[iV][endDepot] = zDash[iV][endDepot] = dueDate(endDepot);
-		int j = endDepot, i = prev[iV][j];
-		double tmpZ = zDash[iV][j], tmpZDash;
-		do
-		{
-			tmpZDash = tmpZ - duration(i, j) - serviceTime(i);
-			if (tmpZDash >= readyTime(i))
-			{
-				tmpZ = Math.min(tmpZDash, dueDate(i));
-			}
-			else
-			{
-				tmpZ = readyTime(i);
-			}
-			z[iV][i] = tmpZ;
-			zDash[iV][i] = tmpZDash;
-
-			j = i;
-			i = prev[iV][i];
-		} while (!isDepot(j));
 	}
 
 	/**
@@ -1169,72 +1291,36 @@ public class SolutionArray {
 		return penalty;
 	}
 
-	/**	
-	 * Calculates the total load of all routes
+	// /////////////////////////////////////////////
+	// ///////////////////PRINT/////////////////////
+	// /////////////////////////////////////////////
+	/**
+	 * Return a string with all customer vertices in the request bank
 	 * 
-	 * @return total load
+	 * @return the string with customer vertices
 	 */
-	private double getTotalLoad() {
-		double tmpLoad = 0;
-		for (int route : routes[DV])
+	public String printRequestBank() {
+		StringBuilder s = new StringBuilder();
+		s.append("Request Bank: ");
+		for (Integer i : requestBank)
 		{
-			tmpLoad += forwardFreightCapacity[endDepot[DV][route]];
+			s.append(i);
+			s.append(" ");
 		}
-		return tmpLoad;
+		return s.toString();
 	}
 
-	/**
-	 * Return the total load of a give route
-	 * 
-	 * @param routeId route
-	 * @return total load
-	 */
-	public double getTotalLoadRoute(int routeId) {
-		return forwardFreightCapacity[endDepot[DV][routeId]];
-	}
-
-	/**
-	 * Print the route nicely formatted.
-	 */
-	public void print() {
-		System.out.println("ObjectiveFunction=" + getObjectiveValue());
-		System.out.println("TotalVehicleCosts=" + totalVehicleCosts);
-		System.out.println("TotalTravelDistance=" + totalTravelDistance);
-		System.out.println("FreightViolation=" + totalFreightViolation);
-		System.out.println("TimeWindowViolation=" + timeWindowViolation);
-		// System.out.println("DurationViolation=" + durationViolation);
-		// System.out.println("Customers=" + getNumberOfCustomers());
-		// System.out.println("Vehicles=" + numberOfVehicles);
-		System.out.println(asString());
-	}
-
-	/**
-	 * Prints all routes as a string.
-	 *
-	 * @return string with all routes
-	 */
-	public String asString() {
-		StringBuilder result = new StringBuilder();
-		int routeCounter = 0;
-		for (int r : routes[DV])
+	public String swapOrderString() {
+		StringBuilder swapOrder = new StringBuilder();
+		swapOrder.append("p: ");
+		for (int i = 1; i <= instance.numberOfCustomer; i++)
 		{
-			result.append("R");
-			result.append(routeCounter++);
-			result.append(" ");
-			result.append(routeString(DV, r, " ", false));
-			result.append(System.lineSeparator());
+			swapOrder.append(i);
+			swapOrder.append("=");
+			swapOrder.append(isSwapFirst[i]);
+			swapOrder.append("; ");
 		}
-		routeCounter = 0;
-		for (int r : routes[SV])
-		{
-			result.append("S");
-			result.append(routeCounter++);
-			result.append(" ");
-			result.append(routeString(SV, r, " ", false));
-			result.append(System.lineSeparator());
-		}
-		result.append(swapOrderString());
-		return result.toString();
+		return swapOrder.toString();
 	}
 
 	/**
@@ -1268,43 +1354,48 @@ public class SolutionArray {
 		return routeString.toString();
 	}
 
-	public String swapOrderString() {
-		StringBuilder swapOrder = new StringBuilder();
-		swapOrder.append("p: ");
-		for (int i = 1; i <= instance.numberOfCustomer; i++)
-		{
-			swapOrder.append(i);
-			swapOrder.append("=");
-			swapOrder.append(isSwapFirst[i]);
-			swapOrder.append("; ");
-		}
-		return swapOrder.toString();
-	}
-
-	/** 
-	 * Checks, whether i and j are the same real vertex
-	 * 
-	 * @param i node 1
-	 * @param j node 2
-	 * @return true, if both nodes are the same real vertex
+	/**
+	 * Print the route nicely formatted.
 	 */
-	public boolean isSameNode(int i, int j) {
-		return nodes[i] == nodes[j];
+	public void print() {
+		System.out.println("ObjectiveFunction=" + getObjectiveValue());
+		System.out.println("TotalVehicleCosts=" + totalVehicleCosts);
+		System.out.println("TotalTravelDistance=" + totalTravelDistance);
+		System.out.println("FreightViolation=" + totalFreightViolation);
+		System.out.println("FuelViolation=" + totalFuelViolation);
+		 System.out.println("TimeWindowViolation=" + totalTimeWindowViolation);
+		// System.out.println("DurationViolation=" + durationViolation);
+		// System.out.println("Customers=" + getNumberOfCustomers());
+		// System.out.println("Vehicles=" + numberOfVehicles);
+		System.out.println(asString());
 	}
 
 	/**
-	 * Return a string with all customer vertices in the request bank
-	 * 
-	 * @return the string with customer vertices
+	 * Prints all routes as a string.
+	 *
+	 * @return string with all routes
 	 */
-	public String printRequestBank() {
-		StringBuilder s = new StringBuilder();
-		s.append("Request Bank: ");
-		for (Integer i : requestBank)
+	public String asString() {
+		StringBuilder result = new StringBuilder();
+		int routeCounter = 0;
+		for (int r : routes[DV])
 		{
-			s.append(i);
-			s.append(" ");
+			result.append("R");
+			result.append(routeCounter++);
+			result.append(" ");
+			result.append(routeString(DV, r, " ", false));
+			result.append(System.lineSeparator());
 		}
-		return s.toString();
+		routeCounter = 0;
+		for (int r : routes[SV])
+		{
+			result.append("S");
+			result.append(routeCounter++);
+			result.append(" ");
+			result.append(routeString(SV, r, " ", false));
+			result.append(System.lineSeparator());
+		}
+		result.append(swapOrderString());
+		return result.toString();
 	}
 }
