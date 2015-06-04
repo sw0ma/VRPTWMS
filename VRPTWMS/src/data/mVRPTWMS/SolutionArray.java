@@ -89,7 +89,7 @@ public class SolutionArray {
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
 	protected final double[][] aDash, zDash;
-	private double totalTimeWindowViolation;
+	public double totalTimeWindowViolation;
 
 	/** Time window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
@@ -607,8 +607,9 @@ public class SolutionArray {
 	 * @return result of the objective function
 	 */
 	public double getObjectiveValue(double alpha, double beta, double gamma, double epsilon) {
-		return totalVehicleCosts + totalTravelDistance + (alpha * totalFreightViolation) + (beta * totalFuelViolation) + (gamma * totalTimeWindowViolation);
-		//  + (epsilon * workingTimeViolation);
+		return totalVehicleCosts + totalTravelDistance + (alpha * totalFreightViolation) + (beta * totalFuelViolation)
+				+ (gamma * totalTimeWindowViolation);
+		// + (epsilon * workingTimeViolation);
 	}
 
 	/**
@@ -632,36 +633,35 @@ public class SolutionArray {
 		}
 
 		// Update Slacks and Violations
-		for (int r : routes[DV])
+		int iV = DV;
+		for (int r : routes[iV])
 		{
-			updateRouteNodes(DV, r);
+			updateRouteNodes(iV, r);
 
 			calculateFreightSlack(r);
 			calculateFuelSlack(r);
 
-			calculateTimeWindowExtendedTimes(DV, r);
+			calculateTimeWindowExtendedTimes(iV, r);
+			calculateForwardTWPenaltySlack(iV, r);
+			calculateBackwardTWPenaltySlack(iV, r);
 
 			totalLoad += getTotalLoadRoute(r);
 		}
-		for (int r : routes[SV])
+		iV = SV;
+		for (int r : routes[iV])
 		{
-			updateRouteNodes(SV, r);
+			updateRouteNodes(iV, r);
 
-			calculateTimeWindowExtendedTimes(SV, r);
+			calculateTimeWindowExtendedTimes(iV, r);
+			calculateForwardTWPenaltySlack(iV, r);
+			calculateBackwardTWPenaltySlack(iV, r);
 		}
 		calculateFreightTotalViolation();
 		calculateFuelTotalViolation();
 		calculateTimeWindowTotalViolation();
 
 		// TODO: Add other constraints, Add other constraints synchro times,
-		// timeWindowViolation += getTimeWindowViolation(iV, r);
 		// workingTimeViolation += getWorkingTimeViolation(r);
-		// if (iV == DV)
-		// {
-		// calculateForwardTWPenaltySlack(routeId);
-		// calculateBackwardTWPenaltySlack(routeId);
-		// calculateFreightSlack(routeId);
-		// }
 		// calculateDurationSlacks(iV, routeId);
 	}
 
@@ -1023,6 +1023,66 @@ public class SolutionArray {
 	}
 
 	/**
+	 * Calculates the forward time window penalty slack for a given DV route.
+	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (6) for more information.
+	 *
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 */
+	private void calculateForwardTWPenaltySlack(int iV, int routeId) { // SPEED: nicht jedes Mal indirektes Array, tNext = next[iV], tNext[iV]
+		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
+		double tmpSlack = forwardTwSlack[iV][startDepot] = 0;
+		if (iV == DV)
+		{
+			for (int j = next[iV][startDepot]; !isDepot(j); j = next[iV][j])
+			{
+				tmpSlack += Math.max(aDash[iV][j] - dueDate(j), 0);
+				forwardTwSlack[iV][j] = tmpSlack;
+			}
+			forwardTwSlack[iV][endDepot] = tmpSlack + Math.max(aDash[iV][endDepot] - dueDate(endDepot), 0);
+		}
+		else
+		{
+			for (int j = next[iV][startDepot]; !isDepot(j); j = next[iV][j])
+			{
+				tmpSlack += Math.max(aDash[iV][j] - instance.maxWorkingTimeSV, 0);
+				forwardTwSlack[iV][j] = tmpSlack;
+			}
+			forwardTwSlack[iV][endDepot] = tmpSlack + Math.max(aDash[iV][endDepot] - instance.maxWorkingTimeSV, 0);
+		}
+	}
+
+	/**
+	 * Calculates the backward time window penalty slack for a given DV route.
+	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (8) for more information.
+	 *
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 */
+	private void calculateBackwardTWPenaltySlack(int iV, int routeId) {
+		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
+		double tmpSlack = backwardTwSlack[iV][endDepot] = 0;
+		if (iV == DV)
+		{
+			for (int j = prev[iV][endDepot]; !isDepot(j); j = prev[iV][j])
+			{
+				tmpSlack += Math.max(readyTime(j) - zDash[iV][j], 0);
+				backwardTwSlack[iV][j] = tmpSlack;
+			}
+			backwardTwSlack[iV][startDepot] = tmpSlack + Math.max(readyTime(startDepot) - zDash[iV][startDepot], 0);
+		}
+		else
+		{
+			for (int j = prev[iV][endDepot]; !isDepot(j); j = prev[iV][j])
+			{
+				tmpSlack += Math.max(-zDash[iV][j], 0); // SPEED: if(0<zDash[iV][j])
+				backwardTwSlack[iV][j] = tmpSlack;
+			}
+			backwardTwSlack[iV][startDepot] = tmpSlack + Math.max(-zDash[iV][startDepot], 0);
+		}
+	}
+
+	/**
 	 * Calculates the total time window violation to serve a customer of all visited nodes
 	 */
 	private void calculateTimeWindowTotalViolation() {
@@ -1031,54 +1091,17 @@ public class SolutionArray {
 		{
 			for (int i = startDepot[DV][r]; i != UNASSIGNED; i = next[DV][i])
 			{
-				totalTimeWindowViolation += Math.max(aDash[DV][i] - dueDate(i), 0);
-				totalTimeWindowViolation += Math.max(readyTime(i) - zDash[DV][i], 0);
+				totalTimeWindowViolation += Math.max(aDash[DV][i] - dueDate(i), 0); // totalTimeWindowViolation += Math.max(readyTime(i) - zDash[DV][i], 0);
 			}
 		}
+
 		for (int r : routes[SV])
 		{
 			for (int i = startDepot[SV][r]; i != UNASSIGNED; i = next[SV][i])
 			{
-				totalTimeWindowViolation += Math.max(aDash[SV][i] - instance.planningHorizon, 0);
-//				totalTimeWindowViolation += Math.max(-zDash[SV][i], 0);
+				totalTimeWindowViolation += Math.max(aDash[SV][i] - instance.planningHorizon, 0); // totalTimeWindowViolation += Math.max(-zDash[SV][i], 0);
 			}
 		}
-	}
-
-	/**
-	 * Calculates the forward time window penalty slack for a given DV route.
-	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (6) for more information.
-	 *
-	 * @param routeId route
-	 */
-	private void calculateForwardTWPenaltySlack(int routeId) { // SPEED: nicht jedes Mal indirektes Array, tNext = next[iV], tNext[iV]
-		int iV = DV;
-		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
-		double tmpSlack = forwardTwSlack[iV][startDepot] = 0;
-		for (int j = next[iV][startDepot]; !isDepot(j); j = next[iV][j])
-		{
-			tmpSlack += Math.max(aDash[iV][j] - dueDate(j), 0);
-			forwardTwSlack[iV][j] = tmpSlack;
-		}
-		forwardTwSlack[iV][endDepot] = tmpSlack + Math.max(aDash[iV][endDepot] - dueDate(endDepot), 0);
-	}
-
-	/**
-	 * Calculates the backward time window penalty slack for a given DV route.
-	 * See Nagata/Braysy/Dullaert, 2009, p.735, eq (8) for more information.
-	 *
-	 * @param routeId route
-	 */
-	private void calculateBackwardTWPenaltySlack(int routeId) {
-		int iV = DV;
-		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
-		double tmpSlack = backwardTwSlack[iV][endDepot] = 0;
-		for (int j = prev[iV][endDepot]; !isDepot(j); j = prev[iV][j])
-		{
-			tmpSlack += Math.max(readyTime(j) - zDash[iV][j], 0);
-			backwardTwSlack[iV][j] = tmpSlack;
-		}
-		backwardTwSlack[iV][startDepot] = tmpSlack + Math.max(readyTime(startDepot) - zDash[iV][startDepot], 0);
 	}
 
 	/**
@@ -1090,15 +1113,6 @@ public class SolutionArray {
 	 */
 	public double getTimeWindowViolation(int iV, int routeId) {
 		return forwardTwSlack[iV][endDepot[iV][routeId]];
-	}
-
-	public double getTimeWindowSyncViolationTotal() {
-		double totalTwSyncVio = 0;
-		for (int r : routes[DV])
-		{ // TODO: Determine SV or DV
-			// totalTwSyncVio += getForwardTimeWindowSyncViolation(r); //FIXME: TW Sync!
-		}
-		return totalTwSyncVio;
 	}
 
 	/**
@@ -1141,61 +1155,83 @@ public class SolutionArray {
 	 * @param swapNode
 	 * @return
 	 */
-	// XXX Test
 	// FIXME: TW!
 	public double evaluateTimeWindow(int iV, int x, int v, int y, int routeX, int routeY, boolean swapNode) { // added
 		double penalty = 0;
-		// // Insert a node v in between x and y, which can belong to different partial routes
-		// if (isSwapNode[v] || iV == SV)
-		// swapNode = true;
-		// // DEBUG
-		// // System.out.println("DEBUG: Insert ("+x+","+v+","+y+") index="+index+", swapNode="+swapNode);
-		//
-		// double tmpForTwSl, tmpBackTwSl, tmpAx, tmpZ;
-		// if (routeDepot[iV][routeX] == x) {
-		// tmpForTwSl = forwardTwSlackDepot[routeX][0];
-		// tmpAx = aDepot[routeX][0];
-		// } else {
-		// tmpForTwSl = forwardTwSlack[iV][x];
-		// tmpAx = a[iV][x];
-		// }
-		// if (routeDepot[iV][routeY] == y) {
-		// tmpBackTwSl = backwardTwSlackDepot[routeY][1];
-		// tmpZ = zDepot[routeY][1];
-		// } else {
-		// tmpBackTwSl = backwardTwSlack[iV][y];
-		// tmpZ = z[iV][y];
-		// }
-		// double tmpAvDash = 0;
-		// // D: Fallunterscheidung
-		// if (iV == DV) {
-		// tmpAvDash = tmpAx + serviceTime(x) + instance.transferTime * (isSwapNode[x] ? 1 : 0) + duration(x, v);
-		// } else { // SV
-		// tmpAvDash = tmpAx + instance.transferTime * (isSwapNode[x] ? 1 : 0) + duration(x, v);
-		// }
-		// double tmpCorrection = 0;
-		// double tmpAv;
-		// // TODO: FALLUNTERSCHEIDUNG, Fall für SV-Routen
-		// if (tmpAvDash < readyTime(v)) {
-		// tmpAv = readyTime(v);
-		// } else if (tmpAvDash > dueDate(v)) {
-		// tmpAv = dueDate(v);
-		// tmpCorrection = tmpAvDash - dueDate(v);
-		// } else {
-		// tmpAv = tmpAvDash;
-		// }
-		//
-		// // Fallunterscheidung DV, SV
-		// if (iV == DV) {
-		// penalty = tmpForTwSl
-		// + tmpBackTwSl
-		// + Math.max(tmpAv + serviceTime(v) + instance.transferTime * (swapNode ? 1 : 0) + duration(v, y) + instance.transferTime
-		// * (isSwapNode[y] ? 1 : 0) - tmpZ, 0) + tmpCorrection;
-		// } else { // SV
-		// penalty = tmpForTwSl + tmpBackTwSl + Math.max(tmpAv + instance.transferTime + duration(v, y) - tmpZ, 0) + tmpCorrection;
-		// }
+		
+		double tmpForTwSl, tmpBackTwSl, tmpAx, tmpZ;
+		if (iV == DV)
+		{
+			penalty = forwardTwSlack[iV][x]	//FIXME NEXT !!!
+					+ backwardTwSlack[iV][y]
+					+ Math.max(tmpAv + serviceTime(v) + instance.transferTime * (isSwapNode[v] ? 1 : 0) + duration(v, y) + instance.transferTime
+							* (isSwapNode[y] ? 1 : 0) - tmpZ, 0) + tmpCorrection;
+		}
+		else	// SV
+		{
+			penalty = tmpForTwSl + tmpBackTwSl + Math.max(tmpAv + instance.transferTime + duration(v, y) - tmpZ, 0) + tmpCorrection;
+		}
+
+		
+		if (routeDepot[iV][routeX] == x)
+		{
+			tmpAx = aDepot[routeX][0];
+		}
+		else
+		{
+			tmpAx = a[iV][x];
+		}
+		if (routeDepot[iV][routeY] == y)
+		{
+			tmpZ = zDepot[routeY][1];
+		}
+		else
+		{
+			tmpZ = z[iV][y];
+		}
+		double tmpAvDash = 0;
+		// D: Fallunterscheidung
+		if (iV == DV)
+		{
+			tmpAvDash = tmpAx + serviceTime(x) + instance.transferTime * (isSwapNode[x] ? 1 : 0) + duration(x, v);
+		}
+		else
+		{ // SV
+			tmpAvDash = tmpAx + instance.transferTime * (isSwapNode[x] ? 1 : 0) + duration(x, v);
+		}
+		double tmpCorrection = 0;
+		double tmpAv;
+		// TODO: FALLUNTERSCHEIDUNG, Fall für SV-Routen
+		if (tmpAvDash < readyTime(v))
+		{
+			tmpAv = readyTime(v);
+		}
+		else if (tmpAvDash > dueDate(v))
+		{
+			tmpAv = dueDate(v);
+			tmpCorrection = tmpAvDash - dueDate(v);
+		}
+		else
+		{
+			tmpAv = tmpAvDash;
+		}
+
+
 
 		return penalty;
+	}
+
+	// /////////////////////////////////////////////
+	// /////////////////SYNC WINDOW/////////////////
+	// /////////////////////////////////////////////
+
+	public double getTimeWindowSyncViolationTotal() {
+		double totalTwSyncVio = 0;
+		for (int r : routes[DV])
+		{ // TODO: Determine SV or DV
+			// totalTwSyncVio += getForwardTimeWindowSyncViolation(r); //FIXME: TW Sync!
+		}
+		return totalTwSyncVio;
 	}
 
 	// FIXME: TW Synchro!
@@ -1358,16 +1394,24 @@ public class SolutionArray {
 	 * Print the route nicely formatted.
 	 */
 	public void print() {
-		System.out.println("ObjectiveFunction=" + getObjectiveValue());
-		System.out.println("TotalVehicleCosts=" + totalVehicleCosts);
-		System.out.println("TotalTravelDistance=" + totalTravelDistance);
-		System.out.println("FreightViolation=" + totalFreightViolation);
-		System.out.println("FuelViolation=" + totalFuelViolation);
-		 System.out.println("TimeWindowViolation=" + totalTimeWindowViolation);
+		System.out.println(toString());
+	}
+	
+	/**
+	 * Print the route nicely formatted.
+	 */
+	public String toString() {
+		String s = "ObjectiveFunction=" + getObjectiveValue();
+		s = s + "\n" + "TotalVehicleCosts=" + totalVehicleCosts;
+		s = s + "\n" + "TotalTravelDistance=" + totalTravelDistance;
+		s = s + "\n" + "FreightViolation=" + totalFreightViolation;
+		s = s + "\n" + "FuelViolation=" + totalFuelViolation;
+		s = s + "\n" + "TimeWindowViolation=" + totalTimeWindowViolation;
 		// System.out.println("DurationViolation=" + durationViolation);
 		// System.out.println("Customers=" + getNumberOfCustomers());
 		// System.out.println("Vehicles=" + numberOfVehicles);
-		System.out.println(asString());
+		s = s + "\n" + asString();
+		return s;
 	}
 
 	/**

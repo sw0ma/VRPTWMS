@@ -27,9 +27,9 @@ public class Start_Exact {
 		String SUB_FOLDER = "toCalculate";
 		FOLDER = "mip" + File.separator + SUB_FOLDER;
 		String INSTANCE_NAME;
-		for (int mode = 3; mode <= 3; mode++)
-		{ // Comparison of different solver methods
-			if (mode == 0)	//No simplex
+		for (int mode = 3; mode <= 3; mode++) // Comparison of different solver methods of Gurobi
+		{
+			if (mode == 0) // No simplex
 				continue;
 			// 1. Load Instance
 			AInstanceParser parser = new SimpleInstanceParser();

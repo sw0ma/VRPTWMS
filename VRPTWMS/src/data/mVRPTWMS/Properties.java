@@ -180,6 +180,15 @@ public class Properties extends AProperties {
 			return d;
 		}
 	}
+	
+	public String getFuelDescription() {
+		String desc = "";
+		String val = Double.toString(getFuelCapacity());
+		if (!val.equals("-1.0")) {
+			desc = desc + "_F" + val;
+		}
+		return desc;
+	}
 
 	public String getBriefDescription() {
 		String desc = "";

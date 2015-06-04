@@ -18,6 +18,10 @@ public class SolutionValidator extends SolutionArray {
 	public SolutionValidator(SolutionArray solution) {
 		super(solution);
 	}
+	
+	public SolutionValidator(InstanceArray instanceA) {
+		super(instanceA);
+	}
 
 	public double[][] arrivalTimes;
 	public double[] swapTimes;

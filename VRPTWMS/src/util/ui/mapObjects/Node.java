@@ -1,6 +1,7 @@
 package util.ui.mapObjects;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 import util.ui.MapDrawingArea;
@@ -32,7 +33,8 @@ public class Node implements IPaintable {
 		g.setColor(color);
 //		g.drawOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
 		g.fillOval(x+relativSpaceBetweenNodes, y+relativSpaceBetweenNodes, drawingSize, drawingSize);
-		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Arial", Font.PLAIN, 12));
 		g.drawString(name, x, y);
 	}
 

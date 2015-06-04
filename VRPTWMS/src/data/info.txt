@@ -1,5 +1,0 @@
-First class data types:
-ref, int, long, float, double
-
-Second class data types:
-boolean, byte, short, char

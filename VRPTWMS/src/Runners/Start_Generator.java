@@ -30,11 +30,11 @@ public class Start_Generator {
 		
 		double MAX_TIME_DV = 8.0;			// hours
 		double MAX_TIME_SV = 8.0;			// hours
-		int TRANSPORT_CAPACITY_DV = 20;	// units
-		int TRANSPORT_CAPACITY_SV = 200;	// units
+		int TRANSPORT_CAPACITY_DV = 10;		// units
+		int TRANSPORT_CAPACITY_SV = 100;	// units
 		double FUEL = 5.0;					// liters
 		double TRANSFERTIME = 0.08;			// hours
-		double VEHICLE_COSTS = 100;			// price
+		double VEHICLE_COSTS = 1000;			// price
 		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
 		double SPEED = 32.8; 				// km/h				(Source: Mobilität in Deutschland 2002)
 		

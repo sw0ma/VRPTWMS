@@ -113,7 +113,7 @@ public class Instance extends AInstance {
 	public Arc getArc(String v1, String v2) {
 		Arc arc = arcs.get(v1, v2);
 		if(arc == null){
-			arc = arcs.get(v2, v1);
+			arc = new Arc(arcs.get(v2, v1), true);	// Temporary Arc
 		}
 		return arc;
 	}

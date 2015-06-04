@@ -17,7 +17,6 @@ import util.ui.mapObjects.Route;
 import util.ui.mapObjects.Text;
 import Runners.Config;
 import data.AArc;
-import data.AVertex;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
 import data.mVRPTWMS.Instance;
@@ -51,14 +50,14 @@ public class MapDrawingArea extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		g2.setRenderingHints(rh);
+		if (currentSolution != null) {
+			for (IPaintable paintable : currentSolution) {
+				paintable.paintObject(g2);
+			}
+		}
 		if (paintObjects != null) {
 			for (IPaintable paintable : paintObjects) {
 				paintable.paintObject(g2);
-			}
-			if (currentSolution != null) {
-				for (IPaintable paintable : currentSolution) {
-					paintable.paintObject(g2);
-				}
 			}
 		}
 	}
@@ -130,24 +129,24 @@ public class MapDrawingArea extends JPanel {
 		int x1, y1, x2, y2;
 		double xStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxX();
 		double yStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxY();
-		for(List<AArc> route : solution.getArcs(Config.DV)){
+		for(List<AArc> route : solution.getArcs(Config.SV)){
 			for(AArc arc : route) {
-				Color color;
-				AVertex v = (AVertex) arc.getFrom();
-				if(v.getEarliestStart() == 0.0 && v.getLatestStart() == solution.instance.planningHorizon) {
-					color = Color.black;
-				} else {
-//					int r = (int)(255.0*consumer.getEarliestStart()/22.0);
-					int r = 0;
-					int g = (int)(255.0*v.getLatestStart()/solution.instance.planningHorizon);
-					int b = 0;
-					color = new Color(r, g, b);
-				}
+				Color color = Color.MAGENTA;
 				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
 				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
 				x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
 				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
-				pattern.add(new Route(x1, y1, x2, y2, color));
+				pattern.add(new Route(x1, y1, x2, y2, color, Config.SV));
+			}
+		}
+		for(List<AArc> route : solution.getArcs(Config.DV)){
+			for(AArc arc : route) {
+				Color color = Color.BLUE;
+				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
+				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
+				x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
+				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
+				pattern.add(new Route(x1, y1, x2, y2, color, Config.DV));
 			}
 		}
 		return pattern;

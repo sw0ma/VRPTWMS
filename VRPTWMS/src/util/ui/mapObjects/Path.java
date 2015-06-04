@@ -39,7 +39,7 @@ public class Path implements IPaintable {
 	public void paintObject(Graphics2D g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 
-		Stroke dashed = new BasicStroke(1.0f);	//Normal-Line
+		Stroke dashed = new BasicStroke(0.5f);	//Normal-Line
 
 		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.setStroke(dashed);

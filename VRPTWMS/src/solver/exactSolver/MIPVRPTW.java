@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import util.DoubleUtil;
 import Runners.Config;
 import data.mVRPTWMS.SolutionArray;
 
@@ -62,33 +63,47 @@ public class MIPVRPTW implements Runnable {
 			{
 				key = curVar.get(GRB.StringAttr.VarName);
 				value = curVar.get(GRB.DoubleAttr.X);
-				if (key.startsWith("x_d") && value != 0)
+				if (key.startsWith("x_d") && DoubleUtil.equals(value, 1))
 				{
 					routesDV.put(routesDVs++, getJ(key));
 				}
-				else if (key.startsWith("x_c") && value != 0)
+				else if (key.startsWith("x_c") && DoubleUtil.equals(value, 1))
 				{
 					nodesDV.put(getI(key), getJ(key));
 				}
-				else if (key.startsWith("z_d") && value != 0)
+				else if (key.startsWith("z_d") && DoubleUtil.equals(value, 1))
 				{
 					routesSV.put(routesSVs++, getJ(key));
 				}
-				else if (key.startsWith("z_c") && value != 0)
+				else if (key.startsWith("z_c") && DoubleUtil.equals(value, 1))
 				{
 					nodesSV.put(getI(key), getJ(key));
 				}
 				else if (key.startsWith("o_"))
 				{
-					swapFirst.put(getO(key), value == 1);
+					swapFirst.put(getO(key), DoubleUtil.equals(value, 1));
 				}
 				variables.put(key, value);
 			}
 			for (String var : variables.keySet())
 			{
-				System.out.println(var + "\t" + variables.get(var));
-				bw.write(var + "\t" + variables.get(var));
-				bw.newLine();
+				value = variables.get(var);
+				if (var.startsWith("x") || var.startsWith("z"))
+				{
+					if (DoubleUtil.equals(value, 1))
+					{
+						System.out.println(var + "\t" + value);
+						bw.write(var + "\t" + value);
+						bw.newLine();
+					}
+
+				}
+				else
+				{
+					System.out.println(var + "\t" + variables.get(var));
+					bw.write(var + "\t" + variables.get(var));
+					bw.newLine();
+				}
 			}
 			System.out.println("\n");
 			System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
