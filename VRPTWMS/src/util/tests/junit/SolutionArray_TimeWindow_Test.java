@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import Runners.Config;
 import util.DoubleUtil;
 import data.mVRPTWMS.Instance;
 import data.mVRPTWMS.InstanceArray;
@@ -62,25 +63,21 @@ public class SolutionArray_TimeWindow_Test {
 	@Test
 	public void evaluateTimeWindowDV() {
 
-		// Create Route <0,1,2,0>
+		// Create Route <0,2,0>
 		solution.createRoute(DV, 2, 0);
 		solution.update();
 		assertTrue(DoubleUtil.equals(solution.totalTimeWindowViolation, 0.0));
+		assertTrue(DoubleUtil.equals(solution.evaluateTimeWindow(Config.DV, 5, 1, 2, false),1.0));
 		solution.insertAfter(DV, 5, 1);
-		solution.update();
+		solution.update();	// <0,1,2,0>
 		assertTrue(DoubleUtil.equals(solution.totalTimeWindowViolation, 1.0));
+		assertTrue(DoubleUtil.equals(solution.evaluateTimeWindow(Config.DV, 2, 3, 6, false),11.0));
 		solution.insertAfter(DV, 2, 3);
-		solution.update();
+		solution.update();	// <0,1,2,3,0>
 		assertTrue(DoubleUtil.equals(solution.totalTimeWindowViolation, 11.0));
-		assertTrue("Case 1: reach customer v within time window", 0.0 == solution.evaluateTimeWindowDV(1, 2, 6));
-		solution.insertAfter(DV, 1, 2);
-		solution.update();
-		assertTrue("Case 2: wait at customer v", 15.0 == solution.evaluateTimeWindowDV(1, 3, 2));
-		assertTrue("Case 3: wait at customer v", 15.0 == solution.evaluateTimeWindowDV(1, 4, 2));
-		// Create Route <0,1,3,2,0>
 		solution.insertAfter(DV, 1, 3);
 		solution.update();
-		assertTrue("", 15.0 == solution.getTimeWindowViolation(DV, 0));
+		assertTrue(DoubleUtil.equals(solution.evaluateTimeWindow(Config.DV, 5,4,1, false),31.0));
 	}
 
 }
