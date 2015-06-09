@@ -4,9 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import util.DoubleUtil;
 import Runners.Config;
 
-public class SolutionArray {
+public class SolutionArray implements Comparable<SolutionArray> {
 
 	public final InstanceArray instance;
 
@@ -45,7 +46,7 @@ public class SolutionArray {
 	protected final int maxNumberOfRoutes;
 
 	/** numbers of vehicles by type, 0 = DV, 1 = SV */
-	public final int[] numberOfVehiclesByTypes;
+	public final int[] numberOfVehiclesByType;
 	/** Absolute number of vehicles<br>
 	 *  numberOfVehicles = Sum(numberOfVehiclesTypes); */
 
@@ -68,18 +69,17 @@ public class SolutionArray {
 	 *  Dimension: the routes with [0..numberOfVertices]*/
 	protected final double[][] travelDistance;
 
-	/** Load on each route */
-	// protected final double[] load; //FIXME Check welche Variable verwendet wird
-
-	/** Buffered freight capacity for each vertex */
-	protected final double[] forwardFreightCapacity, backwardFreightCapacity;
+	/** Buffered freight capacity for each vertex<br>
+	 *  Dimension 1: DV = [0], SV = [1] <br>
+	 *  Dimension 2: [0..numberOfVertices] */
+	protected final double[][] forwardFreightCapacity, backwardFreightCapacity;
 	private double totalFreightViolation;
 
 	/** Buffered fuel capacity for each vertex */
 	protected final double[] forwardFuelCapacity, backwardFuelCapacity;
 	/** Total fuel capacity violation of each route */
-	private final double[] routeFuelCapacityViolation;
-	private double totalFuelViolation;
+	public final double[] routeFuelCapacityViolation;
+	public double totalFuelViolation;
 
 	/** Extended earliest/latest <b>starting times of service</b><br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
@@ -101,19 +101,17 @@ public class SolutionArray {
 	/** Extended earliest/latest <b>arrival times of swap service</b><br>
 	 *  Dimension: [0..numberOfVertices] */
 	protected final double[] cDash, wDash;
-	/** Synchronization penalty slacks for each vertex<br>
-	 *  Dimension 1: DV = [0], SV = [1] <br>
+	/** Synchronization time window penalty slacks for each vertex<br>
 	 *  Dimension 2: [0..numberOfVertices]*/
-	protected final double[][] forwardSyncSlack, backwardSyncSlack;
-	/** Synchronization Time Window penalty slacks for each vertex<br>
-	 *  Dimension 1: DV = [0], SV = [1] <br>
-	 *  Dimension 2: [0..numberOfVertices]*/
-	protected final double[][] forwardTwSyncSlack, backwardTwSyncSlack;
+	protected final double[] forwardSyncTWSlack, backwardSyncTWSlack;
 	public double totalSyncViolation;
 
 	private double workingTimeViolation;
 
-	public double totalLoad;
+	/** Synchronization penalty slacks for each vertex<br>
+	 *  Dimension 1: DV = [0], SV = [1] <br>
+	 *  Dimension 2: [0..numberOfVertices]*/
+	// protected final double[][] forwardSyncSlack, backwardSyncSlack;
 
 	/** alpha - freight penalty<br>
 	 *  beta - fuel penalty<br>
@@ -122,6 +120,8 @@ public class SolutionArray {
 	private double alpha, beta, gamma, epsilon;
 
 	public double totalTravelDistance;
+	public final double totalTravelDistanceByType[];
+	public final double totalFreightByType[];
 	private double totalVehicleCosts;
 
 	public final Set<Integer> requestBank;
@@ -131,7 +131,7 @@ public class SolutionArray {
 		this.instance = instance;
 		maxNumberOfRoutes = instance.numberOfCustomer; // Worst case is that each DV is only able to deliver one customer
 
-		numberOfVehiclesByTypes = new int[] { 0, 0 }; // no DV/SV vehicles at beginning
+		numberOfVehiclesByType = new int[] { 0, 0 }; // no DV/SV vehicles at beginning
 
 		prev = new int[2][instance.maxSize];
 		next = new int[2][instance.maxSize];
@@ -191,25 +191,26 @@ public class SolutionArray {
 
 		forwardTwSlack = new double[2][instance.maxSize];
 		backwardTwSlack = new double[2][instance.maxSize];
-		forwardSyncSlack = new double[2][instance.size];
-		backwardSyncSlack = new double[2][instance.size];
-		forwardTwSyncSlack = new double[2][instance.size];
-		backwardTwSyncSlack = new double[2][instance.size];
+		// forwardSyncSlack = new double[2][instance.size];
+		// backwardSyncSlack = new double[2][instance.size];
+		forwardSyncTWSlack = new double[instance.size];
+		backwardSyncTWSlack = new double[instance.size];
 
-		forwardFreightCapacity = new double[instance.maxSize];
-		backwardFreightCapacity = new double[instance.maxSize];
+		forwardFreightCapacity = new double[2][instance.maxSize];
+		backwardFreightCapacity = new double[2][instance.maxSize];
 
 		forwardFuelCapacity = new double[instance.maxSize];
 		backwardFuelCapacity = new double[instance.maxSize];
 
 		routeFuelCapacityViolation = new double[maxNumberOfRoutes];
 
-		totalLoad = 0;
-
 		alpha = 1;
 		beta = 1;
 		gamma = 1;
 		epsilon = 1;
+
+		totalTravelDistanceByType = new double[] { 0.0, 0.0 };
+		totalFreightByType = new double[] { 0.0, 0.0 };
 
 		requestBank = new HashSet<Integer>(instance.numberOfCustomer);
 		for (int c = 1; c <= instance.numberOfCustomer; c++)
@@ -232,8 +233,8 @@ public class SolutionArray {
 	 */
 	private void copy(SolutionArray sol) {
 
-		System.arraycopy(sol.numberOfVehiclesByTypes, 0, numberOfVehiclesByTypes, 0, sol.numberOfVehiclesByTypes.length);
-		System.arraycopy(sol.numberOfVehiclesByTypes, 0, numberOfVehiclesByTypes, 0, sol.numberOfVehiclesByTypes.length);
+		System.arraycopy(sol.numberOfVehiclesByType, 0, numberOfVehiclesByType, 0, sol.numberOfVehiclesByType.length);
+		System.arraycopy(sol.numberOfVehiclesByType, 0, numberOfVehiclesByType, 0, sol.numberOfVehiclesByType.length);
 
 		System.arraycopy(sol.prev[DV], 0, prev[DV], 0, sol.prev[DV].length);
 		System.arraycopy(sol.prev[SV], 0, prev[SV], 0, sol.prev[SV].length);
@@ -245,9 +246,9 @@ public class SolutionArray {
 		System.arraycopy(sol.pos[SV], 0, pos[SV], 0, sol.pos[SV].length);
 		System.arraycopy(sol.nodes, 0, nodes, 0, sol.nodes.length);
 
-		routes[DV] = new int[sol.numberOfVehiclesByTypes[DV]];
+		routes[DV] = new int[sol.numberOfVehiclesByType[DV]];
 		System.arraycopy(sol.routes[DV], 0, routes[DV], 0, sol.routes[DV].length);
-		routes[SV] = new int[sol.numberOfVehiclesByTypes[SV]];
+		routes[SV] = new int[sol.numberOfVehiclesByType[SV]];
 		System.arraycopy(sol.routes[SV], 0, routes[SV], 0, sol.routes[SV].length);
 
 		System.arraycopy(sol.routeIsSV, 0, routeIsSV, 0, sol.routeIsSV.length);
@@ -286,20 +287,19 @@ public class SolutionArray {
 		System.arraycopy(sol.backwardTwSlack[DV], 0, backwardTwSlack[DV], 0, sol.backwardTwSlack[DV].length);
 		System.arraycopy(sol.backwardTwSlack[SV], 0, backwardTwSlack[SV], 0, sol.backwardTwSlack[SV].length);
 
-		System.arraycopy(sol.forwardSyncSlack[DV], 0, forwardSyncSlack[DV], 0, sol.forwardSyncSlack[DV].length);
-		System.arraycopy(sol.forwardSyncSlack[SV], 0, forwardSyncSlack[SV], 0, sol.forwardSyncSlack[SV].length);
+		// System.arraycopy(sol.forwardSyncSlack[DV], 0, forwardSyncSlack[DV], 0, sol.forwardSyncSlack[DV].length);
+		// System.arraycopy(sol.forwardSyncSlack[SV], 0, forwardSyncSlack[SV], 0, sol.forwardSyncSlack[SV].length);
+		//
+		// System.arraycopy(sol.backwardSyncSlack[DV], 0, backwardSyncSlack[DV], 0, sol.backwardSyncSlack[DV].length);
+		// System.arraycopy(sol.backwardSyncSlack[SV], 0, backwardSyncSlack[SV], 0, sol.backwardSyncSlack[SV].length);
 
-		System.arraycopy(sol.backwardSyncSlack[DV], 0, backwardSyncSlack[DV], 0, sol.backwardSyncSlack[DV].length);
-		System.arraycopy(sol.backwardSyncSlack[SV], 0, backwardSyncSlack[SV], 0, sol.backwardSyncSlack[SV].length);
+		System.arraycopy(sol.forwardSyncTWSlack, 0, forwardSyncTWSlack, 0, sol.forwardSyncTWSlack.length);
+		System.arraycopy(sol.backwardSyncTWSlack, 0, backwardSyncTWSlack, 0, sol.backwardSyncTWSlack.length);
 
-		System.arraycopy(sol.forwardTwSyncSlack[DV], 0, forwardTwSyncSlack[DV], 0, sol.forwardTwSyncSlack[DV].length);
-		System.arraycopy(sol.forwardTwSyncSlack[SV], 0, forwardTwSyncSlack[SV], 0, sol.forwardTwSyncSlack[SV].length);
-
-		System.arraycopy(sol.backwardTwSyncSlack[DV], 0, backwardTwSyncSlack[DV], 0, sol.backwardTwSyncSlack[DV].length);
-		System.arraycopy(sol.backwardTwSyncSlack[SV], 0, backwardTwSyncSlack[SV], 0, sol.backwardTwSyncSlack[SV].length);
-
-		System.arraycopy(sol.forwardFreightCapacity, 0, forwardFreightCapacity, 0, sol.forwardFreightCapacity.length);
-		System.arraycopy(sol.backwardFreightCapacity, 0, backwardFreightCapacity, 0, sol.backwardFreightCapacity.length);
+		System.arraycopy(sol.forwardFreightCapacity[DV], 0, forwardFreightCapacity[DV], 0, sol.forwardFreightCapacity[DV].length);
+		System.arraycopy(sol.forwardFreightCapacity[SV], 0, forwardFreightCapacity[SV], 0, sol.forwardFreightCapacity[SV].length);
+		System.arraycopy(sol.backwardFreightCapacity[DV], 0, backwardFreightCapacity[DV], 0, sol.backwardFreightCapacity[DV].length);
+		System.arraycopy(sol.backwardFreightCapacity[SV], 0, backwardFreightCapacity[SV], 0, sol.backwardFreightCapacity[SV].length);
 
 		System.arraycopy(sol.forwardFuelCapacity, 0, forwardFuelCapacity, 0, sol.forwardFuelCapacity.length);
 		System.arraycopy(sol.backwardFuelCapacity, 0, backwardFuelCapacity, 0, sol.backwardFuelCapacity.length);
@@ -312,14 +312,14 @@ public class SolutionArray {
 		workingTimeViolation = sol.workingTimeViolation;
 		totalSyncViolation = sol.totalSyncViolation;
 
-		totalLoad = sol.totalLoad;
-
 		alpha = sol.alpha;
 		beta = sol.beta;
 		gamma = sol.gamma;
 		epsilon = sol.epsilon;
 
 		totalTravelDistance = sol.totalTravelDistance;
+		System.arraycopy(sol.totalTravelDistanceByType, 0, totalTravelDistanceByType, 0, sol.totalTravelDistanceByType.length);
+		System.arraycopy(sol.totalFreightByType, 0, totalFreightByType, 0, sol.totalFreightByType.length);
 		totalVehicleCosts = sol.totalVehicleCosts;
 	}
 
@@ -431,7 +431,7 @@ public class SolutionArray {
 		route[iV][start] = route[iV][end] = routeId;
 		addArc(iV, start, i);
 		addArc(iV, i, end);
-		numberOfVehiclesByTypes[iV]++;
+		numberOfVehiclesByType[iV]++;
 		totalVehicleCosts += instance.vehiclePrice;
 		updateRouteArray(iV);
 		return routeId;
@@ -445,7 +445,7 @@ public class SolutionArray {
 	 * @param endDepot depot
 	 */
 	private void closeRoute(int iV, int startDepot, int endDepot) {
-		numberOfVehiclesByTypes[iV]--;
+		numberOfVehiclesByType[iV]--;
 		totalVehicleCosts -= instance.vehiclePrice;
 		removeVirtualNode(startDepot);
 		removeVirtualNode(endDepot);
@@ -566,8 +566,8 @@ public class SolutionArray {
 	 * called when everything needs to be reset, e.g. after setting an initial
 	 * solution.
 	 */
-	public void update() { // SPEED: Schleifen über routen und Nodes zusammenfassen.
-		totalTravelDistance = totalLoad = workingTimeViolation = 0.0;
+	public void update() { // SPEED: Schleifen über Routen und Nodes zusammenfassen.
+		totalTravelDistance = workingTimeViolation = 0.0;
 
 		// General
 		updateRouteArray(DV);
@@ -583,40 +583,55 @@ public class SolutionArray {
 
 		// Update Slacks and Violations
 		int iV = DV;
+		totalTravelDistanceByType[iV] = 0.0;
+		totalFreightByType[iV] = 0.0;
 		for (int r : routes[iV])
 		{
 			updateRouteNodes(iV, r);
 
-			calculateFreightSlack(r);
+			calculateTravelDistance(iV, r);
+			totalTravelDistanceByType[iV] += getTravelDistance(iV, r);
+
+			calculateFreightSlack(iV, r);
+			totalFreightByType[iV] += getTotalLoadRoute(iV, r);
+
 			calculateFuelSlack(r);
 
 			calculateTimeWindowExtendedTimes(iV, r);
 			calculateForwardTWPenaltySlack(iV, r);
 			calculateBackwardTWPenaltySlack(iV, r);
-
-			totalLoad += getTotalLoadRoute(r);
 		}
 		iV = SV;
+		totalTravelDistanceByType[iV] = 0.0;
+		totalFreightByType[iV] = 0.0;
 		for (int r : routes[iV])
 		{
 			updateRouteNodes(iV, r);
+
+			calculateTravelDistance(iV, r);
+			totalTravelDistanceByType[iV] += getTravelDistance(iV, r);
+
+			calculateFreightSlack(iV, r);
+			totalFreightByType[iV] += getTotalLoadRoute(iV, r);
 
 			calculateTimeWindowExtendedTimes(iV, r);
 			calculateForwardTWPenaltySlack(iV, r);
 			calculateBackwardTWPenaltySlack(iV, r);
 		}
-		
+
 		calculateFreightTotalViolation();
 		calculateFuelTotalViolation();
 		calculateTimeWindowTotalViolation();
-		
-		//Sync, always after DV and SV Routes
-		for (int r : routes[DV]) {
-			calculateSyncExtendedTimes(r);
-		}
-		calculateSyncTotalViolation();
+		totalTravelDistance = totalTravelDistanceByType[DV] + totalTravelDistanceByType[SV];
 
-		
+		// Sync, always after DV and SV Routes
+		for (int r : routes[DV])
+		{
+			calculateSyncExtendedTimes(r);
+			calculateSyncTWPenaltySlack(r);
+		}
+		calculateSyncTWTotalViolation();
+
 		// workingTimeViolation += getWorkingTimeViolation(r);
 		// calculateDurationSlacks(iV, routeId);
 	}
@@ -627,7 +642,7 @@ public class SolutionArray {
 	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 */
 	private void updateRouteArray(int iV) { // SPEED: Abbruch der Schleife bei erreichen der Fahrzeuganzahl
-		routes[iV] = new int[numberOfVehiclesByTypes[iV]];
+		routes[iV] = new int[numberOfVehiclesByType[iV]];
 		int index = 0;
 		for (int r = 0; r < maxNumberOfRoutes; r++)
 		{
@@ -658,30 +673,13 @@ public class SolutionArray {
 				break;
 			}
 		}
-
-		totalTravelDistance = 0;
-		calculateTravelDistance(iV, r);
-		totalTravelDistance += getTravelDistance(iV, r);
-	}
-
-	// /////////////////////////////////////////////
-	// ///////////////////LOAD//////////////////////
-	// /////////////////////////////////////////////
-	/**
-	 * Return the total load of a give route
-	 * 
-	 * @param routeId route
-	 * @return total load
-	 */
-	public double getTotalLoadRoute(int routeId) {
-		return forwardFreightCapacity[endDepot[DV][routeId]];
 	}
 
 	// /////////////////////////////////////////////
 	// /////////////////DISTANCE////////////////////
 	// /////////////////////////////////////////////
 	/**
-	 * Calculates the travel distance of a route
+	 * Calculates the travel distance of a given route
 	 * 
 	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 * @param routeId route
@@ -715,22 +713,36 @@ public class SolutionArray {
 	/**
 	 * Calculates forward and backward freight slacks for a given route.
 	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 * @param r a route id
 	 */
-	private void calculateFreightSlack(int r) {
+	private void calculateFreightSlack(int iV, int r) {
 		double tmpFreightCapacity = 0;
-		for (int i = next[DV][startDepot[DV][r]]; i != UNASSIGNED; i = next[DV][i])
+		for (int i = next[iV][startDepot[iV][r]]; i != UNASSIGNED; i = next[iV][i])
 		{
-			tmpFreightCapacity += demand(i);
-			forwardFreightCapacity[i] = tmpFreightCapacity;
+			double demand = (iV == DV ? demand(i) : (instance.fuelCapacity - forwardFuelCapacity[i]));
+			tmpFreightCapacity += demand;
+			forwardFreightCapacity[iV][i] = tmpFreightCapacity;
 		}
 
 		tmpFreightCapacity = 0;
-		for (int i = endDepot[DV][r]; i != UNASSIGNED; i = prev[DV][i])
+		for (int i = prev[iV][endDepot[iV][r]]; i != UNASSIGNED; i = prev[iV][i])
 		{
-			tmpFreightCapacity += demand(i);
-			backwardFreightCapacity[i] = tmpFreightCapacity;
+			double demand = (iV == DV ? demand(i) : (instance.fuelCapacity - forwardFuelCapacity[i]));
+			tmpFreightCapacity += demand;
+			backwardFreightCapacity[iV][i] = tmpFreightCapacity;
 		}
+	}
+
+	/**
+	 * Return the total load of a given route
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param routeId route
+	 * @return total load
+	 */
+	public double getTotalLoadRoute(int iV, int routeId) {
+		return forwardFreightCapacity[iV][endDepot[iV][routeId]];
 	}
 
 	/**
@@ -738,9 +750,9 @@ public class SolutionArray {
 	 */
 	private void calculateFreightTotalViolation() {
 		totalFreightViolation = 0;
-		for (int r : routes[DV])
+		for (int r : routes[DV]) //TODO SV Freight Violation
 		{
-			totalFreightViolation += Math.max(forwardFreightCapacity[endDepot[DV][r]] - instance.freightCapacityDV, 0.0);
+			totalFreightViolation += Math.max(forwardFreightCapacity[DV][endDepot[DV][r]] - instance.freightCapacity[DV], 0.0);
 		}
 	}
 
@@ -753,8 +765,9 @@ public class SolutionArray {
 	 * @param y node after
 	 * @return freight penalty
 	 */
-	public double evaluateFreightCapacity(int x, int v, int y) {
-		return Math.max((forwardFreightCapacity[x] + backwardFreightCapacity[y] + demand(v)) - instance.freightCapacityDV, 0.0);
+	public double evaluateFreightCapacity(int iV, int x, int v, int y) {
+		double demand = (iV == DV ? demand(v) : (instance.fuelCapacity - forwardFuelCapacity[v]));
+		return Math.max((forwardFreightCapacity[iV][x] + backwardFreightCapacity[iV][y] + demand) - instance.freightCapacity[iV], 0.0);
 	}
 
 	/**
@@ -765,8 +778,8 @@ public class SolutionArray {
 	 * @param y node after
 	 * @return freight penalty
 	 */
-	public double evaluateFreightCapacity(int x, int y) {
-		return Math.max(forwardFreightCapacity[x] + backwardFreightCapacity[y] - instance.freightCapacityDV, 0.0);
+	public double evaluateFreightCapacity(int iV, int x, int y) {
+		return Math.max(forwardFreightCapacity[iV][x] + backwardFreightCapacity[iV][y] - instance.freightCapacity[iV], 0.0);
 	}
 
 	// /////////////////////////////////////////////
@@ -891,13 +904,13 @@ public class SolutionArray {
 	 * @param routeId route
 	 */
 	private void calculateTimeWindowExtendedTimes(int iV, int routeId) {
-		int startNode = startDepot[iV][routeId];
-		a[iV][startNode] = aDash[iV][startNode] = readyTime(startNode);
-		int j = startNode, i = next[iV][j]; // j = v_(i-1), i = v_(i); j -> i
-		double tmpA = aDash[iV][j], tmpADash;
+		int j = startDepot[iV][routeId];
+		a[iV][j] = aDash[iV][j] = readyTime(j);
+		int i = next[iV][j]; // j = v_(i-1), i = v_(i); j -> i
+		double tmpA, tmpADash;
 		do
 		{
-			tmpADash = tmpA + duration(j, i);
+			tmpADash = a[iV][j] + duration(j, i);
 			if (isSwapNode[nodes[j]])
 			{
 				tmpADash += instance.transferTime;
@@ -908,7 +921,7 @@ public class SolutionArray {
 				tmpADash += serviceTime(j);
 				if (tmpADash <= dueDate(i))
 				{
-					tmpA = Math.max(tmpADash, readyTime(i));
+					tmpA = Math.max(tmpADash, readyTime(i)); // SPEED: 2 if 1 else
 				}
 				else
 				{
@@ -919,11 +932,11 @@ public class SolutionArray {
 			{
 				if (tmpADash <= instance.planningHorizon)
 				{
-					tmpA = tmpADash; // Math.max(tmpADash, 0.0);
+					tmpA = tmpADash; // Math.max(tmpADash, 0.0); //SPEED: 2 if 1 else
 				}
 				else
 				{
-					tmpADash = instance.planningHorizon;
+					tmpA = instance.planningHorizon;
 				}
 			}
 
@@ -934,14 +947,13 @@ public class SolutionArray {
 			i = next[iV][i];
 		} while (i != UNASSIGNED);
 
-		int endDepot = this.endDepot[iV][routeId];
-		z[iV][endDepot] = zDash[iV][endDepot] = dueDate(endDepot);
-		j = endDepot;
+		j = this.endDepot[iV][routeId];
+		z[iV][j] = zDash[iV][j] = dueDate(j);
 		i = prev[iV][j]; // i -> j
-		double tmpZ = zDash[iV][j], tmpZDash;
+		double tmpZ, tmpZDash;
 		do
 		{
-			tmpZDash = tmpZ - duration(i, j);
+			tmpZDash = z[iV][j] - duration(i, j);
 			if (isSwapNode[nodes[i]])
 			{
 				tmpZDash -= instance.transferTime;
@@ -952,7 +964,7 @@ public class SolutionArray {
 				tmpZDash -= serviceTime(i);
 				if (tmpZDash >= readyTime(i))
 				{
-					tmpZ = Math.min(tmpZDash, dueDate(i));
+					tmpZ = Math.min(tmpZDash, dueDate(i)); // SPEED: 2 if 1 else
 				}
 				else
 				{
@@ -963,7 +975,7 @@ public class SolutionArray {
 			{
 				if (tmpZDash >= 0.0)
 				{
-					tmpZ = Math.min(tmpZDash, instance.planningHorizon);
+					tmpZ = Math.min(tmpZDash, instance.planningHorizon); // SPEED: 2 if 1 else
 				}
 				else
 				{
@@ -1110,7 +1122,7 @@ public class SolutionArray {
 			}
 		}
 		else
-		{
+		{ // SV
 			tmpTerm = Math.max(a[SV][x] + b_x + duration(x, v) + instance.transferTime + duration(v, y) - z[SV][y], 0.0);
 		}
 		penalty = forwardTwSlack[iV][x] + backwardTwSlack[iV][y] + tmpTerm;
@@ -1186,110 +1198,147 @@ public class SolutionArray {
 	/**
 	 * It calculates the the total synchronization violation.
 	 */
-	private void calculateSyncTotalViolation() {	//SPEED: can be combined with forwardSync
+	private void calculateSyncTWTotalViolation() { // SPEED: can be combined with forwardSync
 		totalSyncViolation = 0.0;
-		double b_i, routeSyncViolation;
+		double routeSyncViolation;
 		for (int r : routes[DV])
 		{
 			routeSyncViolation = 0.0;
-			for (int i = startDepot[DV][r]; i != UNASSIGNED; i = next[DV][i])
+			for (int i = next[DV][startDepot[DV][r]]; isDepot(i); i = next[DV][i])
 			{
-				b_i = instance.transferTime * (isSwapNode[nodes[i]] ? 1.0 : 0.0);
-				routeSyncViolation += Math.max(a[DV][i] - z[DV][i], 0.0) + Math.max(c[i] - w[i], 0.0)
-						+ Math.min(Math.max(a[DV][i] + serviceTime(i) - w[i], 0.0), Math.max(c[i] + b_i - z[DV][i], 0.0));
+				routeSyncViolation += calcSynchronziationPenaltyForNode(i, isSwapNode[nodes[i]]);
 			}
 			totalSyncViolation += routeSyncViolation;
 		}
 	}
 
-	private void calculateForwardSyncTWPenaltySlack(int iV, int routeId) {
-		// int jDash;
-		int depot = routeDepot[routeId];
-		forwardTwSlackDepot[routeId][0] = Math.max(aDashDepot[routeId][0] - inst.getDueDate(depot), 0);
-		// D: Sync TODO: Überprüfen!!
-		forwardSyncSlackDepot[routeId][0] = Math.max(cDashDepot[routeId][0] - zDepot[routeId][0], 0);
-		// forwardTwSyncSlackDepot[routeId][0] = Math.max(Math.max(cDepot[routeId][0] + inst.getSwapTime(0) - zDepot[routeId][0], aDepot[routeId][0] + inst.getServiceTime(0) - wDepot[routeId][0]), 0);
-		forwardTwSyncSlackDepot[routeId][0] = 0;
-		// DEBUG
-		// System.out.println("TwSlackDepot_0 (route="+routeId+"):" + forwardTwSlackDepot[routeId][0] + " = "+aDashDepot[routeId][0]+" - "+inst.getDueDate(depot));
-		double tmpSlack = forwardTwSlackDepot[routeId][0];
-		double tmpSyncSlack = forwardSyncSlackDepot[routeId][0];
-		double tmpTwSyncSlack = forwardTwSyncSlackDepot[routeId][0];
-		for (int i = startDepot[DV][routeId]; !isDepot(i); i = next[DV][i])
+	/**
+	 * An often used function to calculate synchronization penalty.<br>
+	 * Calculates the synchronization penalty for a give node. Should not used directly.
+	 * 
+	 * @param i the node
+	 * @param isSwap is swap or not
+	 * @return
+	 */
+	private double calcSynchronziationPenaltyForNode(int i, boolean isSwap) {
+		double b_i = instance.transferTime * (isSwap ? 1.0 : 0.0);
+		return Math.max(a[DV][i] - z[DV][i], 0.0) + Math.max(c[i] - w[i], 0.0)
+				+ Math.min(Math.max(a[DV][i] + serviceTime(i) - w[i], 0.0), Math.max(c[i] + b_i - z[DV][i], 0.0));
+	}
+
+	/**
+	 * Calculates the forward and backward synchronization penalty slack for a given route.
+	 * 
+	 * @param r the route
+	 */
+	private void calculateSyncTWPenaltySlack(int r) {
+
+		double tmpSyncSlack = 0.0;
+		for (int i = next[DV][startDepot[DV][r]]; isDepot(i); i = next[DV][i])
 		{
-			/*
-			 * if(isChargeVisit(j)){ jDash=chargeStationBelongingToVisit[j-inst.size()]; }else jDash=j;
-			 */
-			// D : DV or SV
-			if (index == 0)
-			{
-				tmpSlack += Math.max(aDash[index][j] - inst.getDueDate(j), 0);
-			}
-			else if (index == 1)
-			{
-				tmpSlack += Math.max(aDash[index][j] - inst.getDueDate(depot), 0);
-			}
-			// DEBUG
-			// System.out.println("FWtmpSlack (route="+routeId+", j="+j+"):" + tmpSlack + " = "+aDash[index][j]+" - "+inst.getDueDate(j));
-			forwardTwSlack[index][j] = tmpSlack;
-			// System.out.println("FW: TwSlack (route="+routeId+", j="+j+"):" + forwardTwSlack[index][j]);
-
-			// D: Sync Slack
-			if (index == 0 && IsSwapNode[j])
-			{
-				// DEBUG
-				// System.out.println("FW: tmpSyncSlack (route="+routeId+", j="+j+"):" + tmpSyncSlack + " += "+cDash[j]+" - "+z[1][j]);
-				tmpSyncSlack += Math.max(cDash[j] - z[1][j], 0);
-				tmpTwSyncSlack += Math.min(Math.max(a[index][j] + inst.getServiceTime(j) - w[j], 0),
-						Math.max(c[j] + inst.getSwapTime(j) - z[index][j], 0));
-
-				forwardSyncSlack[index][j] = tmpSyncSlack;
-				forwardTwSyncSlack[index][j] = tmpTwSyncSlack;
-				// DEBUG
-				// System.out.println("FWSyncSlack (route "+routeId+", node "+ j +") = " + forwardSyncSlack[index][j]);
-				// System.out.println("FWTwSyncSlack (route "+routeId+", node "+ j +") = " + forwardTwSyncSlack[index][j]);
-			}
+			tmpSyncSlack += calcSynchronziationPenaltyForNode(i, isSwapNode[nodes[i]]);
+			forwardSyncTWSlack[i] = tmpSyncSlack;
 		}
-		// System.out.println("Depot: aDashDepot"+aDashDepot[routeId][1]);
-		forwardTwSlackDepot[routeId][1] = tmpSlack + Math.max(aDashDepot[routeId][1] - inst.getDueDate(depot), 0);
-		// System.out.println("Depot: FWTwSlackDepot="+forwardTwSlackDepot[routeId][1]);
-		// D: sync
-		forwardSyncSlackDepot[routeId][1] = tmpSyncSlack + Math.max(cDashDepot[routeId][1] - zDepot[routeId][1], 0);
-		forwardTwSyncSlackDepot[routeId][1] = tmpTwSyncSlack; // + Math.max(cDashDepot[routeId][1] - zDepot[routeId][1], 0);
+
+		tmpSyncSlack = 0.0;
+		for (int i = prev[DV][endDepot[DV][r]]; isDepot(i); i = prev[DV][i])
+		{
+			tmpSyncSlack += calcSynchronziationPenaltyForNode(i, isSwapNode[nodes[i]]);
+			backwardSyncTWSlack[i] = tmpSyncSlack;
+		}
 	}
 
-	public double getTimeWindowSyncViolationTotal() {
-		double totalTwSyncVio = 0;
-		for (int r : routes[DV])
-		{ // TODO: Determine SV or DV
-			// totalTwSyncVio += getForwardTimeWindowSyncViolation(r); //FIXME: TW Sync!
+	/**
+	 * Evaluates the SV insertion and calculates a_v and z_v<br>
+	 * Function is followed by evaluateTwSyncDV(..)
+	 * 
+	 * @param x node before
+	 * @param v node to be insert
+	 * @param y node after
+	 * @return an array with 0 = penalty, 1 = a_v, 2 = z_v as temporary slacks
+	 */
+	public double[] evaluateAndCalculateTwSyncSV(int x, int v, int y) {
+		double[] result = new double[3]; // 0 = penalty, 1 = a_v, 2 = z_v
+		double p_x = isSwapNode[nodes[x]] ? 1.0 : 0.0;
+		double p_y = isSwapNode[nodes[y]] ? 1.0 : 0.0;
+		// a'_v
+		double tmpADash_v = a[SV][x] + duration(x, v) + instance.transferTime * p_x;
+		// a_v
+		if (tmpADash_v <= readyTime(v))
+		{
+			result[1] = readyTime(v);
 		}
-		return totalTwSyncVio;
+		else if (tmpADash_v >= dueDate(v))
+		{
+			result[1] = dueDate(v);
+		}
+		else
+		{
+			result[1] = tmpADash_v;
+		}
+		// z'_v
+		double tmpZDash_v = zDash[SV][y] - duration(v, y) - instance.transferTime * p_y;
+		// z_v
+		if (tmpZDash_v >= instance.maxWorkingTimeSV)
+		{
+			result[2] = instance.maxWorkingTimeSV;
+		}
+		else if (tmpZDash_v <= 0.0)
+		{
+			result[2] = 0.0;
+		}
+		else
+		{
+			result[2] = tmpZDash_v;
+		}
+		result[0] = forwardTwSlack[SV][x] + backwardTwSlack[SV][y] + Math.max(tmpADash_v + instance.transferTime + duration(v, y) - z[SV][y], 0.0);
+		return result;
 	}
 
-	// FIXME: TW Synchro!
-	public double evaluateTwSync(int iV, int x, int v, int y, int routeX, int routeY, boolean swapNode) {
+	public double evaluateTWSync(int iV, int x, int v, int y, boolean asSwap) {	//TODO
+		return 0.0;
+	}
+	
+	/**
+	 * Evaluates the DV insertion<br>
+	 * Function predecessor is valuateAndCalculateTwSyncSV(..)
+	 * 
+	 * @param x node before
+	 * @param v node to be insert
+	 * @param y node after
+	 * @param paz an array with 0 = penalty, 1 = a_v, 2 = z_v as temporary slacks
+	 * @return
+	 */
+	public double evaluateTwSyncDV(int x, int v, int y, double[] paz) {
+		// TODO Next
+
+		// TODO Update a,z,c,w and evaluate
+
 		// ANPASSEN
 		// TODO: Insertion eines Swap Nodes: erst das Time Window für den Swap von SV Route neu berechnen, rest gleich
 		double penalty = 0;
-		// // Insert a node v in between x and y, which can belong to different partial routes
-		// // D: Distinction of cases: DV and SV
-		// // Should not be necessary anymore?
-		// if (isSwapNode[v] || iV == 1)
-		// swapNode = true;
-		//
+		// Insert a node v in between x and y, which can belong to different partial routes
+		// D: Distinction of cases: DV and SV
+		// Should not be necessary anymore?
+
 		// double tmpForTwSyncSl, tmpBackTwSyncSl, tmpAx, tmpZy;
-		// if (routeDepot[routeX] == x) {
+		// if (routeDepot[routeX] == x)
+		// {
 		// tmpForTwSyncSl = forwardTwSyncSlackDepot[routeX][0];
 		// tmpAx = aDepot[routeX][0];
-		// } else {
+		// }
+		// else
+		// {
 		// tmpForTwSyncSl = forwardTwSyncSlack[iV][x];
 		// tmpAx = a[iV][x];
 		// }
-		// if (routeDepot[routeY] == y) {
+		// if (routeDepot[routeY] == y)
+		// {
 		// tmpBackTwSyncSl = backwardTwSyncSlackDepot[routeY][1];
 		// tmpZy = zDepot[routeY][1];
-		// } else {
+		// }
+		// else
+		// {
 		// tmpBackTwSyncSl = backwardTwSyncSlack[iV][y];
 		// tmpZy = z[iV][y];
 		// }
@@ -1312,47 +1361,68 @@ public class SolutionArray {
 		// double tmpZv;
 		// double tmpWv;
 		// // Av
-		// if (tmpAvDash < readyTime(v)) {
+		// if (tmpAvDash < readyTime(v))
+		// {
 		// tmpAv = readyTime(v);
-		// } else if (tmpAvDash > dueDate(v)) {
+		// }
+		// else if (tmpAvDash > dueDate(v))
+		// {
 		// tmpAv = dueDate(v);
 		// tmpCorrectionA = tmpAvDash - dueDate(v);
-		// } else {
+		// }
+		// else
+		// {
 		// tmpAv = tmpAvDash;
 		// }
 		//
 		// // Cv
-		// if (tmpCvDash <= a[1][v]) {
+		// if (tmpCvDash <= a[1][v])
+		// {
 		// tmpCv = a[1][v];
-		// } else if (tmpCvDash > z[1][v]) {
+		// }
+		// else if (tmpCvDash > z[1][v])
+		// {
 		// tmpCv = z[1][v];
 		// tmpCorrectionC = tmpCvDash - z[1][v];
-		// } else {
+		// }
+		// else
+		// {
 		// tmpCv = tmpCvDash;
 		// }
 		//
 		// // Zv
-		// if (tmpZvDash < readyTime(v)) {
+		// if (tmpZvDash < readyTime(v))
+		// {
 		// tmpZv = readyTime(v);
-		// } else if (tmpZvDash > dueDate(v)) {
+		// }
+		// else if (tmpZvDash > dueDate(v))
+		// {
 		// tmpZv = dueDate(v);
 		// tmpCorrectionZ = tmpZvDash - dueDate(v);
-		// } else {
+		// }
+		// else
+		// {
 		// tmpZv = tmpZvDash;
 		// }
 		//
 		// // Wv
-		// if (tmpWvDash < a[1][v]) {
+		// if (tmpWvDash < a[1][v])
+		// {
 		// tmpWv = a[1][v];
-		// } else if (tmpWvDash > z[1][v]) {
+		// }
+		// else if (tmpWvDash > z[1][v])
+		// {
 		// tmpWv = z[1][v];
 		// tmpCorrectionW = tmpWvDash - z[1][v];
-		// } else {
+		// }
+		// else
+		// {
 		// tmpWv = tmpWvDash;
 		// }
 		//
 		// // Fallunterscheidung DV, SV
-		// if (iV == 0) {
+		// if (iV == 0)
+		// {
 		// penalty = tmpForTwSyncSl + tmpBackTwSyncSl;
 		// penalty += tmpCorrectionC + tmpCorrectionW;
 		// penalty += Math.min(Math.max(tmpAv + serviceTime(v) - tmpWv, 0), Math.max(tmpCv + instance.transferTime - tmpZv, 0));
@@ -1476,7 +1546,52 @@ public class SolutionArray {
 		return result.toString();
 	}
 
+	/**
+	 * @return the value 0 if current solution is equal to new solution;<br>
+	 * value less than 0 if current solution is better than new solution;<br>
+	 * value greater than 0 if current solution is worse than new solution
+	 */
+	@Override
+	public int compareTo(SolutionArray newSol) {
+		if (this.getObjectiveValue() < newSol.getObjectiveValue())
+		{
+			return -1;
+		}
+		else if (this.getObjectiveValue() > newSol.getObjectiveValue())
+		{
+			return 1;
+		}
+		else
+		{
+			double objectiveValue = this.getObjectiveValue(), newSolObjectiveValue = newSol.getObjectiveValue();
+			if (DoubleUtil.equals(objectiveValue, newSolObjectiveValue))
+			{
+				return 0;
+			}
+			else
+			{
+				return Double.compare(objectiveValue, newSolObjectiveValue);
+			}
+		}
+
+	}
+
 	// /////////////////////////////////////////////
 	// //////////////////HELPERS////////////////////
 	// /////////////////////////////////////////////
+
+	/**
+	 * Returns all routed nodes for an give vehicle type.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @return routed nodes
+	 */
+	public Set<Integer> getAllRoutedNodes(int iV) {
+		Set<Integer> routedNodes = new HashSet<Integer>();
+		for (int i : route[iV])
+		{
+			routedNodes.add(i);
+		}
+		return routedNodes;
+	}
 }

@@ -84,7 +84,7 @@ public class CheckSolutionSlack {
 		{
 			public void run() {
 				schedule.setPaintObjects(schedule.createSchedule(validator));
-				map.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
+				map.setPaintObjects(map.createNewPattern(instanceObj));
 				map.setSolution(MapDrawingArea.createSolutionPattern(validator));
 			}
 		});
@@ -101,12 +101,12 @@ public class CheckSolutionSlack {
 		solution.insertAfter(DV, 2, 3);
 		solution.update(); // <0,1,2,3,0>
 
-		System.out.println(solution.evaluateFreightCapacity(1, 4, 2));
+		System.out.println(solution.evaluateFreightCapacity(DV, 1, 4, 2));
 
 		 // D-2
 		 solution.createRoute(DV, 5, 0);
 		 solution.insertAfter(DV, 5, 6);
 		 solution.update(); // <0,5,6,0>
-		 System.out.println(solution.evaluateFreightCapacity(3, 5));
+		 System.out.println(solution.evaluateFreightCapacity(DV, 3, 5));
 	}
 }

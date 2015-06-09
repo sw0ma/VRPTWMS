@@ -34,9 +34,9 @@ public class SolutionWriter extends AUnparser {
 			BufferedWriter bw = new BufferedWriter(writer);
 			bw.write("ObjectiveFunction=" + solution.getObjectiveValue());
 			bw.newLine();
-			bw.write("#RoutesDV=" + String.valueOf(solution.numberOfVehiclesByTypes[Config.DV]));
+			bw.write("#RoutesDV=" + String.valueOf(solution.numberOfVehiclesByType[Config.DV]));
 			bw.newLine();
-			bw.write("#RoutesSV=" + String.valueOf(solution.numberOfVehiclesByTypes[Config.SV]));
+			bw.write("#RoutesSV=" + String.valueOf(solution.numberOfVehiclesByType[Config.SV]));
 			bw.newLine();
 			bw.write("#TotalCostsDistance=" + String.valueOf(solution.getObjectiveValue()));
 			bw.newLine();

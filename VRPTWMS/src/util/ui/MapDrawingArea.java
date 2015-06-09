@@ -30,13 +30,19 @@ public class MapDrawingArea extends JPanel {
 	public final static int BORDER_LEFT = 12;
 	public final static int BORDER_RIGHT = 12;
 	public final static int SIZE = 800;
+	
+	private final static int solShift = 1;
 
-	public static final int NUMBER_OF_NODES_PER_AXIS = 50; // max Number of nodes = Number_of_Nodes_per_Axis^2
+	public static final int NUMBER_OF_NODES_PER_AXIS = 50 + solShift; // max Number of nodes = Number_of_Nodes_per_Axis^2
 
 	private List<IPaintable> paintObjects;
 	private List<IPaintable> currentSolution;
 
-	public MapDrawingArea() {
+	private final boolean paintPossibleArcs;
+
+	public MapDrawingArea(boolean paintPossibleArcs)
+	{
+		this.paintPossibleArcs = paintPossibleArcs;
 		paintObjects = new ArrayList<IPaintable>();
 		setPreferredSize(new Dimension(SIZE + BORDER_TOP + BORDER_LEFT, SIZE + BORDER_TOP + BORDER_LEFT));
 		setBackground(Color.WHITE);
@@ -50,13 +56,17 @@ public class MapDrawingArea extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		g2.setRenderingHints(rh);
-		if (currentSolution != null) {
-			for (IPaintable paintable : currentSolution) {
+		if (currentSolution != null)
+		{
+			for (IPaintable paintable : currentSolution)
+			{
 				paintable.paintObject(g2);
 			}
 		}
-		if (paintObjects != null) {
-			for (IPaintable paintable : paintObjects) {
+		if (paintObjects != null)
+		{
+			for (IPaintable paintable : paintObjects)
+			{
 				paintable.paintObject(g2);
 			}
 		}
@@ -82,7 +92,7 @@ public class MapDrawingArea extends JPanel {
 		repaint();
 	}
 
-	public static List<IPaintable> createNewPattern(Instance instance) {
+	public List<IPaintable> createNewPattern(Instance instance) {
 
 		List<IPaintable> pattern = new ArrayList<IPaintable>();
 		pattern.add(new Text(MapDrawingArea.BORDER_LEFT, MapDrawingArea.BORDER_TOP, instance.getName(), Color.DARK_GRAY));
@@ -90,33 +100,42 @@ public class MapDrawingArea extends JPanel {
 		int x1, y1, x2, y2;
 		double xStep = NUMBER_OF_NODES_PER_AXIS / instance.getMaxX();
 		double yStep = NUMBER_OF_NODES_PER_AXIS / instance.getMaxY();
-		
-		for (AArc arc : instance.getArcs()) {
-			x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
-			y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
-			x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
-			y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
-			pattern.add(new Path(x1, y1, x2, y2));
+
+		if (this.paintPossibleArcs)
+		{
+			for (AArc arc : instance.getArcs())
+			{
+				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep) + solShift;
+				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
+				x2 = (int) Math.round(arc.getTo().getPosX() * xStep) + solShift;
+				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
+				pattern.add(new Path(x1, y1, x2, y2));
+			}
 		}
 
-		for (Customer consumer : instance.getCustomers()) {
+		for (Customer consumer : instance.getCustomers())
+		{
 			Color color;
-			if(consumer.getEarliestStart() == 6.0 && consumer.getLatestStart() == 22.0) {
+			if (consumer.getEarliestStart() == 6.0 && consumer.getLatestStart() == 22.0)
+			{
 				color = Color.black;
-			} else {
-//				int r = (int)(255.0*consumer.getEarliestStart()/22.0);
+			}
+			else
+			{
+				// int r = (int)(255.0*consumer.getEarliestStart()/22.0);
 				int r = 0;
-				int g = (int)(255.0*consumer.getLatestStart()/instance.getDepots().get(0).getLatestStart());
+				int g = (int) (255.0 * consumer.getLatestStart() / instance.getDepots().get(0).getLatestStart());
 				int b = 0;
 				color = new Color(r, g, b);
 			}
-			x1 = (int) Math.round(consumer.getPosX() * xStep);
+			x1 = (int) Math.round(consumer.getPosX() * xStep) + solShift;
 			y1 = (int) Math.round(consumer.getPosY() * yStep);
 			pattern.add(new Node(x1, y1, color, consumer.getName()));
 		}
 
-		for (Depot depot : instance.getDepots()) {
-			x1 = (int) Math.round(depot.getPosX() * xStep);
+		for (Depot depot : instance.getDepots())
+		{
+			x1 = (int) Math.round(depot.getPosX() * xStep) + solShift;
 			y1 = (int) Math.round(depot.getPosY() * yStep);
 			pattern.add(new Node(x1, y1, Color.RED, depot.getName()));
 		}
@@ -129,22 +148,26 @@ public class MapDrawingArea extends JPanel {
 		int x1, y1, x2, y2;
 		double xStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxX();
 		double yStep = NUMBER_OF_NODES_PER_AXIS / solution.instance.instanceObj.getMaxY();
-		for(List<AArc> route : solution.getArcs(Config.SV)){
-			for(AArc arc : route) {
+		for (List<AArc> route : solution.getArcs(Config.SV))
+		{
+			for (AArc arc : route)
+			{
 				Color color = Color.MAGENTA;
-				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
+				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep) + solShift;
 				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
-				x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
+				x2 = (int) Math.round(arc.getTo().getPosX() * xStep) + solShift;
 				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
 				pattern.add(new Route(x1, y1, x2, y2, color, Config.SV));
 			}
 		}
-		for(List<AArc> route : solution.getArcs(Config.DV)){
-			for(AArc arc : route) {
+		for (List<AArc> route : solution.getArcs(Config.DV))
+		{
+			for (AArc arc : route)
+			{
 				Color color = Color.BLUE;
-				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep);
+				x1 = (int) Math.round(arc.getFrom().getPosX() * xStep) + solShift;
 				y1 = (int) Math.round(arc.getFrom().getPosY() * yStep);
-				x2 = (int) Math.round(arc.getTo().getPosX() * xStep);
+				x2 = (int) Math.round(arc.getTo().getPosX() * xStep) + solShift;
 				y2 = (int) Math.round(arc.getTo().getPosY() * yStep);
 				pattern.add(new Route(x1, y1, x2, y2, color, Config.DV));
 			}

@@ -1,5 +1,6 @@
 package solver.heuristicSolver;
 
+import data.mVRPTWMS.InstanceArray;
 import data.mVRPTWMS.SolutionArray;
 
 public abstract class AStartHeuristic {
@@ -7,10 +8,10 @@ public abstract class AStartHeuristic {
 	/** Initial Solution */
 	protected SolutionArray sol;
 	
-	public AStartHeuristic(SolutionArray solution) {
-		this.sol = solution;
+	protected void setSolution(SolutionArray newSolution) {
+		sol = newSolution;
 	}
 	
-	public abstract SolutionArray constructInitialSolution();
+	public abstract SolutionArray constructInitialSolution(InstanceArray instance);
 
 }

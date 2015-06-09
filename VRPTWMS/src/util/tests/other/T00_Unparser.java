@@ -68,7 +68,7 @@ public class T00_Unparser {
 
 			public void run() {
 				Instance instance = instances.get((++i) - 1);
-				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(instance));
+				drawingArea.setPaintObjects(drawingArea.createNewPattern(instance));
 				drawingArea.repaint();
 				if (i == instances.size()) {
 					i = 0;

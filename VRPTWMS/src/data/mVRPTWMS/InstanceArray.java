@@ -21,7 +21,7 @@ public class InstanceArray {
 	public final int maxSize;
 
 	public final int numberOfCustomer, numberOfDepots;
-	public final double freightCapacityDV, transportCapacitySV;
+	public final double[] freightCapacity;
 	public final double maxWorkingTimeDV, maxWorkingTimeSV;
 	public final double fuelCapacity;
 	public final double transferTime;
@@ -54,8 +54,7 @@ public class InstanceArray {
 		// node_type = new char[size];
 
 		Properties c = (Properties) instance.getConfig();
-		this.freightCapacityDV = c.getTransportCapacityDV();
-		this.transportCapacitySV = c.getTransportCapacitySV();
+		this.freightCapacity = new double[] { c.getTransportCapacityDV(), c.getTransportCapacitySV() };
 		this.maxWorkingTimeDV = c.getMaxTimeDV();
 		this.maxWorkingTimeSV = c.getMaxTimeSV();
 		this.fuelCapacity = c.getFuelCapacity();

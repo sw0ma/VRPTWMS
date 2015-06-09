@@ -68,7 +68,7 @@ public class Start_Exact {
 				{
 					public void run() {
 						schedule.setPaintObjects(schedule.createSchedule(validator));
-						map.setPaintObjects(MapDrawingArea.createNewPattern(instanceO));
+						map.setPaintObjects(map.createNewPattern(instanceO));
 						map.setSolution(MapDrawingArea.createSolutionPattern(validator));
 					}
 				});

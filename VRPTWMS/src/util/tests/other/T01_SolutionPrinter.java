@@ -81,7 +81,7 @@ public class T01_SolutionPrinter
 			public void run()
 			{
 				schedule.setPaintObjects(schedule.createSchedule(validator));
-				map.setPaintObjects(MapDrawingArea.createNewPattern(instanceObj));
+				map.setPaintObjects(map.createNewPattern(instanceObj));
 				map.setSolution(MapDrawingArea.createSolutionPattern(validator));
 			}
 		});

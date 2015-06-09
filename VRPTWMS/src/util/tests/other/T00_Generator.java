@@ -24,7 +24,7 @@ public class T00_Generator {
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		Runnable toRun = new Runnable() {
 			public void run() {
-				drawingArea.setPaintObjects(MapDrawingArea.createNewPattern(generator.generateInstance()));
+				drawingArea.setPaintObjects(drawingArea.createNewPattern(generator.generateInstance()));
 				drawingArea.repaint();
 			}
 		};

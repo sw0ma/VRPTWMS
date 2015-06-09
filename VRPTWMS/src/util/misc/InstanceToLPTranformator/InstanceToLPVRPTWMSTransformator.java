@@ -137,7 +137,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				}
 				if (s.startsWith("k"))
 				{
-					bw.write("0 <= " + s + " <= " + sol.instance.freightCapacityDV);
+					bw.write("0 <= " + s + " <= " + sol.instance.freightCapacity[Config.DV]);
 					bw.newLine();
 				}
 				if (s.startsWith("phi"))
@@ -152,7 +152,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 				}
 				if (s.startsWith("pi"))
 				{
-					bw.write("0 <= " + s + " <= " + sol.instance.transportCapacitySV);
+					bw.write("0 <= " + s + " <= " + sol.instance.freightCapacity[Config.SV]);
 					bw.newLine();
 				}
 			}
@@ -373,7 +373,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		String z;
 
 		double F = sol.instance.fuelCapacity;
-		double P = sol.instance.transportCapacitySV;
+		double P = sol.instance.freightCapacity[Config.SV];
 
 		// generalVars.add("phi_d0");
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++)
@@ -478,7 +478,7 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 		String k_i;
 		String k_j;
 		String x_i_j;
-		double M = sol.instance.freightCapacityDV;
+		double M = sol.instance.freightCapacity[Config.DV];
 
 		generalVars.add("k_dN");
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++)

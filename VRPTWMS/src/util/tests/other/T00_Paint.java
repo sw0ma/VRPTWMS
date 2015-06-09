@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import Runners.Config;
 import util.ui.MapDrawingArea;
 import util.ui.IPaintable;
 import util.ui.MapSimpleFrame;
@@ -38,7 +39,7 @@ public class T00_Paint {
 			double x2 = (Math.random() * 50) + 1;
 			double y2 = (Math.random() * 50) + 1;
 			
-			pattern.add(new Route((int) x1, (int) y1, (int) x2, (int) y2, Color.BLACK));
+			pattern.add(new Route((int) x1, (int) y1, (int) x2, (int) y2, Color.BLACK, Config.DV));
 		}
 		
 		for (int i = 1; i <= 50; i++) {

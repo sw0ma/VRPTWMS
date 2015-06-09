@@ -14,7 +14,7 @@ public class MapSimpleFrame extends JFrame{
 		super("Instance Mapping");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		drawingArea = new MapDrawingArea();
+		drawingArea = new MapDrawingArea(true);
 		this.setContentPane(drawingArea);
 		
 		drawingArea.addPaintObject(new Border());

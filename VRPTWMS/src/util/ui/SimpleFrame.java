@@ -24,7 +24,7 @@ public class SimpleFrame extends JFrame {
 
 		// tabs
 		JTabbedPane tabbedPane = new JTabbedPane();
-		this.panelMap = new MapDrawingArea();
+		this.panelMap = new MapDrawingArea(false);
 		tabbedPane.addTab("Map", new JScrollPane(panelMap));
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		this.panelSchedule = new ScheduleDrawingArea();
