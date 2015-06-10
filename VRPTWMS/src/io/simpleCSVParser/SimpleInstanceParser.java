@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
+import data.AVertex;
 import data.mVRPTWMS.Arc;
 import data.mVRPTWMS.Customer;
 import data.mVRPTWMS.Depot;
@@ -58,6 +59,10 @@ public class SimpleInstanceParser extends AInstanceParser {
 						e = st.nextToken();
 						l = st.nextToken();
 						d = st.nextToken();
+						if(Integer.parseInt(d) < 1) {
+							System.out.println("Customer " + name + " removed, because demand is less than 1");
+							continue;
+						}
 						instance.addVertice(new Customer(name, x, y, stime, e, l, d));
 						
 					} else if (strNextType.equals("Depot")) {
@@ -90,25 +95,31 @@ public class SimpleInstanceParser extends AInstanceParser {
 			br.close();
 
 			for (TempArc tArc : arcsToAdd) {
-				Arc arc = new Arc(instance.getVertice(tArc.name1), instance.getVertice(tArc.name2), tArc.distance, tArc.time, tArc.fuel);
-				if(!instance.addArc(arc)) {
-					System.out.println("Undefined Arc in " + file + " - " + tArc);
+				AVertex from = instance.getVertice(tArc.name1);
+				AVertex to = instance.getVertice(tArc.name2);
+				if(from != null && to != null) {
+					instance.addArc(new Arc(from, to, tArc.distance, tArc.time, tArc.fuel));
+				} else {
+					System.out.println("Undefined Arc in " + file + " - (" + tArc.name1 + "->" + tArc.name2 + ")");
 				}
-				;
 			}
 
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException while reading csv file: " + file);
 			e.printStackTrace();
+			instance = null;
 		} catch (NoSuchElementException e) {
-			System.out.println("NoSuchElementException while reading csv file in line: " + lineNumber);
+			System.out.println("NoSuchElementException while reading csv " + file + " in line: " + lineNumber);
 			e.printStackTrace();
+			instance = null;
 		} catch (IOException e) {
-			System.out.println("IOException while reading csv file: " + e);
+			System.out.println("IOException while reading csv " + file + ": " + e);
 			e.printStackTrace();
+			instance = null;
 		} catch (Exception e) {
-			System.out.println("Exception while reading csv file: " + e);
+			System.out.println("Exception while reading csv " + file + ": " + e);
 			e.printStackTrace();
+			instance = null;
 		}
 
 		return instance;

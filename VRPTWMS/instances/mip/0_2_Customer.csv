@@ -1,12 +1,12 @@
 //V	Name	X	Y	st	e	l	Demand
-Depot	d0	24	16
-Vertice	c0	12	42	1	0	0	1
-Vertice	c1	4	2	2	0	0	2
+Depot	d0	24	16	0	0	100	0
+Vertice	c1	12	42	1	0	50	1
+Vertice	c2	4	2	2	50	100	2
 
 //Arc	From	To	Dist	t	f
-Arc	d0	c0	10	1	2
 Arc	d0	c1	10	1	2
-Arc	c0	c1	10	1	2
+Arc	d0	c2	10	1	2
+Arc	c1	c2	10	1	2
 
 //Opt	Name	Value
 Option	T_DV	10
@@ -15,3 +15,4 @@ Option	C_DV	3
 Option	C_SV	10
 Option	F	10
 Option	b	2
+Option	c	100

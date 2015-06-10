@@ -24,7 +24,7 @@ import data.mVRPTWMS.SolutionValidator;
 public class ScheduleDrawingArea extends JPanel {
 
 	private List<IPaintable> paintObjects;
-	public static int width = 1200;
+	public static int width = 750;
 	public static double timeStep = 1;
 	public static int rowHeight = 70;
 	public static int timeLineShift = 30;

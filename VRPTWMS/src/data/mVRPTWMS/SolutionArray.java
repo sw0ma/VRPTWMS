@@ -53,10 +53,13 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	/** Type of every route. If SV-Route, variable is set to 1 */
 	protected final boolean[] routeIsSV;
 
-	/** Swap node configuration */
+	/** Swap node configuration<br>
+	 *  Dimension 1: [0..numberOfVertices]
+	 *  is true, if at least one SV routes leaves from node i */
 	public final boolean[] isSwapNode; // SPEED: Als integer um direkt als multiplikator zu funktionieren?
 
-	/** Swap order */
+	/** Swap order<br>
+	 *  Dimension 1: [0..numberOfVertices] */
 	public final boolean[] isSwapFirst;
 
 	/** Start/End depot of every route <br>
@@ -76,7 +79,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	private double totalFreightViolation;
 
 	/** Buffered fuel capacity for each vertex */
-	protected final double[] forwardFuelCapacity, backwardFuelCapacity;
+	public final double[] forwardFuelCapacity, backwardFuelCapacity;
 	/** Total fuel capacity violation of each route */
 	public final double[] routeFuelCapacityViolation;
 	public double totalFuelViolation;
@@ -89,11 +92,11 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
 	protected final double[][] aDash, zDash;
-	public double totalTimeWindowViolation;
 	/** Time window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
 	protected final double[][] forwardTwSlack, backwardTwSlack;
+	public double totalTimeWindowViolation;
 
 	/** Extended earliest/latest <b>starting times of swap service</b><br>
 	 *  Dimension: [0..numberOfVertices] */
@@ -157,7 +160,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		routeIsSV = new boolean[maxNumberOfRoutes];
 
-		isSwapNode = new boolean[instance.numberOfCustomer + 1];
+		isSwapNode = new boolean[instance.maxSize];
 		isSwapFirst = new boolean[instance.numberOfCustomer + 1];
 
 		// routeStart = new int[maxNumberOfRoutes];
@@ -372,6 +375,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	public void addArc(int iV, int i, int j) {
 		if (isDepot(i) && isDepot(j))
 		{
+			System.out.println("Close route-" + iV + ": " + i + "->" + j);
 			closeRoute(iV, i, j);
 		}
 		else if (i != j)
@@ -402,6 +406,17 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 */
 	public void insertBefore(int iV, int i, int insert) {
 		insertAfter(iV, prev[iV][i], insert);
+	}
+
+	/**
+	 * Removes a node from a route<br>
+	 * Notice, no check whether is i is part of a route or is a depot.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param i node which to remove
+	 */
+	public void removeNode(int iV, int i) {
+		addArc(iV, prev[iV][i], next[iV][i]);
 	}
 
 	/**
@@ -750,7 +765,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 */
 	private void calculateFreightTotalViolation() {
 		totalFreightViolation = 0;
-		for (int r : routes[DV]) //TODO SV Freight Violation
+		for (int r : routes[DV]) // TODO SV Freight Violation
 		{
 			totalFreightViolation += Math.max(forwardFreightCapacity[DV][endDepot[DV][r]] - instance.freightCapacity[DV], 0.0);
 		}
@@ -998,25 +1013,23 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 * @param routeId route
 	 */
 	private void calculateForwardTWPenaltySlack(int iV, int routeId) { // SPEED: mit calcTimeWindowExtendedTimes verbinden oder calcForwardTWPenaltySlack
-		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
-		double tmpSlack = forwardTwSlack[iV][startDepot] = 0;
+		int startDepot = this.startDepot[iV][routeId];
+		double tmpSlack = forwardTwSlack[iV][startDepot] = 0.0;
 		if (iV == DV)
 		{
-			for (int j = next[iV][startDepot]; !isDepot(j); j = next[iV][j])
+			for (int j = next[iV][startDepot]; j != UNASSIGNED; j = next[iV][j])
 			{
-				tmpSlack += Math.max(aDash[iV][j] - dueDate(j), 0);
+				tmpSlack += Math.max(aDash[iV][j] - dueDate(j), 0.0);
 				forwardTwSlack[iV][j] = tmpSlack;
 			}
-			forwardTwSlack[iV][endDepot] = tmpSlack + Math.max(aDash[iV][endDepot] - dueDate(endDepot), 0);
 		}
 		else
 		{
-			for (int j = next[iV][startDepot]; !isDepot(j); j = next[iV][j])
+			for (int j = next[iV][startDepot]; j != UNASSIGNED; j = next[iV][j])
 			{
-				tmpSlack += Math.max(aDash[iV][j] - instance.maxWorkingTimeSV, 0);
+				tmpSlack += Math.max(aDash[iV][j] - instance.maxWorkingTimeSV, 0.0);
 				forwardTwSlack[iV][j] = tmpSlack;
 			}
-			forwardTwSlack[iV][endDepot] = tmpSlack + Math.max(aDash[iV][endDepot] - instance.maxWorkingTimeSV, 0);
 		}
 	}
 
@@ -1028,25 +1041,23 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 * @param routeId route
 	 */
 	private void calculateBackwardTWPenaltySlack(int iV, int routeId) { // SPEED: mit calcTimeWindowExtendedTimes verbinden oder calcForwardTWPenaltySlack
-		int startDepot = this.startDepot[iV][routeId], endDepot = this.endDepot[iV][routeId];
-		double tmpSlack = backwardTwSlack[iV][endDepot] = 0;
+		int endDepot = this.endDepot[iV][routeId];
+		double tmpSlack = backwardTwSlack[iV][endDepot] = 0.0;
 		if (iV == DV)
 		{
-			for (int j = prev[iV][endDepot]; !isDepot(j); j = prev[iV][j])
+			for (int j = prev[iV][endDepot]; j != UNASSIGNED; j = prev[iV][j])
 			{
-				tmpSlack += Math.max(readyTime(j) - zDash[iV][j], 0);
+				tmpSlack += Math.max(readyTime(j) - zDash[iV][j], 0.0);
 				backwardTwSlack[iV][j] = tmpSlack;
 			}
-			backwardTwSlack[iV][startDepot] = tmpSlack + Math.max(readyTime(startDepot) - zDash[iV][startDepot], 0);
 		}
 		else
 		{
-			for (int j = prev[iV][endDepot]; !isDepot(j); j = prev[iV][j])
+			for (int j = prev[iV][endDepot]; j != UNASSIGNED; j = prev[iV][j])
 			{
-				tmpSlack += Math.max(-zDash[iV][j], 0); // SPEED: if(0<zDash[iV][j])
+				tmpSlack += Math.max(-zDash[iV][j], 0.0); // SPEED: if(0<zDash[iV][j])
 				backwardTwSlack[iV][j] = tmpSlack;
 			}
-			backwardTwSlack[iV][startDepot] = tmpSlack + Math.max(-zDash[iV][startDepot], 0);
 		}
 	}
 
@@ -1079,7 +1090,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 * @param routeId route
 	 * @return the time window violation
 	 */
-	public double getTimeWindowViolation(int iV, int routeId) {
+	public double getRouteTimeWindowViolation(int iV, int routeId) {
 		return forwardTwSlack[iV][endDepot[iV][routeId]];
 	}
 
@@ -1247,6 +1258,10 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			backwardSyncTWSlack[i] = tmpSyncSlack;
 		}
 	}
+	
+	public double evaluateTWSync(int iV, int x, int v, int y, boolean asSwap) { // TODO
+		return 0.0;
+	}
 
 	/**
 	 * Evaluates the SV insertion and calculates a_v and z_v<br>
@@ -1295,13 +1310,10 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		return result;
 	}
 
-	public double evaluateTWSync(int iV, int x, int v, int y, boolean asSwap) {	//TODO
-		return 0.0;
-	}
-	
+
 	/**
 	 * Evaluates the DV insertion<br>
-	 * Function predecessor is valuateAndCalculateTwSyncSV(..)
+	 * Function predecessor is evaluateAndCalculateTwSyncSV(..)
 	 * 
 	 * @param x node before
 	 * @param v node to be insert
@@ -1451,7 +1463,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 	public String swapOrderString() {
 		StringBuilder swapOrder = new StringBuilder();
-		swapOrder.append("p: ");
+		swapOrder.append("o: ");
 		for (int i = 1; i <= instance.numberOfCustomer; i++)
 		{
 			swapOrder.append(i);
@@ -1460,6 +1472,19 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			swapOrder.append("; ");
 		}
 		return swapOrder.toString();
+	}
+	
+	public String isSwapString() {
+		StringBuilder isSwap = new StringBuilder();
+		isSwap.append("p: ");
+		for (int i = 1; i <= instance.numberOfCustomer; i++)
+		{
+			isSwap.append(i);
+			isSwap.append("=");
+			isSwap.append(isSwapNode[i]);
+			isSwap.append("; ");
+		}
+		return isSwap.toString();
 	}
 
 	/**
@@ -1543,6 +1568,8 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			result.append(System.lineSeparator());
 		}
 		result.append(swapOrderString());
+		result.append(System.lineSeparator());
+		result.append(isSwapString());
 		return result.toString();
 	}
 

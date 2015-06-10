@@ -38,6 +38,9 @@ public class Start_Exact {
 			{
 				INSTANCE_NAME = file.getName().substring(0, file.getName().lastIndexOf("."));
 				Instance instanceO = parser.parseFile(file);
+				if(instanceO == null) {
+					continue;
+				}
 				InstanceArray instanceA = new InstanceArray(instanceO);
 				SolutionArray solution = new SolutionArray(instanceA);
 

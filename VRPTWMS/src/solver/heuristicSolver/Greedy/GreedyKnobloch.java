@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,10 +19,11 @@ public class GreedyKnobloch extends AStartHeuristic {
 
 	private final int DV = Config.DV;
 	private final int SV = Config.SV;
+	private final int UNASSIGNED = Config.UNASSIGNED;
 	private XorSRandom random = Config.myRandomGenerator;
 
 	private Set<Integer> unfinishedRoutes = new HashSet<Integer>();
-	private Map<Integer, List<Integer>> potentialSwapNodes = new HashMap<Integer, List<Integer>>();
+	private Set<Integer> nodesMarkedAsSwapNodes;
 
 	private double alpha1, alpha2, beta;
 	private int m, n;
@@ -32,38 +32,38 @@ public class GreedyKnobloch extends AStartHeuristic {
 	{
 		this.alpha1 = 0.1;
 		this.alpha2 = 0.1;
-		this.beta = 75.0;
-		this.m = 10; // maximum number of DVs TODO
+		this.m = 15; // maximum number of DVs TODO
 		this.n = 10; // maximum number of SVs
 	}
 
 	@Override
 	public SolutionArray constructInitialSolution(InstanceArray instance) {
 		setSolution(new SolutionArray(instance));
+		this.beta = instance.fuelCapacity * 0.75;
 		constructRoutes(DV, sol.requestBank);
 		int counter = 0;
 		while ((sol.totalFuelViolation > 0.0 || sol.totalSyncViolation > 0.0) && counter < 100)
 		{
 			counter++;
-			identifyPotentialSwapNodes();
-			// insertSwapNodes();
+			nodesMarkedAsSwapNodes = new HashSet<Integer>();
+			insertSwapNodes(identifyPotentialSwapNodes());
 		}
-		// Set<Integer> swapNodes = sol.getAllRoutedNodes(DV);
-		// constructRoutes(SV, swapNodes);
+		constructRoutes(SV, nodesMarkedAsSwapNodes);
 		return sol;
 	}
 
 	private void constructRoutes(int type, Set<Integer> remainingNodes) {
-		if (remainingNodes.isEmpty())
+		if (remainingNodes == null || remainingNodes.isEmpty())
 		{
 			return;
 		}
 
 		int maxVehicles = type == DV ? m : n;
-		if (maxVehicles >= sol.instance.numberOfCustomer)
+		if (maxVehicles >= remainingNodes.size())
 		{
-			maxVehicles = (int) Math.round(sol.instance.numberOfCustomer * 0.5);
+			maxVehicles = (int) Math.round(remainingNodes.size() * 0.5);
 		}
+		unfinishedRoutes.clear();
 		constructSeed(type, remainingNodes, maxVehicles);
 
 		int k = -1; // shortest route
@@ -76,7 +76,7 @@ public class GreedyKnobloch extends AStartHeuristic {
 		double maxCandidateValue, minCandidateValue;
 		boolean asSwap = (type == DV ? false : true);
 		int firstNode, lastNode;
-
+		List<Integer> RCL = new ArrayList<Integer>();
 		while (!unfinishedRoutes.isEmpty() && !remainingNodes.isEmpty())
 		{
 			// Calculate balancing scores and find candidate that achieves the minimal penalty
@@ -148,8 +148,7 @@ public class GreedyKnobloch extends AStartHeuristic {
 			}
 			else if (candidates.size() > 0)
 			{
-				// VARIANT TWO: RCL
-				List<Integer> RCL = new LinkedList<Integer>(); // Restricted Candidate List "best candidates"
+				RCL.clear(); // Restricted Candidate List "best candidates"
 				minCandidateValue = Double.MAX_VALUE;
 				maxCandidateValue = 0;
 				for (Map.Entry<Integer, Double> e : candidates.entrySet())
@@ -200,15 +199,11 @@ public class GreedyKnobloch extends AStartHeuristic {
 		// ==> Choose the set with the lowest difference between MIN and MEAN
 		// (5.4,Z3)
 		int tries, nNodes = remainingNodes.size();
-		if (nNodes <= 12)
-		{
+		if(nNodes <= 12) {
 			tries = factorial(nNodes) / (factorial(nNodes - maxVehicles) * factorial(maxVehicles));
-		}
-		else
-		{
+		} else {
 			tries = 10000;
 		}
-
 		int[] counter = new int[tries];
 		Arrays.fill(counter, 0);
 		double[] mean = new double[tries], minDist = new double[tries], maxDist = new double[tries];
@@ -230,7 +225,7 @@ public class GreedyKnobloch extends AStartHeuristic {
 		{
 			for (int s = 0; s < tries; ++s)
 			{ // Create various sets of seed nodes an choose the most disperse one
-				seedNodes.add(s, drawNumbers(maxVehicles, 1, sol.instance.numberOfCustomer)); // Create a list of various random nodes
+				seedNodes.add(s, drawNumbers(maxVehicles, remainingNodes)); // Create a list of various random nodes
 
 				double dist;
 				for (int i = 0; i < seedNodes.get(s).size(); i++)
@@ -248,15 +243,12 @@ public class GreedyKnobloch extends AStartHeuristic {
 					}
 				}
 				mean[s] = mean[s] / (counter[s]);
-			}
-
-			for (int i = 0; i < maxVehicles; ++i)
-			{
-				curScore = -(mean[i] - minDist[i]) / mean[i];
+				//Find best
+				curScore = -(mean[s] - minDist[s]) / mean[s];
 				if (curScore > maxScore)
 				{
 					maxScore = curScore;
-					selectedSeedNodes = new HashSet<Integer>(seedNodes.get(i));
+					selectedSeedNodes = new HashSet<Integer>(seedNodes.get(s));
 				}
 			}
 		}
@@ -266,7 +258,7 @@ public class GreedyKnobloch extends AStartHeuristic {
 		for (int i : selectedSeedNodes)
 		{
 			System.out.print(i + ", ");
-			sol.createRoute(DV, i, 0);
+			sol.createRoute(iV, i, 0);
 			remainingNodes.remove(i);
 		}
 		System.out.print("Score = " + maxScore);
@@ -281,24 +273,141 @@ public class GreedyKnobloch extends AStartHeuristic {
 		}
 	}
 
-	private void identifyPotentialSwapNodes() {
+	private List<HashSet<Integer>> identifyPotentialSwapNodes() {
+		List<HashSet<Integer>> potentialSwapNodes = new ArrayList<HashSet<Integer>>();
+		double fwFuelSlack_i, rmd_fwFuelSlack_i, bwFuelSlack_i, rmd_bwFuelSlack_i;
+		int p, n;
 		for (int r : sol.routes[DV])
 		{
 			if (sol.routeFuelCapacityViolation[r] > 0)
 			{
-				for (int i = sol.next[DV][sol.startDepot[DV][r]]; i != Config.UNASSIGNED; i = sol.next[DV][i])
+				HashSet<Integer> candidatesOfRoute = new HashSet<Integer>();
+				potentialSwapNodes.add(candidatesOfRoute);
+				for (int i = sol.next[DV][sol.startDepot[DV][r]]; !sol.isDepot(i); i = sol.next[DV][i])
 				{
-					
+					fwFuelSlack_i = sol.forwardFuelCapacity[i];
+					rmd_fwFuelSlack_i = fwFuelSlack_i % sol.instance.fuelCapacity;
+					bwFuelSlack_i = sol.backwardFuelCapacity[i];
+					rmd_bwFuelSlack_i = bwFuelSlack_i % sol.instance.fuelCapacity;
+					if ((rmd_fwFuelSlack_i + rmd_bwFuelSlack_i > beta) || (rmd_fwFuelSlack_i > beta) || (rmd_bwFuelSlack_i > beta))
+					{
+						candidatesOfRoute.add(i);
+					}
+
+					p = sol.prev[DV][i];
+					if (p != UNASSIGNED && !sol.isDepot(p))
+					{
+						double fwFuelSlack_p = sol.forwardFuelCapacity[p];
+						double rmd_fwFuelSlack_p = fwFuelSlack_p % sol.instance.fuelCapacity;
+						if (rmd_fwFuelSlack_i < rmd_fwFuelSlack_p)
+						{
+							candidatesOfRoute.add(i);
+						}
+					}
+
+					n = sol.next[DV][i];
+					if (n != UNASSIGNED && !sol.isDepot(n))
+					{
+						double bwFuelSlack_n = sol.backwardFuelCapacity[n];
+						double rmd_bwFuelSlack_n = bwFuelSlack_n % sol.instance.fuelCapacity;
+						if (rmd_bwFuelSlack_i < rmd_bwFuelSlack_n)
+						{
+							candidatesOfRoute.add(i);
+						}
+					}
 				}
 			}
-
 		}
-
+		return potentialSwapNodes;
 	}
 
-	private void insertSwapNodes() {
-		// TODO Auto-generated method stub
+	private void insertSwapNodes(List<HashSet<Integer>> potentialSwapNodes) {
+		Map<Integer, Double> candidates = new HashMap<Integer, Double>();
+		List<Integer> RCL = new ArrayList<Integer>();
+		HashSet<Integer> potentialSwapNodesOfRoute;
+		double initialBCapPenalty;
+		double initialTwPenalty;
+		double tmpPenalty;
+		double tmpMaxPenalty;
+		double tmpMinPenalty;
+		double tmpBCapPenalty;
+		double tmpTwPenalty;
+		int insertKey;
+		int p, n;
+		// Iterate through all routes and evaluate potential swap nodes
+		for (int r = 0; r < potentialSwapNodes.size(); r++)
+		{
+			potentialSwapNodesOfRoute = potentialSwapNodes.get(r);
+			initialBCapPenalty = sol.routeFuelCapacityViolation[r];
+			if (initialBCapPenalty > 0.0)
+			{
+				initialTwPenalty = sol.getRouteTimeWindowViolation(DV, r);
 
+				// Reset candidate list
+				candidates.clear();
+				RCL.clear();
+				tmpMaxPenalty = 0;
+				tmpMinPenalty = Double.MAX_VALUE;
+
+				for (int i : potentialSwapNodesOfRoute)
+				{
+					tmpBCapPenalty = 0;
+					tmpTwPenalty = 0;
+					// Evaluate turning node i into a swap node
+					// Evaluate TW-Violation
+					// Determine preceding and following nodes
+					p = sol.prev[DV][i];
+					n = sol.next[DV][i];
+					// Evaluate: route violation - violation at v without swap + violation at v with swap
+					tmpBCapPenalty = Math.max(
+							initialBCapPenalty - sol.evaluateFuelCapacity(p, i, n, false) + sol.evaluateFuelCapacity(p, i, n, true), 0);
+					tmpTwPenalty = Math.max(
+							initialTwPenalty - sol.evaluateTimeWindow(DV, p, i, n, false) + sol.evaluateTimeWindow(DV, p, i, n, true), 0);
+					// TODO: ??tmpTwSyncPenalty = sol.evaluateTWSync(DV, p, i, n, true);
+					if (tmpTwPenalty > 0)
+					{// If turning the node into a swap node violates TW-constraints, we have to eliminate it from the candidates
+
+						continue;
+					}
+					else
+					{
+						tmpPenalty = tmpBCapPenalty;
+						candidates.put(i, tmpPenalty);
+						if (tmpPenalty > tmpMaxPenalty)
+							tmpMaxPenalty = tmpPenalty;
+						if (tmpPenalty < tmpMinPenalty)
+							tmpMinPenalty = tmpPenalty;
+					}
+				}
+				// If ALL candidates caused a TW violation, we have to remove a node from the route:
+				// Remove a random node from the route, recalculate the route and identify again the swap nodes
+				// We will do this in the main Construction procedure by means of a while-loop
+				if (candidates.size() > 0 && tmpMinPenalty < initialBCapPenalty)
+				{
+					// Move best candidates to RCL
+					for (Map.Entry<Integer, Double> e : candidates.entrySet())
+					{
+						if (e.getValue() <= tmpMinPenalty + alpha2 * (tmpMaxPenalty - tmpMinPenalty))
+						{
+							RCL.add(e.getKey());
+						}
+					}
+					// Choose random key from RCL
+					Collections.shuffle(RCL, random);
+					insertKey = RCL.get(0);
+
+					// GENERAL INSERTION OF insertKey
+					nodesMarkedAsSwapNodes.add(insertKey);
+				}
+				else
+				{
+					// Remove a random node from either the start or beginning
+					int toRemove = random.nextBoolean() ? sol.next[DV][sol.startDepot[DV][r]] : sol.prev[DV][sol.endDepot[DV][r]];
+					sol.removeNode(DV, toRemove);
+				}
+				sol.update();
+			}
+		}
 	}
 
 	// //////////////////////////////////////////////////////
@@ -322,14 +431,14 @@ public class GreedyKnobloch extends AStartHeuristic {
 	 * @param endRange - last number of the number set to draw 
 	 * @return list with unique number with size numberOfNumbers
 	 */
-	private List<Integer> drawNumbers(int numberOfNumbers, int startRange, int endRange) {
+	private List<Integer> drawNumbers(int numberOfNumbers, Set<Integer> remainingNodes) {
 
 		int curDrawPos = 0;
-		int range = endRange - startRange + 1;
+		int range = remainingNodes.size();
 
 		int[] availableNumbers = new int[range];
 		// Fill availableNumbers
-		for (int i = startRange; i <= endRange; i++)
+		for (int i : remainingNodes)
 		{
 			availableNumbers[curDrawPos++] = i;
 		}
