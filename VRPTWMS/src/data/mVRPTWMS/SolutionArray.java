@@ -111,11 +111,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 	private double workingTimeViolation;
 
-	/** Synchronization penalty slacks for each vertex<br>
-	 *  Dimension 1: DV = [0], SV = [1] <br>
-	 *  Dimension 2: [0..numberOfVertices]*/
-	// protected final double[][] forwardSyncSlack, backwardSyncSlack;
-
 	/** alpha - freight penalty<br>
 	 *  beta - fuel penalty<br>
 	 *  gamma - time window penalty<br>
@@ -163,10 +158,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		isSwapNode = new boolean[instance.maxSize];
 		isSwapFirst = new boolean[instance.numberOfCustomer + 1];
 
-		// routeStart = new int[maxNumberOfRoutes];
-		// Arrays.fill(routeStart, UNASSIGNED);
-		// routeEnd = new int[maxNumberOfRoutes];
-		// Arrays.fill(routeEnd, UNASSIGNED);
 		startDepot = new int[2][maxNumberOfRoutes];
 		Arrays.fill(startDepot[0], UNASSIGNED);
 		Arrays.fill(startDepot[1], UNASSIGNED);
@@ -177,8 +168,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		travelDistance = new double[2][maxNumberOfRoutes];
 		Arrays.fill(travelDistance[0], UNASSIGNED);
 		Arrays.fill(travelDistance[1], UNASSIGNED);
-
-		// load = new double[maxNumberOfRoutes];
 
 		a = new double[2][instance.maxSize];
 		aDash = new double[2][instance.maxSize];
@@ -194,8 +183,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		forwardTwSlack = new double[2][instance.maxSize];
 		backwardTwSlack = new double[2][instance.maxSize];
-		// forwardSyncSlack = new double[2][instance.size];
-		// backwardSyncSlack = new double[2][instance.size];
 		forwardSyncTWSlack = new double[instance.size];
 		backwardSyncTWSlack = new double[instance.size];
 
@@ -266,8 +253,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		System.arraycopy(sol.travelDistance, 0, travelDistance, 0, sol.travelDistance.length);
 
-		// System.arraycopy(sol.load, 0, load, 0, sol.load.length);
-
 		System.arraycopy(sol.a[DV], 0, a[DV], 0, sol.a[DV].length);
 		System.arraycopy(sol.a[SV], 0, a[SV], 0, sol.a[SV].length);
 		System.arraycopy(sol.aDash[DV], 0, aDash[DV], 0, sol.aDash[DV].length);
@@ -289,12 +274,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		System.arraycopy(sol.backwardTwSlack[DV], 0, backwardTwSlack[DV], 0, sol.backwardTwSlack[DV].length);
 		System.arraycopy(sol.backwardTwSlack[SV], 0, backwardTwSlack[SV], 0, sol.backwardTwSlack[SV].length);
-
-		// System.arraycopy(sol.forwardSyncSlack[DV], 0, forwardSyncSlack[DV], 0, sol.forwardSyncSlack[DV].length);
-		// System.arraycopy(sol.forwardSyncSlack[SV], 0, forwardSyncSlack[SV], 0, sol.forwardSyncSlack[SV].length);
-		//
-		// System.arraycopy(sol.backwardSyncSlack[DV], 0, backwardSyncSlack[DV], 0, sol.backwardSyncSlack[DV].length);
-		// System.arraycopy(sol.backwardSyncSlack[SV], 0, backwardSyncSlack[SV], 0, sol.backwardSyncSlack[SV].length);
 
 		System.arraycopy(sol.forwardSyncTWSlack, 0, forwardSyncTWSlack, 0, sol.forwardSyncTWSlack.length);
 		System.arraycopy(sol.backwardSyncTWSlack, 0, backwardSyncTWSlack, 0, sol.backwardSyncTWSlack.length);
@@ -1608,7 +1587,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	// /////////////////////////////////////////////
 
 	/**
-	 * Returns all routed nodes for an give vehicle type.
+	 * Returns all routed nodes for an given vehicle type.
 	 * 
 	 * @param iV vehicle index: 0 = DV, 1 = SV
 	 * @return routed nodes
