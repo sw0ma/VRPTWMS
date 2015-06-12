@@ -130,18 +130,41 @@ public class SolutionValidator extends SolutionArray {
 	}
 
 	/**
-	 * Check freight capacity DV
+	 * Check freight capacity DV<br>
+	 * if SVs are limited and freight is rechargeable, checks also SVs capacity
 	 * 
 	 * @return true if solution passed
 	 */
 	public boolean checkEachRouteSatisfyFreight() {
 		boolean eachRouteSatisfyFreight = true;
+		double[][] dvFreightLevel = new double[instance.maxSize][2];
 		for (int routeID : routes[DV])
 		{
 			double remainingFreight = instance.freightCapacity[DV];
 			for (int v = next[DV][startDepot[DV][routeID]]; !isDepot(v); v = next[DV][v])
 			{
-				remainingFreight -= demand(v);
+				if (Config.freightIsRechargeable)
+				{
+					dvFreightLevel[v][0] = remainingFreight;
+					if (isSwapNode[nodes[v]] && isSwapFirst[nodes[v]])
+					{
+						remainingFreight = instance.freightCapacity[DV];
+						if(remainingFreight < 0) eachRouteSatisfyFreight = false;
+					}
+					remainingFreight -= demand(v);
+					dvFreightLevel[v][1] = remainingFreight;
+					if (isSwapNode[nodes[v]] && !isSwapFirst[nodes[v]])
+					{
+						remainingFreight = instance.freightCapacity[DV];
+						if(remainingFreight < 0) eachRouteSatisfyFreight = false;
+						
+					}
+				}
+				else
+				{
+					remainingFreight -= demand(v);
+
+				}
 			}
 			if (remainingFreight < 0)
 			{
@@ -150,14 +173,37 @@ public class SolutionValidator extends SolutionArray {
 		}
 		String strResult = eachRouteSatisfyFreight ? "X" : " ";
 		System.out.println("[" + strResult + "] \t each route satisfy dv's freight constraint");
-		return eachRouteSatisfyFreight;
+		
+		boolean eachRouteSatisfySVFreight = true;
+		if (Config.freightIsRechargeable && Config.svLimitedByFreight)
+		{
+			for (int routeID : routes[SV])
+			{
+				double remainingFreight = instance.freightCapacity[SV];
+				for (int v = next[SV][startDepot[SV][routeID]]; !isDepot(v); v = next[SV][v])
+				{
+					remainingFreight -= instance.freightCapacity[DV] + (isSwapFirst[v] ? dvFreightLevel[v][0] : dvFreightLevel[v][1]) ;
+				}
+				if (remainingFreight < 0)
+				{
+					eachRouteSatisfySVFreight = false;
+				}
+			}
+			strResult = eachRouteSatisfySVFreight ? "X" : " ";
+			System.out.println("[" + strResult + "] \t each route satisfy sv's freight constraint");
+		}
+		
+		
+		return eachRouteSatisfyFreight && eachRouteSatisfySVFreight;
 	}
 
 	/**
-	 * Check fuel capacity DV
+	 * Check fuel capacity DV <br>
+	 * if SVs are limited and fuel is refillable, checks also SVs capacity
 	 * 
 	 * @return true if solution passed
 	 */
+	@SuppressWarnings("unused")
 	public boolean checkEachRouteSatisfyFuel() {
 		boolean eachRouteSatisfyFuel = true;
 		double[] dvFuelLevel = new double[instance.maxSize];
@@ -174,13 +220,15 @@ public class SolutionValidator extends SolutionArray {
 				}
 				remainingFuel -= fuel(i, j);
 				dvFuelLevel[j] = remainingFuel;
-				if (isSwapNode[nodes[j]])
-				{
-					if (remainingFuel < 0)
+				if(Config.fuelIsRechargeable) {
+					if (isSwapNode[nodes[j]])
 					{
-						eachRouteSatisfyFuel = false;
+						if (remainingFuel < 0)
+						{
+							eachRouteSatisfyFuel = false;
+						}
+						remainingFuel = instance.fuelCapacity;
 					}
-					remainingFuel = instance.fuelCapacity;
 				}
 			}
 			if (remainingFuel < 0)
@@ -190,23 +238,26 @@ public class SolutionValidator extends SolutionArray {
 		}
 		String strResult = eachRouteSatisfyFuel ? "X" : " ";
 		System.out.println("[" + strResult + "] \t each route satisfy dv's fuel constraint");
-		
+
 		boolean eachRouteSatisfySVFreight = true;
-		for (int routeID : routes[SV])
+		if (Config.fuelIsRechargeable && Config.svLimitedByFreight)
 		{
-			double remainingFreight = instance.freightCapacity[SV];
-			for (int v = next[SV][startDepot[SV][routeID]]; !isDepot(v); v = next[SV][v])
+			for (int routeID : routes[SV])
 			{
-				remainingFreight -= (instance.fuelCapacity - dvFuelLevel[v]);
+				double remainingFreight = instance.freightCapacity[SV];
+				for (int v = next[SV][startDepot[SV][routeID]]; !isDepot(v); v = next[SV][v])
+				{
+					remainingFreight -= (instance.fuelCapacity - dvFuelLevel[v]);
+				}
+				if (remainingFreight < 0)
+				{
+					eachRouteSatisfySVFreight = false;
+				}
 			}
-			if (remainingFreight < 0)
-			{
-				eachRouteSatisfySVFreight = false;
-			}
+			strResult = eachRouteSatisfySVFreight ? "X" : " ";
+			System.out.println("[" + strResult + "] \t each route satisfy sv's freight constraint");
 		}
-		strResult = eachRouteSatisfySVFreight ? "X" : " ";
-		System.out.println("[" + strResult + "] \t each route satisfy sv's freight constraint");
-		
+
 		return eachRouteSatisfyFuel & eachRouteSatisfySVFreight;
 	}
 

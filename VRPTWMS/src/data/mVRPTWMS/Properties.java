@@ -192,34 +192,46 @@ public class Properties extends AProperties {
 
 	public String getBriefDescription() {
 		String desc = "";
-		String val = Double.toString(getMaxTimeDV());
-		if (!val.equals("-1.0")) {
-			desc = desc + "_Td" + val;
-		}
-		val = Double.toString(getMaxTimeSV());
-		if (!val.equals("-1.0")) {
-			desc = desc + "_Ts" + val;
-		}
-		val = Double.toString(getTransportCapacityDV());
+		String val = Double.toString(getTransportCapacityDV());
 		if (!val.equals("-1")) {
-			desc = desc + "_Cd" + val;
+			desc = desc + "-C_DV" + (int) Math.round(Double.parseDouble(val));
 		}
 		val = Double.toString(getTransportCapacitySV());
 		if (!val.equals("-1")) {
-			desc = desc + "_Cs" + val;
+			desc = desc + "-C_SV" + (int) Math.round(Double.parseDouble(val));
 		}
 		val = Double.toString(getFuelCapacity());
 		if (!val.equals("-1.0")) {
-			desc = desc + "_F" + val;
+			desc = desc + "_F" + (int) Math.round(Double.parseDouble(val));
 		}
-		val = Double.toString(getTransferTime());
-		if (!val.equals("-1.0")) {
-			desc = desc + "_b" + val;
-		}
-		val = Double.toString(getVehicleCosts());
-		if (!val.equals("-1.0")) {
-			desc = desc + "_c" + val;
-		}
+//		String val = Double.toString(getMaxTimeDV());
+//		if (!val.equals("-1.0")) {
+//			desc = desc + "_Td" + val;
+//		}
+//		val = Double.toString(getMaxTimeSV());
+//		if (!val.equals("-1.0")) {
+//			desc = desc + "_Ts" + val;
+//		}
+//		val = Double.toString(getTransportCapacityDV());
+//		if (!val.equals("-1")) {
+//			desc = desc + "_Cd" + val;
+//		}
+//		val = Double.toString(getTransportCapacitySV());
+//		if (!val.equals("-1")) {
+//			desc = desc + "_Cs" + val;
+//		}
+//		val = Double.toString(getFuelCapacity());
+//		if (!val.equals("-1.0")) {
+//			desc = desc + "_F" + val;
+//		}
+//		val = Double.toString(getTransferTime());
+//		if (!val.equals("-1.0")) {
+//			desc = desc + "_b" + val;
+//		}
+//		val = Double.toString(getVehicleCosts());
+//		if (!val.equals("-1.0")) {
+//			desc = desc + "_c" + val;
+//		}
 		return desc;
 	}
 

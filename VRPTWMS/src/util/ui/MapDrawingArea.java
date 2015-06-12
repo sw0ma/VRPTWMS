@@ -115,19 +115,7 @@ public class MapDrawingArea extends JPanel {
 
 		for (Customer consumer : instance.getCustomers())
 		{
-			Color color;
-			if (consumer.getEarliestStart() == 6.0 && consumer.getLatestStart() == 22.0)
-			{
-				color = Color.black;
-			}
-			else
-			{
-				// int r = (int)(255.0*consumer.getEarliestStart()/22.0);
-				int r = 0;
-				int g = (int) (255.0 * consumer.getLatestStart() / instance.getDepots().get(0).getLatestStart());
-				int b = 0;
-				color = new Color(r, g, b);
-			}
+			Color color = Color.black;
 			x1 = (int) Math.round(consumer.getPosX() * xStep) + solShift;
 			y1 = (int) Math.round(consumer.getPosY() * yStep);
 			pattern.add(new Node(x1, y1, color, consumer.getName()));

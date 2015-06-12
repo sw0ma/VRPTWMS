@@ -70,6 +70,7 @@ Arc	9	10	5.38	26.9	47.075
 
 //Opt	Name	Value
 Option	C_DV	15.0
+Option	C_SV	300.0
 Option	b	5.0
 Option	F	100.0
 Option	T_SV	120.0

@@ -9,10 +9,10 @@ Arc	d0	c2	10	1	2
 Arc	c1	c2	10	1	2
 
 //Opt	Name	Value
-Option	T_DV	10
-Option	T_SV	10
+Option	T_DV	100
+Option	T_SV	100
 Option	C_DV	3
-Option	C_SV	10
+Option	C_SV	30
 Option	F	10
 Option	b	2
 Option	c	100

@@ -59,7 +59,7 @@ public class Route implements IPaintable {
 		}
 		else
 		{
-			lineType = new BasicStroke(5.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 16.0f, 16.0f }, 0.0f); //Dash-Line
+			lineType = new BasicStroke(5.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 8.0f, 16.0f }, 0.0f); //Dash-Line
 			arrowhead = new BasicStroke(5.0f);
 		}
 

@@ -22,9 +22,12 @@ public class Start_Exact {
 
 	public static void main(String[] args) {
 
+		// SPL
+		Config.checkSPL();
+		
 		// Configuration
 		String FOLDER = "mip";
-		String SUB_FOLDER = "toCalculate";
+		String SUB_FOLDER = "fuel";
 		FOLDER = "mip" + File.separator + SUB_FOLDER;
 		String INSTANCE_NAME;
 		for (int mode = 3; mode <= 3; mode++) // Comparison of different solver methods of Gurobi
@@ -38,7 +41,8 @@ public class Start_Exact {
 			{
 				INSTANCE_NAME = file.getName().substring(0, file.getName().lastIndexOf("."));
 				Instance instanceO = parser.parseFile(file);
-				if(instanceO == null) {
+				if (instanceO == null)
+				{
 					continue;
 				}
 				InstanceArray instanceA = new InstanceArray(instanceO);
@@ -77,6 +81,5 @@ public class Start_Exact {
 				});
 			}
 		}
-
 	}
 }

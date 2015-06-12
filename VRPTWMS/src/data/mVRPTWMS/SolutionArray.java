@@ -1546,9 +1546,9 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			result.append(routeString(SV, r, " ", false));
 			result.append(System.lineSeparator());
 		}
-		result.append(swapOrderString());
-		result.append(System.lineSeparator());
 		result.append(isSwapString());
+		result.append(System.lineSeparator());
+		result.append(swapOrderString());
 		return result.toString();
 	}
 

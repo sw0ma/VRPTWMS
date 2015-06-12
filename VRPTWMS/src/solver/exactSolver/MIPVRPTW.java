@@ -42,6 +42,7 @@ public class MIPVRPTW implements Runnable {
 		{
 			String logPath = path.substring(0, path.lastIndexOf('.')) + ".log";
 			GRBEnv env = new GRBEnv(logPath);
+			env.set(GRB.DoubleParam.TimeLimit, Config.maxTimeExact);
 			System.out.println("\n\n############################################");
 			System.out.println("########## MOUDS:\t" + (mode) + " " + modeName[mode + 1] + " ##########");
 			System.out.println("############################################");

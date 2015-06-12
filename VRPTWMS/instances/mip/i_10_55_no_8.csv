@@ -70,7 +70,7 @@ Arc	c3	c20	23.35	0.5409	1.1675
 
 //Opt	Name	Value
 Option	C_SV	100.0
-Option	C_DV	100.0
+Option	C_DV	300.0
 Option	b	0.01
 Option	F	100.0
 Option	T_SV	24.0

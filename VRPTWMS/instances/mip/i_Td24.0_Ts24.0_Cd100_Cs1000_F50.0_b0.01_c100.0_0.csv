@@ -139,7 +139,7 @@ Arc	c9	c15	51.62	1.1959	2.581
 Arc	c9	c14	30.41	0.7045	1.5205
 
 //Opt	Name	Value
-Option	C_SV	1000.0
+Option	C_SV	150.0
 Option	C_DV	100.0
 Option	b	0.01
 Option	c	100.0

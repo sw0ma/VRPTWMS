@@ -21,9 +21,12 @@ import data.mVRPTWMS.SolutionValidator;
 public class Start_Heuristic {
 
 	public static void main(String[] args) {
+		
+		//SPL
+		Config.checkSPL();
 
 		// 0. Configuration
-		String FOLDER = "mip//toCalculate";
+		String FOLDER = "freight";
 		int maxDuration = 5; // in seconds
 
 		// 1. Load Instance

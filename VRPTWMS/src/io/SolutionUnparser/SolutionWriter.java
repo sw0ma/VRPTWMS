@@ -32,7 +32,7 @@ public class SolutionWriter extends AUnparser {
 			
 			FileWriter writer = new FileWriter(file, false);
 			BufferedWriter bw = new BufferedWriter(writer);
-			bw.write("ObjectiveFunction=" + solution.getObjectiveValue());
+			bw.write("#ObjectiveFunction=" + solution.getObjectiveValue());
 			bw.newLine();
 			bw.write("#RoutesDV=" + String.valueOf(solution.numberOfVehiclesByType[Config.DV]));
 			bw.newLine();

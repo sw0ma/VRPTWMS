@@ -55,9 +55,9 @@ public class InstancesGenerator {
 		for (int i = 0; i < numberOfInstances; i++) {
 			String s;
 			if (name == null || name.isEmpty()) {
-				s = "i"+ config.getBriefDescription() + "_" + i;
+				s = "N" + numberOfNodes + config.getBriefDescription() + "_" + i;
 			} else {
-				s = name + "_" + i;
+				s = "N" + numberOfNodes + "-" + name + "_" + i;
 			}
 			newInstances.add(generateInstance(s));
 		}
@@ -96,7 +96,7 @@ public class InstancesGenerator {
 
 	private List<AVertex> createVertices() {
 		List<AVertex> newVertices = new ArrayList<AVertex>();
-		AVertex depot = Depot.createRandomDepot("d0");
+		AVertex depot = Depot.createRandomDepot("d0", Math.max(config.getMaxTimeDV(), config.getMaxTimeDV()));
 		newVertices.add(depot);
 		double e, l, stime;
 		double[] drawTimes;
@@ -104,11 +104,12 @@ public class InstancesGenerator {
 
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
-			stime = Math.round((Distribution.getPoisson(8) + 1.0) / 60.0 * 10000.0) / 10000.0;
+			stime = Distribution.getPoisson(6) + 1.0;
+			stime = Math.round(stime * 10000.0) / 10000.0;
 			drawTimes = drawServiceTimes();
 			e = drawTimes[0];
 			l = drawTimes[1];
-			demand = Distribution.getPoisson(2) + 1;
+			demand = Distribution.getPoisson(3) + 1;
 			newVertices.add((new Customer("c" + (i+1), positions.get(i) / 10000, positions.get(i) % 10000, stime, e, l, demand)));
 		}
 		return newVertices;
@@ -205,66 +206,58 @@ public class InstancesGenerator {
 	}
 
 	/**
-	 * Source: Retail Logistics Task Force (2001): @Your Home - New Markets for
+	 * Source: Retail Logistics Task Force (2001): Your Home - New Markets for
 	 * Consumer Service and Delivery. UK Government Foresight program
 	 */
-	private double[] drawServiceTimes() {	//TODO: Generator: TimeWindow überarbeiten
+	private double[] drawServiceTimes() {
 		double random = Math.round(Math.random() * 10000.0) / 100;
 		double[] result = new double[2];
 		
-		if (random < 4.26) {
+		if (random < 10) {
 			result[0] = 0;
-			result[1] = 2;
-		} else if (random < 23.41) {
-			result[0] = 2;
-			result[1] = 4;
-		} else if (random < 29.79) {
-			result[0] = 4;
-			result[1] = 6;
-		} else if (random < 32.98) {
-			result[0] = 6;
-			result[1] = 8;
-		} else if (random < 42.55) {
+			result[1] = 20;
+		} else if (random < 20) {
+			result[0] = 20;
+			result[1] = 40;
+		} else if (random < 30) {
+			result[0] = 40;
+			result[1] = 60;
+		} else if (random < 40) {
+			result[0] = 60;
+			result[1] = 80;
+		} else if (random < 50) {
+			result[0] = 80;
+			result[1] = 100;
+		} else  {
 			result[0] = 0;
-			result[1] = 8;
-		} else if (random < 78.72) {
-			result[0] = 3;
-			result[1] = 6;
-		} else if (random < 82.98) {
-			result[0] = 1;
-			result[1] = 4;
-		} else {
-			result[0] = 5;
-			result[1] = 7;
+			result[1] = 100;
 		}
 		
 //		if (random < 4.26) {
-//			result[0] = 7;
-//			result[1] = 8;
+//			result[0] = 0;
+//			result[1] = 6.67;
 //		} else if (random < 23.41) {
-//			result[0] = 8;
-//			result[1] = 12;
+//			result[0] = 6.67;
+//			result[1] = 33.33;
 //		} else if (random < 29.79) {
-//			result[0] = 12;
-//			result[1] = 14;
+//			result[0] = 33.33;
+//			result[1] = 40.00;
 //		} else if (random < 32.98) {
-//			result[0] = 14;
-//			result[1] = 16;
+//			result[0] = 46.67;
+//			result[1] = 60.00;
 //		} else if (random < 42.55) {
-//			result[0] = 16;
-//			result[1] = 18;
+//			result[0] = 60.00;
+//			result[1] = 73.33;
 //		} else if (random < 78.72) {
-//			result[0] = 18;
-//			result[1] = 20;
+//			result[0] = 73.33;
+//			result[1] = 86.67;
 //		} else if (random < 82.98) {
-//			result[0] = 20;
-//			result[1] = 22;
+//			result[0] = 86.67;
+//			result[1] = 100.0;
 //		} else {
-//			result[0] = 7;
-//			result[1] = 22;
+//			result[0] = 0;
+//			result[1] = 100.0;
 //		}
-//		result[0] = result[0] - 7;
-//		result[1] = result[1] - 7;
 
 		return result;
 	}

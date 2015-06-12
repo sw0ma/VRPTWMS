@@ -20,7 +20,7 @@ Arc	c2	c4	1	10	25
 Arc	c3	c4	1	10	25
 
 //Opt	Name	Value
-Option	C_SV	100.0
+Option	C_SV	300.0
 Option	C_DV	100.0
 Option	b	10.0
 Option	F	100.0
