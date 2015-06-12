@@ -1,0 +1,87 @@
+
+Gurobi 6.0.2 (win64) logging started 06/11/15 21:07:49
+
+Warning: unknown variable 'kDash_dN' in bounds section
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\toCalculate\TestInstance2Freight_No_7.lp
+Reading time = 0.00 seconds
+(null): 73 rows, 54 columns, 237 nonzeros
+Optimize a model with 73 rows, 54 columns and 237 nonzeros
+Model has 39 quadratic constraints
+WARNING: Only barrier available for SOCP models
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+03]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+03]
+  RHS range       [1e+00, 1e+03]
+Presolve removed 28 rows and 16 columns
+Presolve time: 0.00s
+Presolved: 136 rows, 88 columns, 513 nonzeros
+Variable types: 41 continuous, 47 integer (32 binary)
+Found heuristic solution: objective 306.0000000
+Optimize a model with 136 rows, 88 columns and 513 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [1e+00, 1e+02]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Presolve removed 17 rows and 10 columns
+Presolved: 119 rows, 80 columns, 452 nonzeros
+
+
+Root relaxation: objective 1.162778e+02, 33 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  116.27778    0   22  306.00000  116.27778  62.0%     -    0s
+     0     0  205.28571    0   15  306.00000  205.28571  32.9%     -    0s
+     0     0  205.50000    0   14  306.00000  205.50000  32.8%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Implied bound: 4
+  Clique: 6
+  MIR: 6
+  Flow cover: 2
+  GUB cover: 2
+
+Explored 0 nodes (82 simplex iterations) in 0.01 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.060000000000e+02, best bound 3.060000000000e+02, gap 0.0%
+k_c1	40.0
+k_c2	40.0
+k_c3	40.0
+k_dN	-0.0
+kDash_c1	-0.0
+kDash_c2	-0.0
+kDash_c3	-0.0
+kDash_dN	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+p_1	-0.0
+p_2	-0.0
+p_3	-0.0
+phi_c1	759.0
+phi_c2	20.0
+phi_c3	909.9999999999998
+phi_d0	1000.0
+phi_dN	-0.0
+tauD_c1	40.0
+tauD_c2	50.0
+tauD_c3	20.0
+tauD_d0	-0.0
+tauD_dN	100.0
+tauS_c1	-0.0
+tauS_c2	-0.0
+tauS_c3	-0.0
+tauS_d0	-0.0
+tauS_dN	10.0
+x_c1_dN	1.0
+x_c2_dN	1.0
+x_c3_dN	1.0
+x_d0_c1	1.0
+x_d0_c2	1.0
+x_d0_c3	1.0

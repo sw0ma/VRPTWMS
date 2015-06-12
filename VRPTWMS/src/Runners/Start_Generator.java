@@ -18,27 +18,41 @@ public class Start_Generator {
 
 	public static void main(String[] args) {
 		
-		
-		
-		// Configuration	//Fuel chargeable
-		String FOLDER = "mip//fuel";
+		// Configuration	//Freight chargeable
+		String FOLDER = "mip//freight";
 		
 		int NUMBER_OF_INSTANCES = 15;	
-		int NUMBER_OF_NODES = 6;			//5, 8, 10, 12, 14
+		int NUMBER_OF_NODES = 5;			//5, 8, 10, 12
 		boolean WITH_ARCS = true;
 		boolean OVERWRITE = false;
 		
 		double MAX_TIME_DV = 100.0;			// hours
 		double MAX_TIME_SV = 100.0;			// hours
-		double FUEL = 5;					// liters
+		double FUEL = NUMBER_OF_NODES;		// liters
 		int TRANSPORT_CAPACITY_DV = 100;	// units
-		int TRANSPORT_CAPACITY_SV = (int) Math.round(FUEL * 5);	// units
-		double TRANSFERTIME = NUMBER_OF_NODES;			// 
+		int TRANSPORT_CAPACITY_SV = (int) Math.round(TRANSPORT_CAPACITY_DV * 5);	// units
+		double TRANSFERTIME = 8;			// 
 		double VEHICLE_COSTS = 1000;		// price
 		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
-		double SPEED = 10; 				// km/h
+		double SPEED = 4; 				// km/h
 		
-		
+//		// Configuration	//Fuel chargeable
+//		String FOLDER = "mip//fuel";
+//		
+//		int NUMBER_OF_INSTANCES = 15;	
+//		int NUMBER_OF_NODES = 12;			//5, 8, 10, 12
+//		boolean WITH_ARCS = true;
+//		boolean OVERWRITE = false;
+//		
+//		double MAX_TIME_DV = 100.0;			// hours
+//		double MAX_TIME_SV = 100.0;			// hours
+//		double FUEL = NUMBER_OF_NODES;					// liters
+//		int TRANSPORT_CAPACITY_DV = 100;	// units
+//		int TRANSPORT_CAPACITY_SV = (int) Math.round(FUEL * 5);	// units
+//		double TRANSFERTIME = 8;			// 
+//		double VEHICLE_COSTS = 1000;		// price
+//		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
+//		double SPEED = 4; 				// km/h
 		
 		// 1. Init Generator
 		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME, VEHICLE_COSTS);

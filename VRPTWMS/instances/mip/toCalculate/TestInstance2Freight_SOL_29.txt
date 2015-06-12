@@ -1,0 +1,9 @@
+ObjectiveFunction=3000.0
+#RoutesDV=3
+#RoutesSV=0
+#TotalCostsDistance=3000.0
+R0 0 1 0
+R1 0 2 0
+R2 0 3 0
+o: 1=false; 2=false; 3=false; 
+p: 1=false; 2=false; 3=false; 

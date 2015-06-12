@@ -104,7 +104,7 @@ public class InstancesGenerator {
 
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
-			stime = Distribution.getPoisson(6) + 1.0;
+			stime = Distribution.getPoisson(5) + 1.0;
 			stime = Math.round(stime * 10000.0) / 10000.0;
 			drawTimes = drawServiceTimes();
 			e = drawTimes[0];
