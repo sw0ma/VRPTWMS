@@ -105,11 +105,15 @@ public class InstancesGenerator {
 		List<Integer> positions = drawPositions(numberOfNodes, numberOfNodesPerAxis, depot);
 		for (int i = 0; i < numberOfNodes; i++) {
 			stime = Distribution.getPoisson(5) + 1.0;
+			if(stime > 15) stime = 15;
 			stime = Math.round(stime * 10000.0) / 10000.0;
 			drawTimes = drawServiceTimes();
 			e = drawTimes[0];
 			l = drawTimes[1];
 			demand = Distribution.getPoisson(3) + 1;
+			if(demand > config.getTransportCapacityDV()) {
+				demand = (int) Math.round(config.getTransportCapacityDV());
+			}
 			newVertices.add((new Customer("c" + (i+1), positions.get(i) / 10000, positions.get(i) % 10000, stime, e, l, demand)));
 		}
 		return newVertices;
@@ -214,20 +218,29 @@ public class InstancesGenerator {
 		double[] result = new double[2];
 		
 		if (random < 10) {
-			result[0] = 0;
+			result[0] = 5;
 			result[1] = 20;
 		} else if (random < 20) {
-			result[0] = 20;
+			result[0] = 25;
 			result[1] = 40;
 		} else if (random < 30) {
-			result[0] = 40;
+			result[0] = 45;
 			result[1] = 60;
 		} else if (random < 40) {
-			result[0] = 60;
+			result[0] = 65;
 			result[1] = 80;
 		} else if (random < 50) {
-			result[0] = 80;
-			result[1] = 100;
+			result[0] = 10;
+			result[1] = 25;
+		} else if (random < 60) {
+			result[0] = 30;
+			result[1] = 45;
+		} else if (random < 70) {
+			result[0] = 50;
+			result[1] = 65;
+		} else if (random < 80) {
+			result[0] = 70;
+			result[1] = 85;
 		} else  {
 			result[0] = 0;
 			result[1] = 100;
