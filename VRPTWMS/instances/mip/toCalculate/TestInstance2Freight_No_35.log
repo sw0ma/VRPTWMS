@@ -1,7 +1,0 @@
-
-Gurobi 6.0.2 (win64) logging started 06/11/15 22:06:43
-
-Error reading LP format file C:\MT\repository\VRPTWMS\instances\mip\toCalculate\TestInstance2Freight_No_35.lp at line 103
-Malformed term in expression
-Neighboring tokens: " + 40.0 z_c1_c2 [ kDash_c1 * o_c1 - k_c1 * "
-
