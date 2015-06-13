@@ -46,13 +46,13 @@ public class T00_Unparser {
 		//Save
 		AInstanceUnparser unparser = new SimpleInstanceUnparser(false);
 		for (AInstance instance : instances) {
-			unparser.unparseInstance("test2", instance);
+			unparser.unparseInstance("gen-test", instance);
 		}
 		
 		//Load
 		instances.clear();
 		AInstanceParser parser = new SimpleInstanceParser();
-		File paths[] = parser.getListOfFiles("test2", ".csv");
+		File paths[] = parser.getListOfFiles("gen-test", ".csv");
 		for(int i = 0; i < paths.length; i++){
 			instances.add((Instance) parser.parseFile(paths[i]));
 		}
