@@ -1,0 +1,33 @@
+//V	Name	X	Y	st	e	l	Demand
+Depot	d0	21.0	14.0	0	0.0	100.0	0
+Vertice	c1	33.0	7.0	7.0	50.0	65.0	5
+Vertice	c2	46.0	6.0	6.0	0.0	100.0	7
+Vertice	c3	31.0	48.0	9.0	70.0	85.0	10
+Vertice	c4	5.0	26.0	12.0	30.0	45.0	5
+Vertice	c5	1.0	29.0	3.0	5.0	20.0	5
+
+//Arc	From	To	Dist	t	f
+Arc	c3	c4	34.06	8.515	2.2786
+Arc	c3	c5	35.51	8.8775	2.3756
+Arc	c4	c5	5.0	1.25	0.3345
+Arc	d0	c3	35.44	8.86	2.3709
+Arc	d0	c4	20.0	5.0	1.338
+Arc	d0	c5	25.0	6.25	1.6725
+Arc	d0	c1	13.89	3.4725	0.9292
+Arc	d0	c2	26.25	6.5625	1.7561
+Arc	c1	c3	41.05	10.2625	2.7462
+Arc	c1	c4	33.84	8.46	2.2639
+Arc	c1	c5	38.83	9.7075	2.5977
+Arc	c1	c2	13.04	3.26	0.8724
+Arc	c2	c3	44.6	11.15	2.9837
+Arc	c2	c4	45.62	11.405	3.052
+Arc	c2	c5	50.54	12.635	3.3811
+
+//Opt	Name	Value
+Option	C_SV	50.0
+Option	C_DV	10.0
+Option	b	8.0
+Option	c	1000.0
+Option	F	12.0
+Option	T_SV	100.0
+Option	T_DV	100.0
