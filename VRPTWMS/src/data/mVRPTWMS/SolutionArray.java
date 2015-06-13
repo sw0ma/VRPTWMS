@@ -2,6 +2,7 @@ package data.mVRPTWMS;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import util.DoubleUtil;
@@ -1237,7 +1238,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			backwardSyncTWSlack[i] = tmpSyncSlack;
 		}
 	}
-	
+
 	public double evaluateTWSync(int iV, int x, int v, int y, boolean asSwap) { // TODO
 		return 0.0;
 	}
@@ -1288,7 +1289,6 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		result[0] = forwardTwSlack[SV][x] + backwardTwSlack[SV][y] + Math.max(tmpADash_v + instance.transferTime + duration(v, y) - z[SV][y], 0.0);
 		return result;
 	}
-
 
 	/**
 	 * Evaluates the DV insertion<br>
@@ -1452,7 +1452,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		}
 		return swapOrder.toString();
 	}
-	
+
 	public String isSwapString() {
 		StringBuilder isSwap = new StringBuilder();
 		isSwap.append("p: ");
@@ -1599,5 +1599,25 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			routedNodes.add(i);
 		}
 		return routedNodes;
+	}
+
+	/**
+	 * Adds all nodes to one route. This function is a helper function for the SolutionParser.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param aRoute
+	 */
+	public void addRoute(int iV, List<Integer> aRoute) {
+		int lastNode = aRoute.get(1), nextNode;
+		createRoute(iV, lastNode, 0);
+		for (int c = 2; c < aRoute.size(); c++)
+		{
+			nextNode = aRoute.get(c);
+			if (!isDepot(nextNode))
+			{
+				insertAfter(iV, lastNode, nextNode);
+				lastNode = nextNode;
+			}
+		}
 	}
 }

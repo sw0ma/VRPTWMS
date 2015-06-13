@@ -27,7 +27,7 @@ public class Start_Exact {
 		
 		// Configuration
 		String FOLDER = "mip";
-		String SUB_FOLDER = "fuel";
+		String SUB_FOLDER = "freight";
 		FOLDER = "mip" + File.separator + SUB_FOLDER;
 		String INSTANCE_NAME;
 		for (int mode = 3; mode <= 3; mode++) // Comparison of different solver methods of Gurobi
@@ -81,5 +81,6 @@ public class Start_Exact {
 				});
 			}
 		}
+		System.out.println("All instances has been calculated!");
 	}
 }
