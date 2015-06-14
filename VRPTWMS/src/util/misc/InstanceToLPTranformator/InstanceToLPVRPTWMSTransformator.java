@@ -209,7 +209,6 @@ public class InstanceToLPVRPTWMSTransformator extends AInstanceToLPTransformator
 			generalVars.add("kDash_c" + i);
 		}
 		generalVars.add("k_dN");
-		generalVars.add("kDash_dN");
 
 		for (int i = 1; i <= sol.instance.numberOfCustomer; i++)
 		{
