@@ -20,8 +20,8 @@ public class Show_Solution {
 
 	public static void main(String[] args) {
 		// 0. Configuration
-		String FOLDER = "mip\\freight\\12";
-		String INSTANCE_NAME = "N12-C_DV10-C_SV50_F26_2";
+		String FOLDER = "mip\\freight";
+		String INSTANCE_NAME = "N12-C_DV10-C_SV50_F26_9";
 		
 		String INSTANCE_FILE = FOLDER + File.separator + INSTANCE_NAME + ".csv";
 		String INSTANCE_SOL = FOLDER + File.separator + INSTANCE_NAME + "_SOL.txt";

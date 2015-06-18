@@ -5,6 +5,7 @@ import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
+import io.ResultLogger.ExcelGermanNumberResultLogger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,12 +28,15 @@ public class MIPVRPTW implements Runnable {
 	Map<Integer, Integer> nodesDV = new HashMap<Integer, Integer>();
 	Map<Integer, Integer> nodesSV = new HashMap<Integer, Integer>();
 	Map<Integer, Boolean> swapFirst = new HashMap<Integer, Boolean>();
+
 	private int mode;
 	private String[] modeName = { "automatic", "primal simplex", "dual simplex", "barrier", "concurrent", "deterministic concurrent" };
+	private String folder; 
 
 	public MIPVRPTW(String folder, String name, int mode)
 	{
 		this.mode = mode;
+		this.folder = folder;
 		path = System.getProperty("user.dir") + File.separator + "instances" + File.separator + folder + File.separator + name;
 	}
 
@@ -40,7 +44,9 @@ public class MIPVRPTW implements Runnable {
 	public void run() {
 		try
 		{
-			String logPath = path.substring(0, path.lastIndexOf('.')) + ".log";
+			String name = path.substring(0, path.lastIndexOf('.'));
+			String fileName = name.substring(name.lastIndexOf(File.separator) + 1);
+			String logPath = name + ".log";
 			GRBEnv env = new GRBEnv(logPath);
 			env.set(GRB.DoubleParam.TimeLimit, Config.maxTimeExact);
 			System.out.println("\n\n############################################");
@@ -59,7 +65,7 @@ public class MIPVRPTW implements Runnable {
 			// Print Solution
 			String key;
 			double value;
-			int routesDVs = 0, routesSVs = 0;
+			int routesDVs = 0, routesSVs = 0, numberOfCustomers = 0;
 			for (GRBVar curVar : model.getVars())
 			{
 				key = curVar.get(GRB.StringAttr.VarName);
@@ -83,6 +89,7 @@ public class MIPVRPTW implements Runnable {
 				else if (key.startsWith("o_"))
 				{
 					swapFirst.put(getO(key), DoubleUtil.equals(value, 1));
+					numberOfCustomers++;
 				}
 				variables.put(key, value);
 			}
@@ -106,6 +113,21 @@ public class MIPVRPTW implements Runnable {
 					bw.newLine();
 				}
 			}
+
+			// Create result string
+			double duration = Math.round(model.get(GRB.DoubleAttr.Runtime) * 100.0) / 100.0;
+			double obj = model.get(GRB.DoubleAttr.ObjVal) / 10000.0;
+			boolean withSVs = !routesSV.isEmpty();
+			boolean isInfeasible = model.get(GRB.IntAttr.Status) == 3;
+			boolean solved = true;
+			if (isInfeasible || model.get(GRB.IntAttr.Status) == 9)
+			{
+				solved = false;
+			}
+			double gap = model.get(GRB.DoubleAttr.MIPGap);
+			ExcelGermanNumberResultLogger logger = new ExcelGermanNumberResultLogger(folder);
+			logger.logResult(fileName, numberOfCustomers, duration, solved, gap, withSVs, obj, isInfeasible);
+
 			System.out.println("\n");
 			System.out.println("Obj: " + model.get(GRB.DoubleAttr.ObjVal));
 

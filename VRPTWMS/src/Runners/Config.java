@@ -18,7 +18,7 @@ public class Config {
 	/**
 	 * This boolean describes whether the goods constraint for DVs are active
 	 */
-	public static final boolean freightIsRechargeable = true;
+	public static final boolean freightIsRechargeable = false;
 	/**
 	 * This boolean describes whether the time constraint for DVs are active
 	 */

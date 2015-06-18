@@ -30,7 +30,7 @@ public class Start_Exact {
 		String SUB_FOLDER = "freight";
 		FOLDER = "mip" + File.separator + SUB_FOLDER;
 		String INSTANCE_NAME;
-		for (int mode = 3; mode <= 3; mode++) // Comparison of different solver methods of Gurobi
+		for (int mode = -1; mode <= -1; mode++) // Comparison of different solver methods of Gurobi
 		{
 			if (mode == 0) // No simplex
 				continue;
@@ -67,18 +67,18 @@ public class Start_Exact {
 				sw.save(solution, FOLDER);
 
 				// 6. Show
-				SimpleFrame frame = new SimpleFrame(validator.instance.name);
-				ScheduleDrawingArea schedule = frame.getPanelSchedule();
-				MapDrawingArea map = frame.getPanelMap();
-
-				SwingUtilities.invokeLater(new Runnable()
-				{
-					public void run() {
-						schedule.setPaintObjects(schedule.createSchedule(validator));
-						map.setPaintObjects(map.createNewPattern(instanceO));
-						map.setSolution(MapDrawingArea.createSolutionPattern(validator));
-					}
-				});
+//				SimpleFrame frame = new SimpleFrame(validator.instance.name);
+//				ScheduleDrawingArea schedule = frame.getPanelSchedule();
+//				MapDrawingArea map = frame.getPanelMap();
+//
+//				SwingUtilities.invokeLater(new Runnable()
+//				{
+//					public void run() {
+//						schedule.setPaintObjects(schedule.createSchedule(validator));
+//						map.setPaintObjects(map.createNewPattern(instanceO));
+//						map.setSolution(MapDrawingArea.createSolutionPattern(validator));
+//					}
+//				});
 			}
 		}
 		System.out.println("All instances has been calculated!");
