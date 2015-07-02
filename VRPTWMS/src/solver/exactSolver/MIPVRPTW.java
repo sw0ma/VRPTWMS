@@ -32,6 +32,8 @@ public class MIPVRPTW implements Runnable {
 	private int mode;
 	private String[] modeName = { "automatic", "primal simplex", "dual simplex", "barrier", "concurrent", "deterministic concurrent" };
 	private String folder; 
+	
+	private int MAX_THREADS = 2;
 
 	public MIPVRPTW(String folder, String name, int mode)
 	{
@@ -49,6 +51,7 @@ public class MIPVRPTW implements Runnable {
 			String logPath = name + ".log";
 			GRBEnv env = new GRBEnv(logPath);
 			env.set(GRB.DoubleParam.TimeLimit, Config.maxTimeExact);
+			env.set(GRB.IntParam.Threads, Math.min(Runtime.getRuntime().availableProcessors(), MAX_THREADS));
 			System.out.println("\n\n############################################");
 			System.out.println("########## MOUDS:\t" + (mode) + " " + modeName[mode + 1] + " ##########");
 			System.out.println("############################################");

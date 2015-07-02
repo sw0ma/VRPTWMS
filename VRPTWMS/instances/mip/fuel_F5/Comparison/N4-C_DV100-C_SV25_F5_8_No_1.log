@@ -1,0 +1,25 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:35:55
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N4-C_DV100-C_SV25_F5_8_No_1.lp
+Reading time = 0.00 seconds
+(null): 129 rows, 72 columns, 447 nonzeros
+Optimize a model with 129 rows, 72 columns and 447 nonzeros
+Model has 64 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [3e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 27 rows and 16 columns
+Presolve time: 0.00s
+Presolved: 184 rows, 97 columns, 686 nonzeros
+Variable types: 41 continuous, 56 integer (38 binary)
+
+Root relaxation: infeasible, 0 iterations, 0.00 seconds
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

@@ -1,0 +1,80 @@
+
+Gurobi 6.0.4 (win64) logging started 06/21/15 19:06:15
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\fuel\N4-C_DV100-C_SV30_F6_3_No_1.lp
+Reading time = 0.00 seconds
+(null): 129 rows, 76 columns, 459 nonzeros
+Optimize a model with 129 rows, 76 columns and 459 nonzeros
+Model has 80 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [1e+05, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 22 rows and 13 columns
+Presolve time: 0.03s
+Presolved: 237 rows, 133 columns, 1019 nonzeros
+Variable types: 60 continuous, 73 integer (51 binary)
+Found heuristic solution: objective 2.120800e+07
+
+Root relaxation: objective 1.122982e+07, 29 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1.1230e+07    0   10 2.1208e+07 1.1230e+07  47.0%     -    0s
+     0     0 1.2170e+07    0   16 2.1208e+07 1.2170e+07  42.6%     -    0s
+
+Cutting planes:
+  Cover: 4
+  Implied bound: 1
+  Clique: 2
+  MIR: 1
+  GUB cover: 2
+
+Explored 0 nodes (61 simplex iterations) in 0.04 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.120800000000e+07, best bound 2.120800000000e+07, gap 0.0%
+k_c1	70000.0
+k_c2	950000.0
+k_c3	20000.0
+k_c4	1000000.0
+k_dN	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+o_4	-0.0
+p_1	-0.0
+p_2	-0.0
+p_3	-0.0
+p_4	-0.0
+phi_c1	39729.0
+phi_c2	47938.0
+phi_c3	26878.0
+phi_c4	51430.0
+phi_dN	-0.0
+pi_c1	287938.0
+pi_c2	-0.0
+pi_c3	21060.0
+pi_c4	-0.0
+pi_dN	-0.0
+tauD_c1	650000.0
+tauD_c2	450000.0
+tauD_c3	841925.0
+tauD_c4	500000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	845425.0
+tauS_c2	107100.0
+tauS_c3	831925.0
+tauS_c4	61075.0
+tauS_d0	-0.0
+tauS_dN	254425.0
+x_c1_c3	1.0
+x_c2_dN	1.0
+x_c3_dN	1.0
+x_c4_c1	1.0
+x_d0_c2	1.0
+x_d0_c4	1.0

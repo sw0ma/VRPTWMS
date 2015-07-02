@@ -1,0 +1,43 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:38:22
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N12-C_DV100-C_SV25_F5_1_No_1.lp
+Reading time = 0.01 seconds
+(null): 865 rows, 392 columns, 3639 nonzeros
+Optimize a model with 865 rows, 392 columns and 3639 nonzeros
+Model has 1728 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [2e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 81 rows and 43 columns
+Presolve time: 0.11s
+Presolved: 3459 rows, 1684 columns, 19579 nonzeros
+Variable types: 1335 continuous, 349 integer (299 binary)
+
+Root relaxation: objective 1.737617e+06, 143 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1737616.99    0   46          - 1737616.99      -     -    0s
+     0     0 2050482.48    0   41          - 2050482.48      -     -    0s
+     0     0 2101680.44    0   51          - 2101680.44      -     -    0s
+     0     0 2111500.00    0   30          - 2111500.00      -     -    0s
+     0     0 2111500.00    0   30          - 2111500.00      -     -    0s
+     0     0 2111500.00    0   27          - 2111500.00      -     -    0s
+     0     2 2111500.00    0   27          - 2111500.00      -     -    0s
+
+Cutting planes:
+  Learned: 1
+  Cover: 2
+  Implied bound: 3
+  Clique: 3
+  GUB cover: 5
+
+Explored 2700 nodes (49935 simplex iterations) in 2.40 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

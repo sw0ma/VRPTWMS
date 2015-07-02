@@ -1,0 +1,96 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 16:07:37
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N4-C_DV10-C_SV50_F10_2_No_1.lp
+Reading time = 0.00 seconds
+(null): 113 rows, 81 columns, 399 nonzeros
+Optimize a model with 113 rows, 81 columns and 399 nonzeros
+Model has 100 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [4e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 17 rows and 11 columns
+Presolve time: 0.01s
+Presolved: 358 rows, 209 columns, 1455 nonzeros
+Variable types: 123 continuous, 86 integer (58 binary)
+Found heuristic solution: objective 4.153800e+07
+
+Root relaxation: objective 1.082917e+07, 43 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1.0829e+07    0   24 4.1538e+07 1.0829e+07  73.9%     -    0s
+H    0     0                    3.125430e+07 1.0829e+07  65.4%     -    0s
+     0     0 1.1031e+07    0   23 3.1254e+07 1.1031e+07  64.7%     -    0s
+     0     0 1.6032e+07    0   16 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     0 1.6032e+07    0   17 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     0 1.6032e+07    0   15 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     0 1.6032e+07    0   14 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     0 1.6032e+07    0   14 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     0 1.6032e+07    0   14 3.1254e+07 1.6032e+07  48.7%     -    0s
+     0     2 1.6032e+07    0   14 3.1254e+07 1.6032e+07  48.7%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 9
+  Implied bound: 14
+  Clique: 11
+  MIR: 9
+  Flow cover: 1
+  GUB cover: 1
+
+Explored 109 nodes (2413 simplex iterations) in 0.08 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.125430000000e+07, best bound 3.125430000000e+07, gap 0.0%
+k_c1	20000.0
+k_c2	100000.0
+k_c3	100000.0
+k_c4	100000.0
+k_dN	0.0
+kDash_c1	-0.0
+kDash_c2	20000.0
+kDash_c3	70000.0
+kDash_c4	10000.0
+o_1	0.0
+o_2	0.0
+o_3	0.0
+o_4	0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	0.0
+phi_c1	13393.0
+phi_c2	84834.0
+phi_c3	89965.0
+phi_c4	87149.0
+phi_d0	100000.0
+phi_dN	-0.0
+pi_c1	0.0
+pi_c2	0.0
+pi_c3	0.0
+pi_c4	0.0
+pi_dN	0.0
+tauD_c1	850000.0
+tauD_c2	200000.0
+tauD_c3	100000.0
+tauD_c4	941975.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	869950.0
+tauS_c2	863325.0
+tauS_c3	882500.0
+tauS_c4	871975.0
+tauS_d0	-0.0
+tauS_dN	1000000.0
+x_c1_dN	1.0
+x_c2_c1	1.0
+x_c3_dN	1.0
+x_c4_dN	1.0
+x_d0_c2	1.0
+x_d0_c3	1.0
+x_d0_c4	1.0

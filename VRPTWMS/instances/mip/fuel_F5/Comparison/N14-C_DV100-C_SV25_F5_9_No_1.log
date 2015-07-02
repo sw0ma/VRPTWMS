@@ -1,0 +1,48 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:41:59
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N14-C_DV100-C_SV25_F5_9_No_1.lp
+Reading time = 0.02 seconds
+(null): 1149 rows, 512 columns, 4917 nonzeros
+Optimize a model with 1149 rows, 512 columns and 4917 nonzeros
+Model has 2744 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [2e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 182 rows and 94 columns
+Presolve time: 0.44s
+Presolved: 4549 rows, 2209 columns, 25299 nonzeros
+Variable types: 1791 continuous, 418 integer (360 binary)
+
+Root relaxation: objective 1.333197e+07, 304 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1.3332e+07    0   66          - 1.3332e+07      -     -    0s
+     0     0 1.8187e+07    0   57          - 1.8187e+07      -     -    0s
+     0     0 2.1170e+07    0   53          - 2.1170e+07      -     -    0s
+     0     0 2.2451e+07    0   72          - 2.2451e+07      -     -    0s
+     0     0 2.2620e+07    0   68          - 2.2620e+07      -     -    0s
+     0     0 2.3042e+07    0   63          - 2.3042e+07      -     -    0s
+     0     0 2.3080e+07    0   64          - 2.3080e+07      -     -    1s
+     0     0 2.3080e+07    0   64          - 2.3080e+07      -     -    1s
+     0     0 2.3080e+07    0   62          - 2.3080e+07      -     -    1s
+     0     0 2.3080e+07    0   62          - 2.3080e+07      -     -    1s
+     0     0 2.3080e+07    0   62          - 2.3080e+07      -     -    1s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 3
+  Implied bound: 9
+  Clique: 7
+  MIR: 10
+  GUB cover: 17
+
+Explored 0 nodes (0 simplex iterations) in 1.38 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

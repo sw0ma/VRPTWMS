@@ -1,0 +1,86 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 16:07:38
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N4-C_DV10-C_SV50_F10_6_No_1.lp
+Reading time = 0.00 seconds
+(null): 113 rows, 81 columns, 399 nonzeros
+Optimize a model with 113 rows, 81 columns and 399 nonzeros
+Model has 100 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [8e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 16 rows and 10 columns
+Presolve time: 0.01s
+Presolved: 345 rows, 203 columns, 1400 nonzeros
+Variable types: 116 continuous, 87 integer (59 binary)
+Found heuristic solution: objective 2.131500e+07
+Found heuristic solution: objective 2.128800e+07
+
+Root relaxation: objective 1.113584e+07, 54 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1.1136e+07    0   16 2.1288e+07 1.1136e+07  47.7%     -    0s
+     0     0 1.6226e+07    0   11 2.1288e+07 1.6226e+07  23.8%     -    0s
+     0     0     cutoff    0      2.1288e+07 2.1288e+07  0.00%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Implied bound: 2
+  Clique: 6
+  MIR: 2
+
+Explored 0 nodes (85 simplex iterations) in 0.02 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.128800000000e+07, best bound 2.128800000000e+07, gap 0.0%
+k_c1	60000.0
+k_c2	30000.0
+k_c3	100000.0
+k_c4	10000.0
+k_dN	-0.0
+kDash_c1	30000.0
+kDash_c2	10000.0
+kDash_c3	60000.0
+kDash_c4	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+o_4	-0.0
+p_1	-0.0
+p_2	-0.0
+p_3	-0.0
+p_4	-0.0
+phi_c1	11681.0
+phi_c2	80586.0
+phi_c3	18030.0
+phi_c4	23020.0
+phi_d0	100000.0
+phi_dN	-0.0
+pi_c1	-0.0
+pi_c2	-0.0
+pi_c3	-0.0
+pi_c4	-0.0
+pi_dN	-0.0
+tauD_c1	650000.0
+tauD_c2	450000.0
+tauD_c3	576275.0
+tauD_c4	650000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	-0.0
+tauS_c2	-0.0
+tauS_c3	-0.0
+tauS_c4	-0.0
+tauS_d0	-0.0
+tauS_dN	-0.0
+x_c1_dN	1.0
+x_c2_c4	1.0
+x_c3_c1	1.0
+x_c4_dN	1.0
+x_d0_c2	1.0
+x_d0_c3	1.0

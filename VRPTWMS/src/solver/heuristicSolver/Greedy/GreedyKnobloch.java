@@ -127,9 +127,9 @@ public class GreedyKnobloch extends AStartHeuristic {
 				// Determine candidate list
 				for (int n : remainingNodes)
 				{
-					if (sol.evaluateFreightCapacity(type, lastCustomerOfRoute, n, lastNode) > 0
-							|| sol.evaluateTimeWindow(type, lastCustomerOfRoute, n, lastNode, asSwap) > 0
-							|| sol.evaluateTWSync(type, lastCustomerOfRoute, n, lastNode, asSwap) > 0)
+					if (sol.evaluateFreightCapacity(type, lastCustomerOfRoute, n, lastNode) > 0.0
+							|| sol.evaluateTimeWindow(type, lastCustomerOfRoute, n, lastNode, asSwap) > 0.0
+							|| sol.evaluateTWSync(type, lastCustomerOfRoute, n, lastNode, asSwap) > 0.0)
 					{
 						continue;
 					}
@@ -381,7 +381,6 @@ public class GreedyKnobloch extends AStartHeuristic {
 				}
 				// If ALL candidates caused a TW violation, we have to remove a node from the route:
 				// Remove a random node from the route, recalculate the route and identify again the swap nodes
-				// We will do this in the main Construction procedure by means of a while-loop
 				if (candidates.size() > 0 && tmpMinPenalty < initialBCapPenalty)
 				{
 					// Move best candidates to RCL

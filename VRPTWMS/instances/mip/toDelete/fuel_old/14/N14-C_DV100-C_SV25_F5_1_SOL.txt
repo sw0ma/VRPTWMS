@@ -1,0 +1,10 @@
+#ObjectiveFunction=4000.0
+#RoutesDV=3
+#RoutesSV=1
+#TotalCostsDistance=4000.0
+R0 0 3 8 7 10 0
+R1 0 4 5 11 6 13 0
+R2 0 14 1 12 9 2 0
+S0 0 1 4 8 9 13 0
+p: 1=false; 2=false; 3=false; 4=false; 5=false; 6=false; 7=false; 8=false; 9=false; 10=false; 11=false; 12=false; 13=false; 14=false; 
+o: 1=false; 2=false; 3=false; 4=true; 5=false; 6=false; 7=false; 8=true; 9=true; 10=false; 11=false; 12=false; 13=false; 14=false; 

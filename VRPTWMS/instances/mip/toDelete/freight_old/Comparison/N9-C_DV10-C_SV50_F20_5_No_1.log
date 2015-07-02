@@ -1,0 +1,152 @@
+
+Gurobi 6.0.4 (win64) logging started 06/14/15 18:25:34
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N9-C_DV10-C_SV50_F20_5_No_1.lp
+Reading time = 0.01 seconds
+(null): 514 rows, 242 columns, 2082 nonzeros
+Optimize a model with 514 rows, 242 columns and 2082 nonzeros
+Model has 729 quadratic constraints
+WARNING: Only barrier available for SOCP models
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Presolve removed 94 rows and 33 columns
+Presolve time: 0.06s
+Presolved: 1562 rows, 780 columns, 8682 nonzeros
+Variable types: 571 continuous, 209 integer (174 binary)
+Found heuristic solution: objective 9376.8600000
+Optimize a model with 1562 rows, 780 columns and 8682 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+
+Concurrent LP optimizer: dual simplex and barrier
+Showing barrier log only...
+
+Presolve removed 125 rows and 59 columns
+Presolved: 1437 rows, 723 columns, 8059 nonzeros
+
+Root barrier log...
+
+Ordering time: 0.03s
+
+Barrier performed 0 iterations in 0.11 seconds
+Barrier solve interrupted - model solved by another algorithm
+
+
+Solved with dual simplex
+Solved in 64 iterations and 0.11 seconds
+Optimal objective  1.143083113e+03
+
+Root relaxation: objective 1.143083e+03, 64 iterations, 0.04 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1143.08311    0   33 9376.86000 1143.08311  87.8%     -    0s
+H    0     0                    4230.3500000 1143.08311  73.0%     -    0s
+     0     0 1156.96919    0   41 4230.35000 1156.96919  72.7%     -    0s
+     0     0 1158.72962    0   36 4230.35000 1158.72962  72.6%     -    0s
+     0     0 1159.42201    0   41 4230.35000 1159.42201  72.6%     -    0s
+     0     0 1160.19347    0   41 4230.35000 1160.19347  72.6%     -    0s
+H    0     0                    4205.0800000 1160.19347  72.4%     -    0s
+     0     0 1160.87204    0   46 4205.08000 1160.87204  72.4%     -    0s
+     0     0 1160.98119    0   45 4205.08000 1160.98119  72.4%     -    0s
+     0     0 1160.98119    0   45 4205.08000 1160.98119  72.4%     -    0s
+     0     0 1160.98119    0   42 4205.08000 1160.98119  72.4%     -    0s
+     0     0 1160.98119    0   44 4205.08000 1160.98119  72.4%     -    0s
+     0     0 1160.98119    0   45 4205.08000 1160.98119  72.4%     -    0s
+     0     0 1160.98119    0   45 4205.08000 1160.98119  72.4%     -    0s
+     0     2 1160.98119    0   45 4205.08000 1160.98119  72.4%     -    0s
+H  637   256                    4203.1600000 2173.63191  48.3%  16.9    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 1
+  Clique: 2
+  MIR: 2
+  GUB cover: 4
+
+Explored 4285 nodes (52057 simplex iterations) in 3.25 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.203160000000e+03, best bound 4.203160000000e+03, gap 0.0%
+k_c1	7.0
+k_c2	6.0
+k_c3	9.0
+k_c4	10.0
+k_c5	3.0
+k_c6	10.0
+k_c7	4.0
+k_c8	5.0
+k_c9	10.0
+k_dN	-0.0
+o_1	0.0
+o_2	0.0
+o_3	0.0
+o_4	0.0
+o_5	0.0
+o_6	0.0
+o_7	0.0
+o_8	-0.0
+o_9	-0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	0.0
+p_5	0.0
+p_6	0.0
+p_7	0.0
+p_8	0.0
+p_9	0.0
+phi_c1	6.0
+phi_c2	16.0
+phi_c3	1.0
+phi_c4	18.0
+phi_c5	2.0
+phi_c6	10.0
+phi_c7	1.0
+phi_c8	2.0
+phi_c9	19.0
+phi_d0	20.0
+phi_dN	-0.0
+tauD_c1	35.0
+tauD_c2	45.0
+tauD_c3	70.0
+tauD_c4	25.0
+tauD_c5	70.0
+tauD_c6	25.0
+tauD_c7	45.0
+tauD_c8	78.0
+tauD_c9	4.0
+tauD_d0	-0.0
+tauD_dN	100.0
+tauS_c1	0.0
+tauS_c2	-0.0
+tauS_c3	0.0
+tauS_c4	-0.0
+tauS_c5	-0.0
+tauS_c6	-0.0
+tauS_c7	26.0
+tauS_c8	0.0
+tauS_c9	18.0
+tauS_d0	-0.0
+tauS_dN	100.0
+x_c1_c8	1.0
+x_c2_c5	1.0
+x_c3_dN	1.0
+x_c4_c2	1.0
+x_c5_dN	1.0
+x_c6_c1	1.0
+x_c7_dN	1.0
+x_c8_dN	1.0
+x_c9_c7	1.0
+x_d0_c3	1.0
+x_d0_c4	1.0
+x_d0_c6	1.0
+x_d0_c9	1.0

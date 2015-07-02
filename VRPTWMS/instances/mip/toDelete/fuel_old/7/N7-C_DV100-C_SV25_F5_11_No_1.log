@@ -1,0 +1,149 @@
+
+Gurobi 6.0.4 (win64) logging started 06/14/15 16:32:44
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS-master\VRPTWMS\instances\mip\fuel\N7-C_DV100-C_SV25_F5_11_No_1.lp
+Reading time = 0.00 seconds
+(null): 330 rows, 169 columns, 1326 nonzeros
+Optimize a model with 330 rows, 169 columns and 1326 nonzeros
+Model has 392 quadratic constraints
+WARNING: Only barrier available for SOCP models
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Presolve removed 27 rows and 13 columns
+Presolve time: 0.02s
+Presolved: 1016 rows, 533 columns, 4898 nonzeros
+Variable types: 336 continuous, 197 integer (159 binary)
+Found heuristic solution: objective 8352.3600000
+Optimize a model with 1016 rows, 533 columns and 4898 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+
+Concurrent LP optimizer: dual simplex and barrier
+Showing barrier log only...
+
+Presolve removed 104 rows and 71 columns
+Presolved: 912 rows, 462 columns, 4425 nonzeros
+
+Root barrier log...
+
+Ordering time: 0.01s
+
+Barrier performed 0 iterations in 0.04 seconds
+Barrier solve interrupted - model solved by another algorithm
+
+
+Solved with dual simplex
+Solved in 53 iterations and 0.04 seconds
+Optimal objective  1.232431622e+02
+
+Root relaxation: objective 1.232432e+02, 53 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  123.24316    0   25 8352.36000  123.24316  98.5%     -    0s
+H    0     0                    6298.1700000  123.24316  98.0%     -    0s
+     0     0  138.64006    0   37 6298.17000  138.64006  97.8%     -    0s
+H    0     0                    4333.8600000  138.64006  96.8%     -    0s
+     0     0  153.70498    0   42 4333.86000  153.70498  96.5%     -    0s
+     0     0  298.25836    0   49 4333.86000  298.25836  93.1%     -    0s
+     0     0  367.24600    0   37 4333.86000  367.24600  91.5%     -    0s
+     0     0  367.90100    0   35 4333.86000  367.90100  91.5%     -    0s
+     0     0  368.13894    0   37 4333.86000  368.13894  91.5%     -    0s
+     0     0  368.13894    0   37 4333.86000  368.13894  91.5%     -    0s
+     0     2  368.13894    0   37 4333.86000  368.13894  91.5%     -    0s
+H   87    53                    4315.0600000  764.38400  82.3%  23.2    0s
+H  450   212                    3322.1800000 1017.04729  69.4%  22.0    0s
+H  730   366                    3316.9900000 1129.45089  65.9%  22.6    0s
+H  823   365                    3274.7700000 1159.36000  64.6%  22.4    0s
+H 2333   812                    3266.8200000 2136.85003  34.6%  23.1    0s
+* 2736   724              30    3241.7300000 2168.36227  33.1%  24.9    1s
+
+Cutting planes:
+  Learned: 8
+  Cover: 20
+  Implied bound: 21
+  Clique: 2
+  MIR: 35
+  GUB cover: 7
+
+Explored 6416 nodes (226957 simplex iterations) in 3.29 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.241730000000e+03, best bound 3.241730000000e+03, gap 0.0%
+k_c1	94.0
+k_c2	90.0
+k_c3	100.0
+k_c4	100.0
+k_c5	97.0
+k_c6	95.0
+k_c7	92.0
+k_dN	-0.0
+o_1	0.0
+o_2	-0.0
+o_3	-0.0
+o_4	-0.0
+o_5	-0.0
+o_6	-0.0
+o_7	0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	1.0
+p_5	0.0
+p_6	1.0
+p_7	1.0
+phi_c1	2.0
+phi_c2	4.0
+phi_c3	3.0
+phi_c4	4.000000000000001
+phi_c5	2.0
+phi_c6	-0.0
+phi_c7	-0.0
+phi_dN	-0.0
+pi_c1	-0.0
+pi_c2	-0.0
+pi_c3	-0.0
+pi_c4	10.999999999999998
+pi_c5	-0.0
+pi_c6	5.0
+pi_c7	10.0
+pi_dN	-0.0
+tauD_c1	50.0
+tauD_c2	80.0
+tauD_c3	7.0
+tauD_c4	45.0
+tauD_c5	68.0
+tauD_c6	81.0000000000001
+tauD_c7	60.0
+tauD_d0	-0.0
+tauD_dN	100.0
+tauS_c1	83.0
+tauS_c2	0.0
+tauS_c3	84.0
+tauS_c4	48.0
+tauS_c5	2.0
+tauS_c6	82.0000000000001
+tauS_c7	60.0
+tauS_d0	-0.0
+tauS_dN	100.0000000000001
+x_c1_c7	1.0
+x_c2_dN	1.0
+x_c3_c1	1.0
+x_c4_c5	1.0
+x_c5_c6	1.0
+x_c6_dN	1.0
+x_c7_c2	1.0
+x_d0_c3	1.0
+x_d0_c4	1.0
+z_c4_c7	1.0
+z_c6_dN	1.0
+z_c7_c6	1.0
+z_d0_c4	1.0

@@ -1,0 +1,29 @@
+//Example Thesis.
+
+//V	Name	X	Y	sti	e	l	Demand
+Depot	d0	32	22	0	0	60	0
+Vertice	c1	30	29	5	15	25	1
+Vertice	c2	6	27	5	25	35	1
+Vertice	c3	18	21	5	40	45	1
+Vertice	c4	44	44	5	10	15	1
+
+//Arc	From	To	Dist	t	f
+Arc	d0	c1	1	10	10
+Arc	d0	c2	1	10	10
+Arc	d0	c3	1	10	10
+Arc	d0	c4	1	10	10
+Arc	c1	c2	1	10	10
+Arc	c1	c3	1	10	10
+Arc	c1	c4	1	10	10
+Arc	c2	c3	1	20	10
+Arc	c2	c4	1	10	10
+Arc	c3	c4	1	10	10
+
+//Opt	Name	Value
+Option	C_SV	100.0
+Option	C_DV	100.0
+Option	b	10.0
+Option	F	100.0
+Option	T_SV	100.0
+Option	T_DV	100.0
+Option	c	50

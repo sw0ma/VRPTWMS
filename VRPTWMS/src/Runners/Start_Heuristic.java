@@ -26,8 +26,8 @@ public class Start_Heuristic {
 		Config.checkSPL();
 
 		// 0. Configuration
-		String FOLDER = "freight";
-		int maxDuration = 5; // in seconds
+		String FOLDER = "testing";
+		int maxDuration = 1; // in seconds
 
 		// 1. Load Instance
 		AInstanceParser parser = new SimpleInstanceParser();
@@ -39,6 +39,7 @@ public class Start_Heuristic {
 				continue;
 			}
 			InstanceArray instanceA = new InstanceArray(instanceO);
+			System.out.println(instanceA.name);
 
 			// 2. Load Settings
 			long timeStart, timeEnd;

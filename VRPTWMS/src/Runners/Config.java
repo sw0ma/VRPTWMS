@@ -14,7 +14,7 @@ public class Config {
 	/**
 	 * This boolean describes whether the fuel constraint for DVs are active
 	 */
-	public static final boolean fuelIsRechargeable = false;
+	public static final boolean fuelIsRechargeable = true;
 	/**
 	 * This boolean describes whether the goods constraint for DVs are active
 	 */

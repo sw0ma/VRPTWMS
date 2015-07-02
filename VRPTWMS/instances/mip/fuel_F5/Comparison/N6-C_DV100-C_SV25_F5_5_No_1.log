@@ -1,0 +1,90 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:42:01
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N6-C_DV100-C_SV25_F5_5_No_1.lp
+Reading time = 0.00 seconds
+(null): 253 rows, 128 columns, 957 nonzeros
+Optimize a model with 253 rows, 128 columns and 957 nonzeros
+Model has 216 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [8e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 55 rows and 40 columns
+Presolve time: 0.01s
+Presolved: 404 rows, 191 columns, 2008 nonzeros
+Variable types: 103 continuous, 88 integer (67 binary)
+Found heuristic solution: objective 3.196320e+07
+
+Root relaxation: objective 3.001090e+07, 30 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 3.0011e+07    0   13 3.1963e+07 3.0011e+07  6.11%     -    0s
+*    0     0               0    3.194470e+07 3.1945e+07  0.00%     -    0s
+
+Cutting planes:
+  Cover: 1
+  Implied bound: 2
+  Clique: 5
+  MIR: 2
+
+Explored 0 nodes (54 simplex iterations) in 0.02 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.194470000000e+07, best bound 3.194470000000e+07, gap 0.0%
+k_c1	60000.0
+k_c2	80000.0
+k_c3	60000.0
+k_c4	109999.99999999993
+k_c5	150000.0
+k_c6	1000000.0
+k_dN	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+o_4	-0.0
+o_5	-0.0
+o_6	-0.0
+p_1	-0.0
+p_2	-0.0
+p_3	0.0
+p_4	0.0
+p_5	0.0
+p_6	-0.0
+phi_c1	22492.0
+phi_c2	17662.0
+phi_c3	17448.0
+phi_c4	23723.0
+phi_c5	39617.00000000002
+phi_c6	29656.0
+phi_d0	50000.0
+phi_dN	-0.0
+tauD_c1	700000.0
+tauD_c2	702650.0
+tauD_c3	600000.0
+tauD_c4	600000.0
+tauD_c5	38800.0
+tauD_c6	100000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	2575.0
+tauS_c2	-0.0
+tauS_c3	-0.0
+tauS_c4	-0.0
+tauS_c5	-0.0
+tauS_c6	-0.0
+tauS_d0	-0.0
+tauS_dN	-0.0
+x_c1_dN	1.0
+x_c2_dN	1.0
+x_c3_dN	1.0
+x_c4_c2	1.0
+x_c5_c4	1.0
+x_c6_c1	1.0
+x_d0_c3	1.0
+x_d0_c5	1.0
+x_d0_c6	1.0

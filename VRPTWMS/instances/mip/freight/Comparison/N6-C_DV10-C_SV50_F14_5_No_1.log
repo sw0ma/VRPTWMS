@@ -1,0 +1,99 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 16:03:13
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N6-C_DV10-C_SV50_F14_5_No_1.lp
+Reading time = 0.00 seconds
+(null): 253 rows, 128 columns, 957 nonzeros
+Optimize a model with 253 rows, 128 columns and 957 nonzeros
+Model has 216 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [4e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 90 rows and 37 columns
+Presolve time: 0.01s
+Presolved: 379 rows, 199 columns, 1948 nonzeros
+Variable types: 108 continuous, 91 integer (71 binary)
+Found heuristic solution: objective 4.206130e+07
+
+Root relaxation: objective 2.827583e+07, 42 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 2.8276e+07    0   13 4.2061e+07 2.8276e+07  32.8%     -    0s
+     0     0 3.3144e+07    0   20 4.2061e+07 3.3144e+07  21.2%     -    0s
+     0     0 3.6333e+07    0   14 4.2061e+07 3.6333e+07  13.6%     -    0s
+     0     0 3.6371e+07    0   12 4.2061e+07 3.6371e+07  13.5%     -    0s
+     0     0 3.6408e+07    0   16 4.2061e+07 3.6408e+07  13.4%     -    0s
+H    0     0                    4.189880e+07 3.6408e+07  13.1%     -    0s
+     0     0 3.6408e+07    0   16 4.1899e+07 3.6408e+07  13.1%     -    0s
+     0     0 3.6408e+07    0   14 4.1899e+07 3.6408e+07  13.1%     -    0s
+     0     0 3.6948e+07    0    4 4.1899e+07 3.6948e+07  11.8%     -    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 2
+  Cover: 2
+  Implied bound: 1
+  Clique: 8
+
+Explored 0 nodes (133 simplex iterations) in 0.06 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.189880000000e+07, best bound 4.189880000000e+07, gap 0.0%
+k_c1	90000.0
+k_c2	80000.0
+k_c3	47280.0
+k_c4	100000.0
+k_c5	50000.0
+k_c6	60000.0
+k_dN	-0.0
+o_1	0.0
+o_2	0.0
+o_3	0.0
+o_4	0.0
+o_5	0.0
+o_6	0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	0.0
+p_5	0.0
+p_6	0.0
+phi_c1	67509.0
+phi_c2	21615.0
+phi_c3	28634.0
+phi_c4	126272.0
+phi_c5	17662.0
+phi_c6	41485.0
+phi_d0	140000.0
+phi_dN	-0.0
+tauD_c1	250000.0
+tauD_c2	650000.0
+tauD_c3	500000.0
+tauD_c4	51300.0
+tauD_c5	700000.0
+tauD_c6	400000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	0.0
+tauS_c2	0.0
+tauS_c3	0.0
+tauS_c4	0.0
+tauS_c5	0.0
+tauS_c6	0.0
+tauS_d0	-0.0
+tauS_dN	0.0
+x_c1_c5	1.0
+x_c2_dN	1.0
+x_c3_dN	1.0
+x_c4_c6	1.0
+x_c5_dN	1.0
+x_c6_dN	1.0
+x_d0_c1	1.0
+x_d0_c2	1.0
+x_d0_c3	1.0
+x_d0_c4	1.0

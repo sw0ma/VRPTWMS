@@ -1,0 +1,85 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:35:55
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N4-C_DV100-C_SV25_F5_5_No_1.lp
+Reading time = 0.00 seconds
+(null): 129 rows, 72 columns, 447 nonzeros
+Optimize a model with 129 rows, 72 columns and 447 nonzeros
+Model has 64 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [1e+05, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 14 rows and 7 columns
+Presolve time: 0.00s
+Presolved: 239 rows, 127 columns, 1109 nonzeros
+Variable types: 62 continuous, 65 integer (47 binary)
+Found heuristic solution: objective 4.183100e+07
+
+Root relaxation: objective 6.268497e+05, 38 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 626849.679    0   16 4.1831e+07 626849.679  98.5%     -    0s
+     0     0 720732.338    0   15 4.1831e+07 720732.338  98.3%     -    0s
+H    0     0                    2.127330e+07 720732.338  96.6%     -    0s
+     0     0 754397.044    0   12 2.1273e+07 754397.044  96.5%     -    0s
+H    0     0                    2.120480e+07 754397.044  96.4%     -    0s
+     0     0 755899.196    0   13 2.1205e+07 755899.196  96.4%     -    0s
+     0     0 762250.000    0    8 2.1205e+07 762250.000  96.4%     -    0s
+     0     0 762250.000    0    8 2.1205e+07 762250.000  96.4%     -    0s
+     0     0 762250.000    0    8 2.1205e+07 762250.000  96.4%     -    0s
+H    0     0                    2.115140e+07 762250.000  96.4%     -    0s
+     0     2 762250.000    0    8 2.1151e+07 762250.000  96.4%     -    0s
+*   13     0               3    2.110010e+07 1.0846e+07  48.6%   9.6    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 1
+  MIR: 3
+  GUB cover: 4
+
+Explored 31 nodes (282 simplex iterations) in 0.03 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.110010000000e+07, best bound 2.110010000000e+07, gap 0.0%
+k_c1	170000.0
+k_c2	20000.0
+k_c3	110000.0
+k_c4	9999.999999999993
+k_dN	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+o_4	0.0
+p_1	0.0
+p_2	0.0
+p_3	-0.0
+p_4	0.0
+phi_c1	39108.99999999997
+phi_c2	24043.0
+phi_c3	31869.99999999997
+phi_c4	14049.0
+phi_d0	50000.0
+phi_dN	-0.0
+tauD_c1	40700.0
+tauD_c2	776975.0
+tauD_c3	250000.0
+tauD_c4	650000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	-0.0
+tauS_c2	-0.0
+tauS_c3	-0.0
+tauS_c4	-0.0
+tauS_d0	-0.0
+tauS_dN	-0.0
+x_c1_c3	1.0
+x_c2_dN	1.0
+x_c3_c2	1.0
+x_c4_dN	1.0
+x_d0_c1	1.0
+x_d0_c4	1.0

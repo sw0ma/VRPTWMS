@@ -1,0 +1,48 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:42:04
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N8-C_DV100-C_SV25_F5_7_No_1.lp
+Reading time = 0.00 seconds
+(null): 417 rows, 200 columns, 1659 nonzeros
+Optimize a model with 417 rows, 200 columns and 1659 nonzeros
+Model has 512 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [2e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 50 rows and 24 columns
+Presolve time: 0.03s
+Presolved: 1149 rows, 567 columns, 6132 nonzeros
+Variable types: 391 continuous, 176 integer (142 binary)
+
+Root relaxation: objective 4.716717e+06, 121 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 4716717.22    0   39          - 4716717.22      -     -    0s
+     0     0 1.1650e+07    0   28          - 1.1650e+07      -     -    0s
+     0     0 1.1703e+07    0   30          - 1.1703e+07      -     -    0s
+     0     0 1.1713e+07    0   21          - 1.1713e+07      -     -    0s
+     0     0 1.1714e+07    0   22          - 1.1714e+07      -     -    0s
+     0     0 1.1727e+07    0   23          - 1.1727e+07      -     -    0s
+     0     0 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+     0     0 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+     0     0 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+     0     0 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+     0     0 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+     0     2 1.1729e+07    0   25          - 1.1729e+07      -     -    0s
+
+Cutting planes:
+  Cover: 2
+  Implied bound: 10
+  Clique: 8
+  MIR: 4
+  GUB cover: 11
+
+Explored 453 nodes (3454 simplex iterations) in 0.29 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

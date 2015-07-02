@@ -1,0 +1,106 @@
+
+Gurobi 6.0.4 (win64) logging started 06/20/15 12:11:07
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\fuel\N8-C_DV100-C_SV30_F6_10_No_1.lp
+Reading time = 0.01 seconds
+(null): 417 rows, 200 columns, 1659 nonzeros
+Optimize a model with 417 rows, 200 columns and 1659 nonzeros
+Model has 512 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [7e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 68 rows and 43 columns
+Presolve time: 0.24s
+Presolved: 943 rows, 454 columns, 5006 nonzeros
+Variable types: 297 continuous, 157 integer (125 binary)
+Found heuristic solution: objective 3.237890e+07
+
+Root relaxation: objective 2.191063e+07, 62 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 2.1911e+07    0   25 3.2379e+07 2.1911e+07  32.3%     -    0s
+     0     0 2.7212e+07    0   22 3.2379e+07 2.7212e+07  16.0%     -    0s
+     0     0     cutoff    0      3.2379e+07 3.2379e+07  0.00%     -    0s
+
+Cutting planes:
+  Gomory: 4
+  Cover: 1
+  Clique: 6
+  MIR: 6
+  GUB cover: 1
+
+Explored 0 nodes (110 simplex iterations) in 0.28 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.237890000000e+07, best bound 3.237890000000e+07, gap 0.0%
+k_c1	80000.0
+k_c2	40000.0
+k_c3	50000.0
+k_c4	110000.0
+k_c5	100000.0
+k_c6	90000.0
+k_c7	130000.0
+k_c8	30000.0
+k_dN	-0.0
+o_1	-0.0
+o_2	-0.0
+o_3	-0.0
+o_4	-0.0
+o_5	-0.0
+o_6	-0.0
+o_7	-0.0
+o_8	-0.0
+p_1	-0.0
+p_2	-0.0
+p_3	-0.0
+p_4	-0.0
+p_5	-0.0
+p_6	-0.0
+p_7	-0.0
+p_8	-0.0
+phi_c1	30466.0
+phi_c2	17949.0
+phi_c3	25977.0
+phi_c4	44910.0
+phi_c5	32205.0
+phi_c6	26004.0
+phi_c7	54081.0
+phi_c8	23408.0
+phi_d0	60000.0
+phi_dN	-0.0
+tauD_c1	250000.0
+tauD_c2	450000.0
+tauD_c3	600000.0
+tauD_c4	100000.0
+tauD_c5	557125.0
+tauD_c6	200000.0
+tauD_c7	200000.0
+tauD_c8	650000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	823800.0
+tauS_c2	62075.0
+tauS_c3	822925.0
+tauS_c4	868500.0
+tauS_c5	848900.0
+tauS_c6	45075.0
+tauS_c7	15600.0
+tauS_c8	832525.0
+tauS_d0	-0.0
+tauS_dN	-0.0
+x_c1_c3	1.0
+x_c2_dN	1.0
+x_c3_dN	1.0
+x_c4_c1	1.0
+x_c5_c8	1.0
+x_c6_c2	1.0
+x_c7_c5	1.0
+x_c8_dN	1.0
+x_d0_c4	1.0
+x_d0_c6	1.0
+x_d0_c7	1.0

@@ -1,0 +1,51 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:38:39
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N12-C_DV100-C_SV25_F5_4_No_1.lp
+Reading time = 0.02 seconds
+(null): 865 rows, 392 columns, 3639 nonzeros
+Optimize a model with 865 rows, 392 columns and 3639 nonzeros
+Model has 1728 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [2e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 118 rows and 65 columns
+Presolve time: 0.09s
+Presolved: 3067 rows, 1486 columns, 17381 nonzeros
+Variable types: 1159 continuous, 327 integer (277 binary)
+
+Root relaxation: objective 7.981005e+06, 234 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 7981005.03    0   52          - 7981005.03      -     -    0s
+     0     0 1.2474e+07    0   57          - 1.2474e+07      -     -    0s
+     0     0 1.4224e+07    0   66          - 1.4224e+07      -     -    0s
+     0     0 1.4471e+07    0   74          - 1.4471e+07      -     -    0s
+     0     0 1.4544e+07    0   70          - 1.4544e+07      -     -    0s
+     0     0 1.4567e+07    0   72          - 1.4567e+07      -     -    0s
+     0     0 1.4573e+07    0   74          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   75          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   69          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   67          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   62          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   68          - 1.4573e+07      -     -    0s
+     0     0 1.4573e+07    0   70          - 1.4573e+07      -     -    0s
+
+Cutting planes:
+  Learned: 1
+  Gomory: 2
+  Cover: 2
+  Implied bound: 3
+  Clique: 6
+  MIR: 6
+  GUB cover: 8
+
+Explored 0 nodes (0 simplex iterations) in 0.61 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

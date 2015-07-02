@@ -1,0 +1,90 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 20:04:57
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N4-C_DV100-C_SV25_F5_4_No_1.lp
+Reading time = 0.00 seconds
+(null): 129 rows, 76 columns, 459 nonzeros
+Optimize a model with 129 rows, 76 columns and 459 nonzeros
+Model has 80 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [5e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 13 rows and 6 columns
+Presolve time: 0.01s
+Presolved: 285 rows, 162 columns, 1228 nonzeros
+Variable types: 77 continuous, 85 integer (62 binary)
+Found heuristic solution: objective 4.166300e+07
+
+Root relaxation: objective 9.838436e+05, 34 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 983843.554    0   10 4.1663e+07 983843.554  97.6%     -    0s
+     0     0 1055309.06    0   19 4.1663e+07 1055309.06  97.5%     -    0s
+     0     0 1154740.38    0   15 4.1663e+07 1154740.38  97.2%     -    0s
+     0     0 4362633.33    0   16 4.1663e+07 4362633.33  89.5%     -    0s
+H    0     0                    3.127160e+07 4362633.33  86.0%     -    0s
+H    0     0                    2.151400e+07 4362633.33  79.7%     -    0s
+     0     0 4362633.33    0   14 2.1514e+07 4362633.33  79.7%     -    0s
+     0     0 4362633.33    0   13 2.1514e+07 4362633.33  79.7%     -    0s
+H    0     0                    2.125380e+07 4362633.33  79.5%     -    0s
+     0     2 4362633.33    0   12 2.1254e+07 4362633.33  79.5%     -    0s
+
+Cutting planes:
+  Learned: 4
+  Gomory: 2
+  Cover: 31
+  Implied bound: 16
+  MIR: 9
+  GUB cover: 1
+  Zero half: 1
+
+Explored 249 nodes (3139 simplex iterations) in 0.08 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.125380000000e+07, best bound 2.125380000000e+07, gap 0.0%
+k_c1	1000000.0
+k_c2	1000000.0
+k_c3	950000.0
+k_c4	940000.0
+k_dN	-0.0
+o_1	0.0
+o_2	0.0
+o_3	0.0
+o_4	0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	0.0
+phi_c1	22672.0
+phi_c2	30131.0
+phi_c3	4656.0
+phi_c4	19895.0
+phi_dN	0.0
+pi_c1	0.0
+pi_c2	0.0
+pi_c3	0.0
+pi_c4	0.0
+pi_dN	-0.0
+tauD_c1	250000.0
+tauD_c2	238208.0
+tauD_c3	500000.0
+tauD_c4	326458.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	0.0
+tauS_c2	0.0
+tauS_c3	0.0
+tauS_c4	0.0
+tauS_d0	-0.0
+tauS_dN	0.0
+x_c1_c3	1.0
+x_c2_c4	1.0
+x_c3_dN	1.0
+x_c4_dN	1.0
+x_d0_c1	1.0
+x_d0_c2	1.0

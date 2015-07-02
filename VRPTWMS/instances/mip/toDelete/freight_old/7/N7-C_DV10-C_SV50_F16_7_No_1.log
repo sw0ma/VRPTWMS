@@ -1,0 +1,171 @@
+
+Gurobi 6.0.4 (win64) logging started 06/14/15 17:07:50
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N7-C_DV10-C_SV50_F16_7_No_1.lp
+Reading time = 0.01 seconds
+(null): 281 rows, 177 columns, 1137 nonzeros
+Optimize a model with 281 rows, 177 columns and 1137 nonzeros
+Model has 448 quadratic constraints
+WARNING: Only barrier available for SOCP models
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+Presolve removed 23 rows and 6 columns
+Presolve time: 0.05s
+Presolved: 1385 rows, 759 columns, 6420 nonzeros
+Variable types: 539 continuous, 220 integer (174 binary)
+Found heuristic solution: objective 7227.0000000
+Optimize a model with 1385 rows, 759 columns and 6420 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+02]
+  Objective range [4e+00, 1e+03]
+  Bounds range    [1e+00, 1e+02]
+  RHS range       [1e+00, 1e+02]
+
+Concurrent LP optimizer: dual simplex and barrier
+Showing barrier log only...
+
+Presolve removed 80 rows and 39 columns
+Presolved: 1305 rows, 721 columns, 6006 nonzeros
+
+Root barrier log...
+
+Ordering time: 0.02s
+
+Barrier performed 0 iterations in 0.09 seconds
+Barrier solve interrupted - model solved by another algorithm
+
+
+Solved with dual simplex
+Solved in 99 iterations and 0.09 seconds
+Optimal objective  9.281516667e+01
+
+Root relaxation: objective 9.281517e+01, 99 iterations, 0.03 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   92.81517    0   50 7227.00000   92.81517  98.7%     -    0s
+H    0     0                    4154.5200000   92.81517  97.8%     -    0s
+     0     0  107.72667    0   28 4154.52000  107.72667  97.4%     -    0s
+     0     0  111.30000    0   36 4154.52000  111.30000  97.3%     -    0s
+H    0     0                    3191.2300000  111.30000  96.5%     -    0s
+     0     0  111.62789    0   55 3191.23000  111.62789  96.5%     -    0s
+H    0     0                    3157.0300000  111.62789  96.5%     -    0s
+H    0     0                    3150.3500000  111.62789  96.5%     -    0s
+     0     0  111.75827    0   63 3150.35000  111.75827  96.5%     -    0s
+     0     0  111.75827    0   64 3150.35000  111.75827  96.5%     -    0s
+     0     0  111.75827    0   63 3150.35000  111.75827  96.5%     -    0s
+     0     0  111.75827    0   63 3150.35000  111.75827  96.5%     -    0s
+     0     0  111.75827    0   65 3150.35000  111.75827  96.5%     -    0s
+     0     0  111.75827    0   65 3150.35000  111.75827  96.5%     -    0s
+     0     2  111.75827    0   62 3150.35000  111.75827  96.5%     -    0s
+H   28    25                    3147.5400000  113.34400  96.4%  35.9    0s
+H  327   263                    3131.7600000  119.98655  96.2%  41.4    0s
+H  744   456                    2157.8400000  127.00000  94.1%  35.0    1s
+  1883   540  533.10941   27   59 2157.84000  134.11900  93.8%  58.4    5s
+H 2395   545                    2156.0600000  142.77014  93.4%  60.9    6s
+H 2460   551                    2152.9500000  144.07133  93.3%  61.7    7s
+H 3182   678                    2136.5500000  154.25624  92.8%  66.3    9s
+  3202   685 1170.21790   28   69 2136.55000  154.25624  92.8%  66.4   10s
+  4984   943 1140.34987   33   56 2136.55000  168.68998  92.1%  70.5   15s
+  6612   968     cutoff   40      2136.55000  186.20342  91.3%  72.9   20s
+  8316   737 infeasible   39      2136.55000  340.25681  84.1%  76.6   25s
+ 10513   761 1139.33969   21   74 2136.55000 1136.01573  46.8%  75.8   30s
+ 12361   599 infeasible   32      2136.55000 1153.91059  46.0%  76.2   35s
+ 14371   309 infeasible   36      2136.55000 1176.44305  44.9%  77.4   40s
+
+Cutting planes:
+  Learned: 1
+  Gomory: 10
+  Cover: 11
+  Implied bound: 221
+  Clique: 3
+  MIR: 62
+  Flow cover: 111
+  GUB cover: 9
+  Zero half: 31
+  Mod-K: 1
+
+Explored 15217 nodes (1181538 simplex iterations) in 42.10 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.136550000000e+03, best bound 2.136550000000e+03, gap 0.0%
+k_c1	10.0
+k_c2	2.0
+k_c3	10.0
+k_c4	1.0
+k_c5	5.0
+k_c6	3.0
+k_c7	8.0
+k_dN	-0.0
+kDash_c1	3.0
+kDash_c2	-0.0
+kDash_c3	5.0
+kDash_c4	8.0
+kDash_c5	2.0
+kDash_c6	1.0
+kDash_c7	5.0
+o_1	-0.0
+o_2	-0.0
+o_3	0.0
+o_4	1.0
+o_5	0.0
+o_6	-0.0
+o_7	0.0
+p_1	-0.0
+p_2	0.0
+p_3	1.0
+p_4	1.0
+p_5	0.0
+p_6	-0.0
+p_7	0.0
+phi_c1	10.0
+phi_c2	2.0
+phi_c3	12.0
+phi_c4	6.0
+phi_c5	4.0
+phi_c6	8.0
+phi_c7	5.0
+phi_d0	16.0
+phi_dN	-0.0
+pi_c1	2.0
+pi_c2	4.0
+pi_c3	14.0
+pi_c4	9.0
+pi_c5	2.0
+pi_c6	3.0
+pi_c7	2.0
+pi_dN	-0.0
+tauD_c1	26.0
+tauD_c2	85.0
+tauD_c3	2.0
+tauD_c4	46.0
+tauD_c5	73.0
+tauD_c6	35.0
+tauD_c7	65.0
+tauD_d0	-0.0
+tauD_dN	100.0
+tauS_c1	47.0
+tauS_c2	83.0
+tauS_c3	4.0
+tauS_c4	23.0
+tauS_c5	12.0
+tauS_c6	13.0
+tauS_c7	12.0
+tauS_d0	-0.0
+tauS_dN	57.0
+x_c1_c6	1.0
+x_c2_dN	1.0
+x_c3_c1	1.0
+x_c4_c7	1.0
+x_c5_c2	1.0
+x_c6_c4	1.0
+x_c7_c5	1.0
+x_d0_c3	1.0
+z_c3_c4	1.0
+z_c4_dN	1.0
+z_d0_c3	1.0

@@ -42,6 +42,9 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 *  Dimension 2: [0..numberOfVehiclesTypes[{0,1}]] */
 	public int routes[][];
 
+	/** Contains the next exchange node of an node of dv **/
+	public final int nextExchange[];
+
 	/** Maximal Number of possible Vehicles/Routes<br>
 	 *  set to number of Customer, each customer one vehicle */
 	protected final int maxNumberOfRoutes;
@@ -85,8 +88,8 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	public final double[] routeFuelCapacityViolation;
 	public double totalFuelViolation;
 
-	/** Extended earliest/latest <b>starting times of service</b><br>
-	 *  Dimension 1: DV = [0], SV = [1] <br>
+	/** Extended earliest/latest <b>starting times of service/exchange</b><br>
+	 *  Dimension 1: DV = [0] (service), SV = [1] (exchange) <br>
 	 *  Dimension 2: [0..numberOfVertices] */
 	public final double[][] a, z;
 	/** Extended earliest/latest <b>arrival times</b><br>
@@ -96,6 +99,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	/** Time window penalty slacks at customers<br>
 	 *  Dimension 1: DV = [0], SV = [1] <br>
 	 *  Dimension 2: [0..numberOfVertices]*/
+	protected final double[][] d;
 	protected final double[][] forwardTwSlack, backwardTwSlack;
 	public double totalTimeWindowViolation;
 
@@ -154,6 +158,8 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		routes = new int[2][0];
 
+		nextExchange = new int[instance.maxSize];
+
 		routeIsSV = new boolean[maxNumberOfRoutes];
 
 		isSwapNode = new boolean[instance.maxSize];
@@ -175,6 +181,8 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 		z = new double[2][instance.maxSize];
 		zDash = new double[2][instance.maxSize];
+
+		d = new double[2][instance.maxSize];
 
 		c = new double[instance.maxSize];
 		cDash = new double[instance.maxSize];
@@ -242,6 +250,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		routes[SV] = new int[sol.numberOfVehiclesByType[SV]];
 		System.arraycopy(sol.routes[SV], 0, routes[SV], 0, sol.routes[SV].length);
 
+		System.arraycopy(sol.nextExchange, 0, nextExchange, 0, sol.nextExchange.length);
 		System.arraycopy(sol.routeIsSV, 0, routeIsSV, 0, sol.routeIsSV.length);
 
 		System.arraycopy(sol.isSwapNode, 0, isSwapNode, 0, sol.isSwapNode.length);
@@ -580,9 +589,11 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		int iV = DV;
 		totalTravelDistanceByType[iV] = 0.0;
 		totalFreightByType[iV] = 0.0;
+		Arrays.fill(nextExchange, UNASSIGNED);
 		for (int r : routes[iV])
 		{
 			updateRouteNodes(iV, r);
+			updateNextExchangeNode(r);
 
 			calculateTravelDistance(iV, r);
 			totalTravelDistanceByType[iV] += getTravelDistance(iV, r);
@@ -590,7 +601,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 			calculateFreightSlack(iV, r);
 			totalFreightByType[iV] += getTotalLoadRoute(iV, r);
 
-			calculateFuelSlack(r);
+			calculateFuelSlack(r); // Always before calculation of freight slack SV
 
 			calculateTimeWindowExtendedTimes(iV, r);
 			calculateForwardTWPenaltySlack(iV, r);
@@ -670,6 +681,18 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		}
 	}
 
+	private void updateNextExchangeNode(int r) {
+		int i, curNextExchangeNode = -1;
+		for (i = endDepot[DV][r]; i != UNASSIGNED; i = prev[DV][i])
+		{
+			nextExchange[i] = curNextExchangeNode;
+			if (isSwapNode[i])
+			{
+				curNextExchangeNode = i;
+			}
+		}
+	}
+
 	// /////////////////////////////////////////////
 	// /////////////////DISTANCE////////////////////
 	// /////////////////////////////////////////////
@@ -715,7 +738,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		double tmpFreightCapacity = 0;
 		for (int i = next[iV][startDepot[iV][r]]; i != UNASSIGNED; i = next[iV][i])
 		{
-			double demand = (iV == DV ? demand(i) : (instance.fuelCapacity - forwardFuelCapacity[i]));
+			double demand = (iV == DV ? demand(i) : Math.min(forwardFuelCapacity[i], instance.fuelCapacity));
 			tmpFreightCapacity += demand;
 			forwardFreightCapacity[iV][i] = tmpFreightCapacity;
 		}
@@ -723,7 +746,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		tmpFreightCapacity = 0;
 		for (int i = prev[iV][endDepot[iV][r]]; i != UNASSIGNED; i = prev[iV][i])
 		{
-			double demand = (iV == DV ? demand(i) : (instance.fuelCapacity - forwardFuelCapacity[i]));
+			double demand = (iV == DV ? demand(i) : Math.min(forwardFuelCapacity[i], instance.fuelCapacity));
 			tmpFreightCapacity += demand;
 			backwardFreightCapacity[iV][i] = tmpFreightCapacity;
 		}
@@ -753,6 +776,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 
 	/**
 	 * Evaluates the freight penalty for DVs, if v will be inserted between x and y.<br>
+	 * if the DV has an exchange after v, also the freight violation of the SV route will be evaluated.
 	 * Route <x,v,y> will be evaluated.
 	 * 
 	 * @param x	node before
@@ -761,8 +785,27 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	 * @return freight penalty
 	 */
 	public double evaluateFreightCapacity(int iV, int x, int v, int y) {
-		double demand = (iV == DV ? demand(v) : (instance.fuelCapacity - forwardFuelCapacity[v]));
-		return Math.max((forwardFreightCapacity[iV][x] + backwardFreightCapacity[iV][y] + demand) - instance.freightCapacity[iV], 0.0);
+		double demand = 0;
+		if (iV == DV)
+		{
+			demand = demand(v);
+			double violation = Math
+					.max((forwardFreightCapacity[iV][x] + backwardFreightCapacity[iV][y] + demand) - instance.freightCapacity[iV], 0.0);
+			if (nextExchange[y] != UNASSIGNED)
+			{
+				double tmpForwardFuel = isSwapNode[x] ? 0.0 : forwardFuelCapacity[x];
+				double tmpBackwardFuel = isSwapNode[y] ? 0.0 : forwardFuelCapacity[y];
+				double deltaFuel = Math.max(tmpForwardFuel + tmpBackwardFuel + fuel(x, v) + fuel(v, x), instance.fuelCapacity);
+				violation += Math.max(forwardFreightCapacity[SV][prev[SV][nextExchange[y]]] + backwardFreightCapacity[SV][next[SV][nextExchange[y]]]
+						+ deltaFuel - instance.freightCapacity[SV], 0.0);
+			}
+			return violation;
+		}
+		else
+		{
+			demand = forwardFuelCapacity[v];
+			return Math.max((forwardFreightCapacity[iV][x] + backwardFreightCapacity[iV][y] + demand) - instance.freightCapacity[iV], 0.0);
+		}
 	}
 
 	/**
@@ -889,6 +932,154 @@ public class SolutionArray implements Comparable<SolutionArray> {
 	// /////////////////////////////////////////////
 	// /////////////////TIME WINDOW/////////////////
 	// /////////////////////////////////////////////
+
+	/**
+	 * It calculates the extended earliest arrival time.<br>
+	 * Part of the recursive function to calculate earliest times.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param i
+	 * @return
+	 */
+	private double cTWEarliestArrival(int iV, int i) {
+		double t_aDash = aDash[iV][i];
+		if (t_aDash == UNASSIGNED)
+		{
+			int k = prev[iV][i];
+			if (iV == DV)
+			{
+				if (isSwapNode[k] && isSwapFirst[k])
+					t_aDash = cTWEarliestTask(SV, k) + instance.transferTime + duration(k, i);
+				else
+					t_aDash = cTWEarliestTask(DV, k) + serviceTime(k) + duration(k, i);
+			}
+			else
+			{
+				double b = isSwapNode[k] ? instance.transferTime : 0.0;
+				double readyTime_SV = cTWEarliestTask(SV, k) + b + duration(k, i);
+				if (readyTime_SV < instance.maxWorkingTimeSV)
+					t_aDash = readyTime_SV;
+				else
+					t_aDash = instance.maxWorkingTimeSV; // SPEED: Violation kann hier bereits berechnet werden
+			}
+			aDash[iV][i] = t_aDash;
+		}
+		return t_aDash;
+	}
+
+	/**
+	 * It calculates the extended earliest start of service or exchange.<br>
+	 * Part of the recursive function to calculate earliest times.
+	 * 
+	 * @param iV vehicle index: 0 = DV (Service), 1 = SV (Exchange)
+	 * @param i
+	 * @return
+	 */
+	private double cTWEarliestTask(int iV, int i) {
+		double t_a = a[iV][i];
+		if (t_a == UNASSIGNED)
+		{
+			if (iV == DV)
+			{ // Service
+				double readyTime_DV = isSwapFirst[i] ? cTWEarliestTask(SV, i) + instance.transferTime : cTWEarliestArrival(DV, i);
+				if (dueDate(i) > readyTime_DV) // SPEED: Violation kann hier bereits berechnet werden
+					t_a = dueDate(i);
+				else
+					t_a = Math.max(readyTime(i), readyTime_DV);
+			}
+			else
+			{ // Exchange
+				double readyTime_DV = isSwapFirst[i] ? cTWEarliestArrival(DV, i) : cTWEarliestTask(DV, i) + serviceTime(i);
+				t_a = Math.max(cTWEarliestArrival(SV, i), readyTime_DV);
+			}
+			a[iV][i] = t_a;
+		}
+		return t_a;
+	}
+
+	/**
+	 * It calculates the extended earliest departure times.<br>
+	 * Part of the recursive function to calculate earliest times.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param i 
+	 * @return
+	 */
+	private double cTWEarliestDeparture(int iV, int i) {
+		double t_d = d[iV][i];
+		if (t_d == UNASSIGNED)
+		{
+			if (iV == DV)
+			{
+				if (isSwapNode[i] && !isSwapFirst[i])
+				{
+					t_d = cTWEarliestTask(SV, i) + instance.transferTime;
+				}
+				else
+				{
+					t_d = cTWEarliestDeparture(DV, i) + serviceTime(i);
+				}
+			}
+			else
+			{
+				t_d = cTWEarliestTask(SV, i) + (isSwapNode[i] ? instance.transferTime : 0.0);
+			}
+			d[iV][i] = t_d;
+		}
+		return t_d;
+	}
+
+	/**
+	 * It calculates the extended latest arrival times.<br>
+	 * Part of the recursive function to calculate latest times.
+	 * 
+	 * @param iV vehicle index: 0 = DV, 1 = SV
+	 * @param i
+	 */
+	private double cTWLatestArrival(int iV, int i) {
+		double t_z = z[iV][i];
+		if (t_z == UNASSIGNED)
+		{
+			if (iV == DV)
+			{
+				t_z = isSwapFirst[i] ? cTWLatestTask(SV, i) : cTWLatestTask(DV, i);
+			}
+			else
+			{
+				double latestTask = cTWLatestTask(SV, i);
+				if (latestTask > 0.0)
+					t_z = Math.min(latestTask, instance.maxWorkingTimeSV);
+				else
+					t_z = 0.0;
+			}
+			z[iV][i] = t_z;
+		}
+		return t_z;
+	}
+
+	private double cTWLatestTask(int iV, int i) {
+		double t_zDash = zDash[iV][i];
+		if(t_zDash == UNASSIGNED) {
+			if(iV == DV) {
+				double latestServiceEnd;
+				if(isSwapNode[i] && !isSwapFirst[i]) {
+					int j = next[DV][i];
+					latestServiceEnd = cTWLatestArrival(DV, j) - duration(i, j) - serviceTime(i);
+				} else {
+					latestServiceEnd = cTWLatestTask(SV, i) - serviceTime(i);
+				}
+				if(latestServiceEnd > readyTime(i))
+					t_zDash = Math.min(latestServiceEnd, dueDate(i));
+				else
+					t_zDash = readyTime(i);
+			} else {
+				//TODO next
+			}
+			zDash[iV][i] = t_zDash;
+		}
+		return t_zDash;
+	}
+
 	/**
 	 * Calculates a and a' for a given route.
 	 * See Nagata/Braysy/Dullaert, 2009, p.726, eq (4) for more information.<br>
@@ -949,7 +1140,7 @@ public class SolutionArray implements Comparable<SolutionArray> {
 		do
 		{
 			tmpZDash = z[iV][j] - duration(i, j);
-			if (isSwapNode[nodes[i]])
+			if (isSwapNode[nodes[j]])
 			{
 				tmpZDash -= instance.transferTime;
 			}

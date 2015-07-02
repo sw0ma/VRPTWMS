@@ -27,7 +27,7 @@ public class Start_Exact {
 		
 		// Configuration
 		String FOLDER = "mip";
-		String SUB_FOLDER = "freight";
+		String SUB_FOLDER = "fuel";
 		FOLDER = "mip" + File.separator + SUB_FOLDER;
 		String INSTANCE_NAME;
 		for (int mode = -1; mode <= -1; mode++) // Comparison of different solver methods of Gurobi

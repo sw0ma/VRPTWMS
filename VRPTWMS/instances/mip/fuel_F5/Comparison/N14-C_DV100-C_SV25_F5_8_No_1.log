@@ -1,0 +1,49 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 17:41:47
+
+Read LP format model from file E:\Eigene Dateien\Downloads\Michi shit\VRPTWMS2\instances\mip\fuel\N14-C_DV100-C_SV25_F5_8_No_1.lp
+Reading time = 0.02 seconds
+(null): 1149 rows, 512 columns, 4917 nonzeros
+Optimize a model with 1149 rows, 512 columns and 4917 nonzeros
+Model has 2744 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [1e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 117 rows and 56 columns
+Presolve time: 0.17s
+Presolved: 5470 rows, 2675 columns, 29692 nonzeros
+Variable types: 2219 continuous, 456 integer (398 binary)
+
+Root relaxation: objective 2.187626e+06, 224 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 2187626.03    0   63          - 2187626.03      -     -    0s
+     0     0 2452269.14    0   68          - 2452269.14      -     -    0s
+     0     0 2505814.76    0   62          - 2505814.76      -     -    0s
+     0     0 2561982.74    0   64          - 2561982.74      -     -    0s
+     0     0 2598158.33    0   59          - 2598158.33      -     -    0s
+     0     0 2601330.77    0   67          - 2601330.77      -     -    0s
+     0     0 2602941.67    0   62          - 2602941.67      -     -    0s
+     0     0 2604304.17    0   66          - 2604304.17      -     -    0s
+     0     0 2604304.17    0   66          - 2604304.17      -     -    0s
+     0     0 2604304.17    0   65          - 2604304.17      -     -    0s
+     0     2 2604304.17    0   64          - 2604304.17      -     -    2s
+  1444   718 infeasible   22               - 2.2225e+07      -   2.0    5s
+  4177   328 infeasible   32               - 3.2603e+07      -  24.3   10s
+
+Cutting planes:
+  Learned: 3
+  Gomory: 2
+  Clique: 1
+  MIR: 1
+  GUB cover: 4
+
+Explored 5125 nodes (164664 simplex iterations) in 11.71 seconds
+Thread count was 4 (of 4 available processors)
+
+Model is infeasible
+Best objective -, best bound -, gap -

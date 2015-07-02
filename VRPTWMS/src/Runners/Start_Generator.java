@@ -39,20 +39,20 @@ public class Start_Generator {
 		// Configuration: Fuel refillable
 		String FOLDER = "mip//fuel";
 		
-		int NUMBER_OF_INSTANCES = 10;	
-		int NUMBER_OF_NODES = 9;			//5, 8, 10, 12, 14
+		int NUMBER_OF_INSTANCES = 2;	
+		int NUMBER_OF_NODES = 14;			//5, 8, 10, 12, 14
 		boolean WITH_ARCS = true;
 		boolean OVERWRITE = false;
 		
 		double MAX_TIME_DV = 100.0;			// hours
 		double MAX_TIME_SV = 100.0;			// hours
-		double FUEL = 5;					// liters
+		double FUEL = 6;					// liters max distance 3.5952 * 2
 		int TRANSPORT_CAPACITY_DV = 100;	// units
 		int TRANSPORT_CAPACITY_SV = (int) Math.round(FUEL * 5);	// units
 		double TRANSFERTIME = 8;			// 
 		double VEHICLE_COSTS = 1000;		// price
 		double MILEAGE = 0.0669; 			// 0.05=5l/100km	(Source: http://de.statista.com/statistik/daten/studie/36449/umfrage/durchschnittlicher-kraftstoffverbrauch-von-pkw-seit-1990/)
-		double SPEED = 4; 				// km/h
+		double SPEED = 4; 					// km/h
 		
 		// 1. Init Generator
 		Properties config = Properties.createNewConfig(MAX_TIME_DV, MAX_TIME_SV, TRANSPORT_CAPACITY_DV, TRANSPORT_CAPACITY_SV, FUEL, TRANSFERTIME, VEHICLE_COSTS);

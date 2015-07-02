@@ -1,0 +1,85 @@
+
+Gurobi 6.0.4 (win64) logging started 06/18/15 16:03:12
+
+Read LP format model from file C:\MT\repository\VRPTWMS\instances\mip\freight\N4-C_DV10-C_SV50_F10_3_No_1.lp
+Reading time = 0.01 seconds
+(null): 129 rows, 72 columns, 447 nonzeros
+Optimize a model with 129 rows, 72 columns and 447 nonzeros
+Model has 64 quadratic constraints
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+06]
+  Objective range [6e+04, 1e+07]
+  Bounds range    [1e+00, 1e+06]
+  RHS range       [1e+00, 1e+06]
+Presolve removed 13 rows and 7 columns
+Presolve time: 0.00s
+Presolved: 236 rows, 125 columns, 1092 nonzeros
+Variable types: 60 continuous, 65 integer (47 binary)
+Found heuristic solution: objective 4.194000e+07
+
+Root relaxation: objective 6.202966e+05, 32 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 620296.591    0   19 4.1940e+07 620296.591  98.5%     -    0s
+H    0     0                    3.174370e+07 620296.591  98.0%     -    0s
+     0     0 696956.231    0   18 3.1744e+07 696956.231  97.8%     -    0s
+     0     0 4124214.04    0   24 3.1744e+07 4124214.04  87.0%     -    0s
+H    0     0                    3.153600e+07 4124214.04  86.9%     -    0s
+H    0     0                    2.133970e+07 4124214.04  80.7%     -    0s
+     0     0 4133933.33    0   20 2.1340e+07 4133933.33  80.6%     -    0s
+     0     0 4133933.33    0   21 2.1340e+07 4133933.33  80.6%     -    0s
+H    0     0                    2.122700e+07 4133933.33  80.5%     -    0s
+     0     0 4133933.33    0   21 2.1227e+07 4133933.33  80.5%     -    0s
+     0     2 4133933.33    0   21 2.1227e+07 4133933.33  80.5%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Implied bound: 1
+  Clique: 1
+  MIR: 8
+  GUB cover: 3
+
+Explored 40 nodes (374 simplex iterations) in 0.04 seconds
+Thread count was 2 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.122700000000e+07, best bound 2.122700000000e+07, gap 0.0%
+k_c1	90000.0
+k_c2	100000.0
+k_c3	60000.0
+k_c4	60000.0
+k_dN	-0.0
+o_1	0.0
+o_2	0.0
+o_3	0.0
+o_4	0.0
+p_1	0.0
+p_2	0.0
+p_3	0.0
+p_4	0.0
+phi_c1	18866.0
+phi_c2	50737.0
+phi_c3	37558.0
+phi_c4	14852.0
+phi_d0	100000.0
+phi_dN	-0.0
+tauD_c1	400000.0
+tauD_c2	250000.0
+tauD_c3	389250.0
+tauD_c4	465000.0
+tauD_d0	-0.0
+tauD_dN	1000000.0
+tauS_c1	0.0
+tauS_c2	0.0
+tauS_c3	0.0
+tauS_c4	0.0
+tauS_d0	-0.0
+tauS_dN	0.0
+x_c1_c4	1.0
+x_c2_c3	1.0
+x_c3_dN	1.0
+x_c4_dN	1.0
+x_d0_c1	1.0
+x_d0_c2	1.0

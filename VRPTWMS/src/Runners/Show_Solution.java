@@ -20,39 +20,43 @@ public class Show_Solution {
 
 	public static void main(String[] args) {
 		// 0. Configuration
-		String FOLDER = "mip\\freight";
-		String INSTANCE_NAME = "N12-C_DV10-C_SV50_F26_9";
+		String[] paths = new String[2];
+		paths[0] = "mip\\freight\\8";
+		paths[1]= "mip\\freight\\Comparison";
+		String INSTANCE_NAME = "N8-C_DV10-C_SV50_F18_9";
 		
-		String INSTANCE_FILE = FOLDER + File.separator + INSTANCE_NAME + ".csv";
-		String INSTANCE_SOL = FOLDER + File.separator + INSTANCE_NAME + "_SOL.txt";
-		
-		// 1. Load Instance
-		AInstanceParser parserInstance = new SimpleInstanceParser();
-		Instance instanceO = parserInstance.parseFile(parserInstance.getFile(INSTANCE_FILE));
-		InstanceArray instance = new InstanceArray(instanceO);
-		
-		// 2. Load Solution
-		SolutionParser parserSolution = new SolutionParser();
-		SolutionArray solution = parserSolution.parseSolution(parserSolution.getFile(INSTANCE_SOL), instance);
-		
-		// 3. Validate Solution
-		SolutionValidator validator = new SolutionValidator(solution);
-		validator.checkSolution();
-		
-		// 4. Show Solution
-		System.out.println(validator);
-		SimpleFrame frame = new SimpleFrame(validator.instance.name);
-		ScheduleDrawingArea schedule = frame.getPanelSchedule();
-		MapDrawingArea map = frame.getPanelMap();
+		for(String FOLDER : paths) {
+			String INSTANCE_FILE = FOLDER + File.separator + INSTANCE_NAME + ".csv";
+			String INSTANCE_SOL = FOLDER + File.separator + INSTANCE_NAME + "_SOL.txt";
+			
+			// 1. Load Instance
+			AInstanceParser parserInstance = new SimpleInstanceParser();
+			Instance instanceO = parserInstance.parseFile(parserInstance.getFile(INSTANCE_FILE));
+			InstanceArray instance = new InstanceArray(instanceO);
+			
+			// 2. Load Solution
+			SolutionParser parserSolution = new SolutionParser();
+			SolutionArray solution = parserSolution.parseSolution(parserSolution.getFile(INSTANCE_SOL), instance);
+			
+			// 3. Validate Solution
+			SolutionValidator validator = new SolutionValidator(solution);
+			validator.checkSolution();
+			
+			// 4. Show Solution
+			System.out.println(validator);
+			SimpleFrame frame = new SimpleFrame(validator.instance.name);
+			ScheduleDrawingArea schedule = frame.getPanelSchedule();
+			MapDrawingArea map = frame.getPanelMap();
 
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run() {
-				schedule.setPaintObjects(schedule.createSchedule(validator));
-				map.setPaintObjects(map.createNewPattern(instanceO));
-				map.setSolution(MapDrawingArea.createSolutionPattern(validator));
-			}
-		});
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run() {
+					schedule.setPaintObjects(schedule.createSchedule(validator));
+					map.setPaintObjects(map.createNewPattern(instanceO));
+					map.setSolution(MapDrawingArea.createSolutionPattern(validator));
+				}
+			});
+		}
 		
 	}
 
